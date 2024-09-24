@@ -1,0 +1,16 @@
+*.orig
+*.pyc
+*.swp
+.env
+
+# Editors
+.idea/
+.vscode/**/*/      # Maybe .vscode/**/* instead - see comments
+.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# MacOS generated files
+.DS_Store
+.DS_Store?
