@@ -1,8 +1,11 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --watch src/main.ts"
+    "dev": "deno run --allow-net --watch src/main.ts",
+    "generate-ulids": "deno run scripts/generateULIDs.ts"
   },
   "imports": {
+    "@/": "./src/",
+    "@/scripts": "./scripts/",
     "@oak/oak": "jsr:@oak/oak@^17.0.0",
     "@std/assert": "jsr:@std/assert@1"
   }
