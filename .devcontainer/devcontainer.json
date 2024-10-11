@@ -1,0 +1,12 @@
+{
+  "name": "Deno & PostgreSQL",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "deno-app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["denoland.vscode-deno"]
+    }
+  }
+}
