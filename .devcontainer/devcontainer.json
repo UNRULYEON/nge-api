@@ -6,7 +6,7 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["denoland.vscode-deno"]
+      "extensions": ["denoland.vscode-deno", "cweijan.vscode-postgresql-client2"]
     }
   }
 }
