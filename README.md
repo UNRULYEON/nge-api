@@ -6,7 +6,7 @@ An API that serves information about Neon Genesis Evangelion
 
 ### Prerequisites
 
-- [Deno](https://docs.deno.com/runtime/fundamentals/installation/#download-and-install) (^1.46.3)
+- [Deno](https://docs.deno.com/runtime/fundamentals/installation/#download-and-install) (^2.0.0)
 
 ### Editors
 
@@ -34,6 +34,6 @@ deno run dev
 
 ## 💻 Project commands
 
-| Command | Description |
-| --- | --- | 
-| dev | Runs the API in watch mode
+| Command | Description                |
+| ------- | -------------------------- |
+| dev     | Runs the API in watch mode |
