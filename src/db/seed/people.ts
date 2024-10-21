@@ -1,4 +1,24 @@
-import { Person } from "@/types/index.ts";
+import { prisma } from "@/db/client.ts";
+import type { Person } from "@/types/index.ts";
+
+const people = async () => {
+  return await Promise.all(PEOPLE.map(({ id, name }) => {
+    return prisma.person.upsert({
+      create: {
+        id,
+        name,
+      },
+      where: {
+        id,
+      },
+      update: {
+        name,
+      },
+    });
+  }));
+};
+
+export { people };
 
 export const PEOPLE: Person[] = [
   {

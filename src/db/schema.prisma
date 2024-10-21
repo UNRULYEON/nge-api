@@ -13,4 +13,61 @@ datasource db {
 model Person {
   id   String @id
   name String
+
+  directed Director[]
+  written  Writer[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Episode {
+  id            String @id
+  number        String
+  titleEnglish  String
+  titleJapanese String
+  titleRomaji   String
+
+  directors Director[]
+  writers   Writer[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Director {
+  id   String @id
+  type Media
+
+  person   Person @relation(fields: [personId], references: [id])
+  personId String
+
+  episode   Episode @relation(fields: [episodeId], references: [id])
+  episodeId String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([personId, episodeId])
+}
+
+model Writer {
+  id   String @id
+  type Media
+
+  person   Person @relation(fields: [personId], references: [id])
+  personId String
+
+  episode   Episode @relation(fields: [episodeId], references: [id])
+  episodeId String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([personId, episodeId])
+}
+
+enum Media {
+  MOVIE
+  EPISODE
 }

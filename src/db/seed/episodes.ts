@@ -1,4 +1,30 @@
-import { Episode } from "@/types/index.ts";
+import { prisma } from "@/db/client.ts";
+import type { Episode } from "@/types/Episode.ts";
+
+const episodes = async () => {
+  return await Promise.all(NGE.map(async ({ id, number, title }) => {
+    return await prisma.episode.upsert({
+      create: {
+        id,
+        number,
+        titleEnglish: title.english,
+        titleJapanese: title.japanese,
+        titleRomaji: title.romaji,
+      },
+      where: {
+        id,
+      },
+      update: {
+        number,
+        titleEnglish: title.english,
+        titleJapanese: title.japanese,
+        titleRomaji: title.romaji,
+      },
+    });
+  }));
+};
+
+export { episodes };
 
 export const NGE: Episode[] = [
   {

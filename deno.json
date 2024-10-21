@@ -6,7 +6,7 @@
     "db:generate": "deno run -A --unstable npm:prisma generate --schema ./src/db/schema.prisma && deno run prisma:patch",
     "db:push": "deno run -A npm:prisma@latest db push",
     "db:pull": "deno run -A npm:prisma@latest db pull",
-    "db:seed": "deno run -A --env src/db/seed.ts",
+    "db:seed": "deno run -A --env src/db/seed/index.ts",
     "db:studio": "deno run -A npm:prisma studio",
     "prisma": "deno run -A --unstable npm:prisma",
     "prisma:patch": "deno run --allow-write --allow-read ./src/db/patch.ts"
