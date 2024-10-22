@@ -2,8 +2,8 @@ import { prisma } from "@/db/client.ts";
 import type { Person } from "@/types/index.ts";
 
 const people = async () => {
-  return await Promise.all(PEOPLE.map(({ id, name }) => {
-    return prisma.person.upsert({
+  return await Promise.all(PEOPLE.map(async ({ id, name }) => {
+    return await prisma.person.upsert({
       create: {
         id,
         name,

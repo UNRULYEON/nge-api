@@ -2,8 +2,8 @@ import { prisma } from "@/db/client.ts";
 
 const writers = async () => {
   return await Promise.all(
-    NGE.map(({ id, type, personId, episodeId }) => {
-      return prisma.writer.upsert({
+    NGE.map(async ({ id, type, personId, episodeId }) => {
+      return await prisma.writer.upsert({
         create: {
           id,
           type,
@@ -47,162 +47,162 @@ const NGE: {
   personId: string;
   episodeId: string;
 }[] = [
-  // {
-  //   id: "01JAV26GX3BKR63TDSNWTY4C63",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZ891VF828HE22X5BW",
-  // },
-  // {
-  //   id: "01JAV26GX3K4NTXC9G2SBD8YHS",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZXGY9VWC2WPBDTX13",
-  // },
-  // {
-  //   id: "01JAV26GX4J56BMEDGSNHXDZYB",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62V4ACD7086HWEFP93",
-  //   episodeId: "01J8TXR9AZXGY9VWC2WPBDTX13",
-  // },
-  // {
-  //   id: "01JAV26GX48AW57YNKW03C8VND",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZV1AN1VR4MHSFXGT9",
-  // },
-  // {
-  //   id: "01JAV26GX4Y4E8NFW7KPW4QQMV",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZV1AN1VR4MHSFXGT9",
-  // },
-  // {
-  //   id: "01JAV26GX4Y4E8NFW7KPW4QQMV",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZDNZN4WF2VAKA8M0D",
-  // },
-  // {
-  //   id: "01JAV26GX46TFJFRBMGT0B9325",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZH90HX96RYNRRMJQE",
-  // },
-  // {
-  //   id: "01JAV26GX4F9ZBMNYTH6N5F991",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZH90HX96RYNRRMJQE",
-  // },
-  // {
-  //   id: "01JAV26GX439EYTYP7C9F5ZZF4",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZ8XC86S9Z15ZE8M6H",
-  // },
-  // {
-  //   id: "01JAV26GX43C16XA7EGQS67RTA",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZ8XC86S9Z15ZE8M6H",
-  // },
-  // {
-  //   id: "01JAV26GX4CTJY55GPNTVY3E9N",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZ14NJ5T6N2T3WG94G",
-  // },
-  // {
-  //   id: "01JAV26GX484X38YYSP6WSNC9G",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62V4ACD7086HWEFP93",
-  //   episodeId: "01J8TXR9AZ14NJ5T6N2T3WG94G",
-  // },
-  // {
-  //   id: "01JAV26GX49V7EW9FEBWRMWR7N",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZZE4DV6YNSBZZG6FK",
-  // },
-  // {
-  //   id: "01JAV26GX4Q6QYRYEBPX7DNG4B",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62V4ACD7086HWEFP93",
-  //   episodeId: "01J8TXR9AZZE4DV6YNSBZZG6FK",
-  // },
-  // {
-  //   id: "01JAV26GX4MMCFEP8GPY00101M",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZGFHRJPG00VDERG00",
-  // },
-  // {
-  //   id: "01JAV26GX4TYHFMA0G3SXG2YMM",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZGFHRJPG00VDERG00",
-  // },
-  // {
-  //   id: "01JAV26GX4QT1C4NARZFQ698A2",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZ097D1QEJZYECHR5B",
-  // },
-  // {
-  //   id: "01JAV26GX4ZW1PHXVWWE6GW2G7",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZ097D1QEJZYECHR5B",
-  // },
-  // {
-  //   id: "01JAV26GX40NZMXF9JRXP87WTP",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZJHR3PSHFTDDDHH9F",
-  // },
-  // {
-  //   id: "01JAV26GX48H02TZZCPS1Y2H72",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62V4ACD7086HWEFP93",
-  //   episodeId: "01J8TXR9AZJHR3PSHFTDDDHH9F",
-  // },
-  // {
-  //   id: "01JAV26GX4F6FG9KN0HNQKJP4V",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZTTPYHA8DPTPYPPM8",
-  // },
-  // {
-  //   id: "01JAV26GX4BFERKEG1S2F4VCGM",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
-  //   episodeId: "01J8TXR9AZTTPYHA8DPTPYPPM8",
-  // },
-  // {
-  //   id: "01JAV26GX4Z8FSSENQE0EVNFS3",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZC955C8839VVNX95E",
-  // },
-  // {
-  //   id: "01JAV26GX4PW4ACMERYSQ53YR3",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT62TM0414NZPV4HV0J0",
-  //   episodeId: "01J8TXR9AZC955C8839VVNX95E",
-  // },
-  // {
-  //   id: "01JAV26GX490NJPXRX6BDRS35Y",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZRHBRHEYFT4VZ6JH2",
-  // },
-  // {
-  //   id: "01JAV26GX4HQ0XWV82B1RABCH2",
-  //   type: "EPISODE",
-  //   personId: "01J8WYGT621JTJRF0TZYZY8EFP",
-  //   episodeId: "01J8TXR9AZGBX3CG6H651X2MQS",
-  // },
+  {
+    id: "01JAV26GX3BKR63TDSNWTY4C63",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZ891VF828HE22X5BW",
+  },
+  {
+    id: "01JAV26GX3K4NTXC9G2SBD8YHS",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZXGY9VWC2WPBDTX13",
+  },
+  {
+    id: "01JAV26GX4J56BMEDGSNHXDZYB",
+    type: "EPISODE",
+    personId: "01J8WYGT62V4ACD7086HWEFP93",
+    episodeId: "01J8TXR9AZXGY9VWC2WPBDTX13",
+  },
+  {
+    id: "01JAV26GX48AW57YNKW03C8VND",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZV1AN1VR4MHSFXGT9",
+  },
+  {
+    id: "01JAV26GX4Y4E8NFW7KPW4QQMV",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZV1AN1VR4MHSFXGT9",
+  },
+  {
+    id: "01JAV26GX4Y4E8NFW7KPW4QQMV",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZDNZN4WF2VAKA8M0D",
+  },
+  {
+    id: "01JAV26GX46TFJFRBMGT0B9325",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZH90HX96RYNRRMJQE",
+  },
+  {
+    id: "01JAV26GX4F9ZBMNYTH6N5F991",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZH90HX96RYNRRMJQE",
+  },
+  {
+    id: "01JAV26GX439EYTYP7C9F5ZZF4",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZ8XC86S9Z15ZE8M6H",
+  },
+  {
+    id: "01JAV26GX43C16XA7EGQS67RTA",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZ8XC86S9Z15ZE8M6H",
+  },
+  {
+    id: "01JAV26GX4CTJY55GPNTVY3E9N",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZ14NJ5T6N2T3WG94G",
+  },
+  {
+    id: "01JAV26GX484X38YYSP6WSNC9G",
+    type: "EPISODE",
+    personId: "01J8WYGT62V4ACD7086HWEFP93",
+    episodeId: "01J8TXR9AZ14NJ5T6N2T3WG94G",
+  },
+  {
+    id: "01JAV26GX49V7EW9FEBWRMWR7N",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZZE4DV6YNSBZZG6FK",
+  },
+  {
+    id: "01JAV26GX4Q6QYRYEBPX7DNG4B",
+    type: "EPISODE",
+    personId: "01J8WYGT62V4ACD7086HWEFP93",
+    episodeId: "01J8TXR9AZZE4DV6YNSBZZG6FK",
+  },
+  {
+    id: "01JAV26GX4MMCFEP8GPY00101M",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZGFHRJPG00VDERG00",
+  },
+  {
+    id: "01JAV26GX4TYHFMA0G3SXG2YMM",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZGFHRJPG00VDERG00",
+  },
+  {
+    id: "01JAV26GX4QT1C4NARZFQ698A2",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZ097D1QEJZYECHR5B",
+  },
+  {
+    id: "01JAV26GX4ZW1PHXVWWE6GW2G7",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZ097D1QEJZYECHR5B",
+  },
+  {
+    id: "01JAV26GX40NZMXF9JRXP87WTP",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZJHR3PSHFTDDDHH9F",
+  },
+  {
+    id: "01JAV26GX48H02TZZCPS1Y2H72",
+    type: "EPISODE",
+    personId: "01J8WYGT62V4ACD7086HWEFP93",
+    episodeId: "01J8TXR9AZJHR3PSHFTDDDHH9F",
+  },
+  {
+    id: "01JAV26GX4F6FG9KN0HNQKJP4V",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZTTPYHA8DPTPYPPM8",
+  },
+  {
+    id: "01JAV26GX4BFERKEG1S2F4VCGM",
+    type: "EPISODE",
+    personId: "01J8WYGT62PBVV5CSTGBXBAGPA",
+    episodeId: "01J8TXR9AZTTPYHA8DPTPYPPM8",
+  },
+  {
+    id: "01JAV26GX4Z8FSSENQE0EVNFS3",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZC955C8839VVNX95E",
+  },
+  {
+    id: "01JAV26GX4PW4ACMERYSQ53YR3",
+    type: "EPISODE",
+    personId: "01J8WYGT62TM0414NZPV4HV0J0",
+    episodeId: "01J8TXR9AZC955C8839VVNX95E",
+  },
+  {
+    id: "01JAV26GX490NJPXRX6BDRS35Y",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZRHBRHEYFT4VZ6JH2",
+  },
+  {
+    id: "01JAV26GX4HQ0XWV82B1RABCH2",
+    type: "EPISODE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    episodeId: "01J8TXR9AZGBX3CG6H651X2MQS",
+  },
   {
     id: "01JAV26GX43DPJB9XV2HDQVN47",
     type: "EPISODE",
