@@ -11,7 +11,8 @@
         "cweijan.vscode-postgresql-client2",
         "Prisma.prisma",
         "GitHub.copilot",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "github.vscode-github-actions"
       ]
     }
   }
