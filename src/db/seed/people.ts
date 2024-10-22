@@ -97,4 +97,8 @@ export const PEOPLE: Person[] = [
     id: "01J8WYGT62KZJXAFNZCFRB0RDF",
     name: "Hiroshi Yamaguchi",
   },
+  {
+    id: "01JAV26GX4333HXTQK3GHSBY9G",
+    name: "Shinji Higuchi",
+  },
 ];
