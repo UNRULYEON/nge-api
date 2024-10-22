@@ -29,6 +29,9 @@ jobs:
       - name: Generate database schema
         run: 'deno run db:generate'
 
+      - name: Apply Prisma patch
+        run: 'deno run prisma:patch'
+
       - name: Apply migrations
         run: 'deno run db:deploy'
 
