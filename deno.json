@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --watch src/main.ts",
+    "dev": "deno run --allow-net --allow-read --allow-env --allow-ffi --watch src/main.ts",
     "generate-ulids": "deno run scripts/generateULIDs.ts",
     "db:migrate:dev": "deno run -A npm:prisma migrate dev --schema ./src/db/schema.prisma",
     "db:generate": "deno run -A --unstable npm:prisma generate --schema ./src/db/schema.prisma && deno run prisma:patch",

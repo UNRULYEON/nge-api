@@ -1,3 +1,5 @@
+import "jsr:@std/dotenv/load";
+
 import { Application } from "jsr:@oak/oak/application";
 import { Router } from "jsr:@oak/oak/router";
 import { routers } from "@/routes/index.ts";
