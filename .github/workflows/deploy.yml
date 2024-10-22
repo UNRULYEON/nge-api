@@ -29,14 +29,14 @@ jobs:
       - name: Generate database schema
         run: 'deno run db:generate'
 
-      - name: Apply Prisma patch
-        run: 'deno run prisma:patch'
-
       - name: Apply migrations
         run: 'deno run db:deploy'
 
       - name: Seed database
         run: 'deno run db:seed'
+
+      - name: Apply Prisma patch
+        run: 'deno run prisma:patch'
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
