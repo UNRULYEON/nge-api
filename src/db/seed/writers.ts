@@ -1,6 +1,6 @@
-import { prisma } from "@/db/client.ts";
+import { PrismaClient } from "@/db/client.ts";
 
-const writers = async () => {
+const writers = async (prisma: PrismaClient) => {
   return await Promise.all(
     NGE.map(async ({ id, type, personId, episodeId }) => {
       return await prisma.writer.upsert({

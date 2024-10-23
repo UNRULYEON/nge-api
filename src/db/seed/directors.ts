@@ -1,6 +1,6 @@
-import { prisma } from "@/db/client.ts";
+import { PrismaClient } from "@/db/client.ts";
 
-const directors = async () => {
+const directors = async (prisma: PrismaClient) => {
   return await Promise.all(
     DIRECTORS.map(async ({ id, type, personId, episodeId }) => {
       return await prisma.director.upsert({

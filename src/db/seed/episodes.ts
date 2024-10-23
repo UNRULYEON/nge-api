@@ -1,7 +1,7 @@
-import { prisma } from "@/db/client.ts";
+import { PrismaClient } from "@/db/client.ts";
 import type { Episode } from "@/types/Episode.ts";
 
-const episodes = async () => {
+const episodes = async (prisma: PrismaClient) => {
   return await Promise.all(NGE.map(async ({ id, number, title }) => {
     return await prisma.episode.upsert({
       create: {

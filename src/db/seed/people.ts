@@ -1,7 +1,7 @@
-import { prisma } from "@/db/client.ts";
+import { PrismaClient } from "@/db/client.ts";
 import type { Person } from "@/types/index.ts";
 
-const people = async () => {
+const people = async (prisma: PrismaClient) => {
   return await Promise.all(PEOPLE.map(async ({ id, name }) => {
     return await prisma.person.upsert({
       create: {
