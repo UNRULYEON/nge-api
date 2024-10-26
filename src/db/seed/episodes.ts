@@ -1,27 +1,29 @@
-import { PrismaClient } from "@/db/client.ts";
+import type { PrismaClient } from "@prisma/client";
 import type { Episode } from "@/types/Episode.ts";
 
 const episodes = async (prisma: PrismaClient) => {
-  return await Promise.all(NGE.map(async ({ id, number, title }) => {
-    return await prisma.episode.upsert({
-      create: {
-        id,
-        number,
-        titleEnglish: title.english,
-        titleJapanese: title.japanese,
-        titleRomaji: title.romaji,
-      },
-      where: {
-        id,
-      },
-      update: {
-        number,
-        titleEnglish: title.english,
-        titleJapanese: title.japanese,
-        titleRomaji: title.romaji,
-      },
-    });
-  }));
+  return await Promise.all(
+    NGE.map(async ({ id, number, title }) => {
+      return await prisma.episode.upsert({
+        create: {
+          id,
+          number,
+          titleEnglish: title.english,
+          titleJapanese: title.japanese,
+          titleRomaji: title.romaji,
+        },
+        where: {
+          id,
+        },
+        update: {
+          number,
+          titleEnglish: title.english,
+          titleJapanese: title.japanese,
+          titleRomaji: title.romaji,
+        },
+      });
+    })
+  );
 };
 
 export { episodes };

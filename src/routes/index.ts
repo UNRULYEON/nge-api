@@ -1,7 +1,4 @@
-// import { router as episodesRouter } from "@/routes/episodes/index.ts";
-import { router as peopleRouter } from "@/routes/people/index.ts";
-
-export const routers = [
-  // episodesRouter,
-  peopleRouter,
-];
+export { default as healthRoute } from "./health";
+export { default as helloWorldRoute } from "./hello-world";
+export { default as peopleRoute } from "./people";
+export { default as episodesRoute } from "./episodes";

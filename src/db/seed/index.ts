@@ -1,8 +1,8 @@
-import { people } from "@/db/seed/people.ts";
-import { episodes } from "@/db/seed/episodes.ts";
-import { directors } from "@/db/seed/directors.ts";
-import { writers } from "@/db/seed/writers.ts";
-import { prisma } from "@/db/client.ts";
+import { people } from "@/db/seed/people";
+import { episodes } from "@/db/seed/episodes";
+import { directors } from "@/db/seed/directors";
+import { writers } from "@/db/seed/writers";
+import { prisma } from "@/db";
 
 await people(prisma);
 await episodes(prisma);

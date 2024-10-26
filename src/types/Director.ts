@@ -1,1 +1,1 @@
-export type { Director } from "@/db/client.ts";
+export type { Director } from "@prisma/client";

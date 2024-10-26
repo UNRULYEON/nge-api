@@ -1,18 +1,17 @@
 {
-  "name": "Deno & PostgreSQL",
+  "name": "Node & PostgreSQL",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "deno-app",
+  "service": "node-app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
   "customizations": {
     "vscode": {
       "extensions": [
-        "denoland.vscode-deno",
         "cweijan.vscode-postgresql-client2",
         "Prisma.prisma",
         "GitHub.copilot",
         "GitHub.copilot-chat",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "esbenp.prettier-vscode"
       ]
     }
   }

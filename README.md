@@ -6,7 +6,8 @@ An API that serves information about Neon Genesis Evangelion
 
 ### Prerequisites
 
-- [Deno](https://docs.deno.com/runtime/fundamentals/installation/#download-and-install) (^2.0.0)
+- [Node](https://nodejs.org/en/download/package-manager) (v22.9.0)
+- [pnpm](https://pnpm.io/installation) (v9.12.1)
 
 Copy `.env.example` → `.env` and update `DATABASE_URL` with a valid URL pointing to your local Postgres instance:
 
@@ -17,29 +18,25 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=publ
 Install dependencies with:
 
 ```bash
-deno install
+pnpm install
 ```
 
 Generate Prisma schema with:
 
 ```bash
-deno run db:generate
+pnpm run db:generate
 ```
 
-### Editors
+Create tables in the database if they don't exist:
 
-#### VS Code
+```bash
+pnpm run db:generate
+```
 
-It's recommended to use enable Deno and use their formatter:
+Seeds the database with data:
 
-```json
-// .vscode/settings.json
-
-{
-  "deno.enable": true,
-  "editor.formatOnSave": true,
-  "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" }
-}
+```bash
+pnpm run db:seed
 ```
 
 ## 🥑 Usage
@@ -47,11 +44,20 @@ It's recommended to use enable Deno and use their formatter:
 Run the API:
 
 ```zsh
-deno run dev
+pnpm run dev
 ```
 
 ## 💻 Project commands
 
-| Command | Description                |
-| ------- | -------------------------- |
-| dev     | Runs the API in watch mode |
+| Command      | Description                                                                                                                                                 |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dev          | Runs the API in watch mode                                                                                                                                  |
+| start        | Runs the API in production                                                                                                                                  |
+| db:seed      | Seeds the database                                                                                                                                          |
+| db:generate  | Generates client-side DB types                                                                                                                              |
+| db:push      | Pushes the state of the Prisma schema to the database without using migrations. It creates the database if the database does not exist                      |
+| db:pull      | The `db pull` command connects to your database and adds Prisma models to your Prisma schema that reflect the current database schema                       |
+| db:reset     | Drops the database and applies the migrations                                                                                                               |
+| db:deploy    | The `migrate deploy` command applies all pending migrations, and creates the database if it does not exist. Primarily used in non-development environments. |
+| format:check | Runs prettier and checks if all files are formattted correctly                                                                                              |
+| format:fix   | Runs prettier and formats files if possible                                                                                                                 |

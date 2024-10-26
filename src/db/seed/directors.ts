@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/db/client.ts";
+import type { PrismaClient } from "@prisma/client";
 
 const directors = async (prisma: PrismaClient) => {
   return await Promise.all(
@@ -35,7 +35,7 @@ const directors = async (prisma: PrismaClient) => {
           },
         },
       });
-    }),
+    })
   );
 };
 

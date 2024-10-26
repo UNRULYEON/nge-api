@@ -27,22 +27,22 @@ jobs:
           deno-version: v2.x
 
       - name: Install dependencies
-        run: 'deno install'
+        run: "deno install"
 
       - name: Generate database schema
-        run: 'deno run db:generate'
+        run: "deno run db:generate"
 
       - name: Apply migrations
-        run: 'deno run db:deploy'
+        run: "deno run db:deploy"
 
       - name: Seed database
-        run: 'deno run db:seed'
+        run: "deno run db:seed"
 
       - name: Apply Prisma patch
-        run: 'deno run prisma:patch'
+        run: "deno run prisma:patch"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: 'nge-api'
-          entrypoint: 'src/main.ts'
+          project: "nge-api"
+          entrypoint: "src/main.ts"

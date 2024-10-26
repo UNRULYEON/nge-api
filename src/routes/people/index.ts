@@ -1,74 +1,75 @@
-import { Router } from "jsr:@oak/oak/router";
-import { prisma } from "@/db/client.ts";
-// import { DIRECTORS, NGE, PEOPLE, WRITERS } from "@/data/index.ts";
+import { prisma } from "@/db";
+import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 
-const router = new Router();
+const people = new Hono();
 
-router.get("/people", async (ctx) => {
-  ctx.response.body = await prisma.person.findMany();
+people.get("/", async (c) => {
+  const people = await prisma.person.findMany();
+
+  return c.json(people);
 });
 
-// router.get("/people/:id", (ctx) => {
-//   const paramId = ctx.params.id;
+people.get("/:id", async (c) => {
+  const id = c.req.param("id");
 
-//   if (!paramId) {
-//     ctx.throw(400, "No person ID provided");
-//   }
+  const person = await prisma.person.findUnique({
+    where: {
+      id,
+    },
+  });
 
-//   const person = PEOPLE.find((person) => person.id === paramId);
+  if (!person) {
+    throw new HTTPException(404, { message: "Person not found" });
+  }
 
-//   if (!person) {
-//     ctx.throw(404, "Person not found");
-//   }
+  return c.json(person);
+});
 
-//   ctx.response
-//     .body = person;
-// });
+people.get("/:id/written", async (c) => {
+  const id = c.req.param("id");
 
-// router.get("/people/:id/directed", (ctx) => {
-//   const paramId = ctx.params.id;
+  const person = await prisma.person.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      written: {
+        include: {
+          episode: true,
+        },
+      },
+    },
+  });
 
-//   if (!paramId) {
-//     ctx.throw(400, "No person ID provided");
-//   }
+  if (!person) {
+    throw new HTTPException(404, { message: "Person not found" });
+  }
 
-//   const person = PEOPLE.find((person) => person.id === paramId);
+  return c.json(person.written);
+});
 
-//   if (!person) {
-//     ctx.throw(404, "Person not found");
-//   }
+people.get("/:id/directed", async (c) => {
+  const id = c.req.param("id");
 
-//   const episodeIds = DIRECTORS
-//     .filter((director) => director.person === paramId)
-//     .flatMap((director) => director.episodes);
+  const person = await prisma.person.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      directed: {
+        include: {
+          episode: true,
+        },
+      },
+    },
+  });
 
-//   const episodes = NGE.filter((episode) => episodeIds.includes(episode.id));
+  if (!person) {
+    throw new HTTPException(404, { message: "Person not found" });
+  }
 
-//   ctx.response
-//     .body = episodes;
-// });
+  return c.json(person.directed);
+});
 
-// router.get("/people/:id/written", (ctx) => {
-//   const paramId = ctx.params.id;
-
-//   if (!paramId) {
-//     ctx.throw(400, "No person ID provided");
-//   }
-
-//   const person = PEOPLE.find((person) => person.id === paramId);
-
-//   if (!person) {
-//     ctx.throw(404, "Person not found");
-//   }
-
-//   const episodeIds = WRITERS
-//     .filter((writer) => writer.person === paramId)
-//     .flatMap((writer) => writer.episodes);
-
-//   const episodes = NGE.filter((episode) => episodeIds.includes(episode.id));
-
-//   ctx.response
-//     .body = episodes;
-// });
-
-export { router };
+export default people;

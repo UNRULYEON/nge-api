@@ -1,21 +1,23 @@
-import { PrismaClient } from "@/db/client.ts";
+import type { PrismaClient } from "@prisma/client";
 import type { Person } from "@/types/index.ts";
 
 const people = async (prisma: PrismaClient) => {
-  return await Promise.all(PEOPLE.map(async ({ id, name }) => {
-    return await prisma.person.upsert({
-      create: {
-        id,
-        name,
-      },
-      where: {
-        id,
-      },
-      update: {
-        name,
-      },
-    });
-  }));
+  return await Promise.all(
+    PEOPLE.map(async ({ id, name }) => {
+      return await prisma.person.upsert({
+        create: {
+          id,
+          name,
+        },
+        where: {
+          id,
+        },
+        update: {
+          name,
+        },
+      });
+    })
+  );
 };
 
 export { people };

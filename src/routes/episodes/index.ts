@@ -1,71 +1,75 @@
-// import { Router } from "jsr:@oak/oak/router";
-// import { DIRECTORS, NGE, PEOPLE, WRITERS } from "@/data/index.ts";
+import { prisma } from "@/db";
+import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 
-// const router = new Router();
+const episode = new Hono();
 
-// router.get("/episodes", (ctx) => {
-//   ctx.response.body = NGE;
-// });
+episode.get("/", async (c) => {
+  const episodes = await prisma.episode.findMany();
 
-// router.get("/episodes/:id", (ctx) => {
-//   const paramId = ctx.params.id;
+  return c.json(episodes);
+});
 
-//   if (!paramId) {
-//     ctx.throw(400, "No episode ID provided");
-//   }
+episode.get("/:id", async (c) => {
+  const id = c.req.param("id");
 
-//   const episode = NGE.find((episode) => episode.id === paramId);
+  const episode = await prisma.episode.findUnique({
+    where: {
+      id,
+    },
+  });
 
-//   if (!episode) {
-//     ctx.throw(404, "Episode not found");
-//   }
+  if (!episode) {
+    throw new HTTPException(404, { message: "Episode not found" });
+  }
 
-//   ctx.response
-//     .body = episode;
-// });
+  return c.json(episode);
+});
 
-// router.get("/episodes/:id/directors", (ctx) => {
-//   const paramId = ctx.params.id;
+episode.get("/:id/writers", async (c) => {
+  const id = c.req.param("id");
 
-//   if (!paramId) {
-//     ctx.throw(400, "No episode ID provided");
-//   }
+  const person = await prisma.episode.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      writers: {
+        include: {
+          person: true,
+        },
+      },
+    },
+  });
 
-//   const episode = NGE.find((episode) => episode.id === paramId);
+  if (!person) {
+    throw new HTTPException(404, { message: "Episode not found" });
+  }
 
-//   if (!episode) {
-//     ctx.throw(404, "Episode not found");
-//   }
+  return c.json(person.writers);
+});
 
-//   const directorIds = DIRECTORS
-//     .filter((director) => director.episodes.includes(paramId))
-//     .flatMap((director) => director.person);
+episode.get("/:id/directors", async (c) => {
+  const id = c.req.param("id");
 
-//   const directors = PEOPLE.filter((person) => directorIds.includes(person.id));
+  const person = await prisma.episode.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      directors: {
+        include: {
+          person: true,
+        },
+      },
+    },
+  });
 
-//   ctx.response.body = directors;
-// });
+  if (!person) {
+    throw new HTTPException(404, { message: "Episode not found" });
+  }
 
-// router.get("/episodes/:id/writers", (ctx) => {
-//   const paramId = ctx.params.id;
+  return c.json(person.directors);
+});
 
-//   if (!paramId) {
-//     ctx.throw(400, "No episode ID provided");
-//   }
-
-//   const episode = NGE.find((episode) => episode.id === paramId);
-
-//   if (!episode) {
-//     ctx.throw(404, "Episode not found");
-//   }
-
-//   const writerIds = WRITERS
-//     .filter((writer) => writer.episodes.includes(paramId))
-//     .flatMap((writer) => writer.person);
-
-//   const writers = PEOPLE.filter((person) => writerIds.includes(person.id));
-
-//   ctx.response.body = writers;
-// });
-
-// export { router };
+export default episode;
