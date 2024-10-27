@@ -32,5 +32,8 @@ jobs:
       - name: Apply migrations
         run: pnpm db:deploy
 
+      - name: Initialize @prisma/client
+        run: pnpm db:generate
+
       - name: Seed database
         run: pnpm db:seed
