@@ -1,5 +1,5 @@
 {
-  "name": "Node & PostgreSQL",
+  "name": "nge-api",
   "dockerComposeFile": "docker-compose.yml",
   "service": "node-app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
