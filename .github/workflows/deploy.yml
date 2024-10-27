@@ -9,40 +9,33 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-    permissions:
-      id-token: write # Needed for auth with Deno Deploy
-      contents: read # Needed to clone the repository
 
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - name: Install Deno
-        uses: denoland/setup-deno@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          deno-version: v2.x
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: "deno install"
-
-      - name: Generate database schema
-        run: "deno run db:generate"
+        run: pnpm install
 
       - name: Apply migrations
-        run: "deno run db:deploy"
+        run: pnpm db:deploy
 
       - name: Seed database
-        run: "deno run db:seed"
-
-      - name: Apply Prisma patch
-        run: "deno run prisma:patch"
-
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
-        with:
-          project: "nge-api"
-          entrypoint: "src/main.ts"
+        run: pnpm db:seed
