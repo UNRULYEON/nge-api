@@ -9,9 +9,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22]
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -22,13 +19,11 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 22.9.0
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.9.0
           cache: "pnpm"
 
       - name: Install dependencies
