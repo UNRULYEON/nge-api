@@ -30,7 +30,7 @@ pnpm run db:generate
 Create tables in the database if they don't exist:
 
 ```bash
-pnpm run db:generate
+pnpm run db:push
 ```
 
 Seeds the database with data:

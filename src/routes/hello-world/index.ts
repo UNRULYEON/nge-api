@@ -1,7 +1,22 @@
-import { Hono } from "hono";
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi'
 
-const health = new Hono();
+const base = createRoute({
+  tags: ['Hello world'],
+  method: 'get',
+  path: '/',
+  responses: {
+    200: {
+      description: 'Return "Hello, world!"',
+    },
+  },
+})
 
-health.get("/", (c) => c.text("Hello, world!"));
+const routes = {
+  base,
+}
 
-export default health;
+const helloWorld = new OpenAPIHono();
+
+helloWorld.openapi(routes.base, (c) => c.text("Hello, world!"));
+
+export default helloWorld;
