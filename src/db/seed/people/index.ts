@@ -1,9 +1,14 @@
 import type { PrismaClient } from "@prisma/client";
 import type { Person } from "@/types/index.ts";
+import { minioClient } from "@/s3";
+import { createReadStream, stat } from 'fs'
 
 const people = async (prisma: PrismaClient) => {
   return await Promise.all(
     PEOPLE.map(async ({ id, name }) => {
+      const buckets = await minioClient.listBuckets()
+      console.log('Success', buckets)
+      
       return await prisma.person.upsert({
         create: {
           id,
