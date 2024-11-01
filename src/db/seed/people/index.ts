@@ -39,14 +39,14 @@ const people = async (prisma: PrismaClient) => {
         create: {
           id,
           name,
-          imageUrl: imageUrl ?? "",
+          imageUrl: imageUrl ?? null,
         },
         where: {
           id,
         },
         update: {
           name,
-          imageUrl: imageUrl ?? "",
+          imageUrl: imageUrl ?? null,
         },
       });
     })

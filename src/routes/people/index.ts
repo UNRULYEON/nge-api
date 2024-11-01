@@ -1,22 +1,42 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
 
+const PersonSchema = z
+  .object({
+    id: z.string().openapi({
+      example: "01J8WYGT621JTJRF0TZYZY8EFP",
+    }),
+    name: z.string().openapi({
+      example: "Hideaki Anno",
+    }),
+    imageUrl: z.string().nullable().openapi({
+      example:
+        "https://https://nge-api.ams3.cdn.digitaloceanspaces.com/production/people/first-name-last-name.jpg",
+    }),
+  })
+  .openapi("Person");
+
 const base = createRoute({
-  tags: ['People'],
-  method: 'get',
-  path: '/',
+  tags: ["People"],
+  method: "get",
+  path: "/",
   responses: {
     200: {
-      description: 'Returns details of all people',
+      content: {
+        "application/json": {
+          schema: PersonSchema.array(),
+        },
+      },
+      description: "Returns details of all people",
     },
   },
-})
+});
 
 const id = createRoute({
-  tags: ['People'],
-  method: 'get',
-  path: '/{id}',
+  tags: ["People"],
+  method: "get",
+  path: "/{id}",
   request: {
     params: z.object({
       id: z
@@ -24,27 +44,32 @@ const id = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8WYGT621JTJRF0TZYZY8EFP',
+          example: "01J8WYGT621JTJRF0TZYZY8EFP",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns details of a person',
+      content: {
+        "application/json": {
+          schema: PersonSchema,
+        },
+      },
+      description: "Returns details of a person",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Person not found",
+    },
   },
-})
+});
 
 const written = createRoute({
-  tags: ['People'],
-  method: 'get',
-  path: '/{id}/written',
+  tags: ["People"],
+  method: "get",
+  path: "/{id}/written",
   request: {
     params: z.object({
       id: z
@@ -52,27 +77,32 @@ const written = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8WYGT621JTJRF0TZYZY8EFP',
+          example: "01J8WYGT621JTJRF0TZYZY8EFP",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns media written by a specific person',
+      content: {
+        "application/json": {
+          schema: PersonSchema.array(),
+        },
+      },
+      description: "Returns media written by a specific person",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Person not found",
+    },
   },
-})
+});
 
 const directed = createRoute({
-  tags: ['People'],
-  method: 'get',
-  path: '/{id}/directed',
+  tags: ["People"],
+  method: "get",
+  path: "/{id}/directed",
   request: {
     params: z.object({
       id: z
@@ -80,29 +110,34 @@ const directed = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8WYGT621JTJRF0TZYZY8EFP',
+          example: "01J8WYGT621JTJRF0TZYZY8EFP",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns media directed by a specific person',
+      content: {
+        "application/json": {
+          schema: PersonSchema.array(),
+        },
+      },
+      description: "Returns media directed by a specific person",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Person not found",
+    },
   },
-})
+});
 
 const routes = {
   base,
   id,
   written,
-  directed
-}
+  directed,
+};
 
 const people = new OpenAPIHono();
 
