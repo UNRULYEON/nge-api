@@ -1,3 +1,5 @@
+/* v8 ignore start */
+
 import { S3Client } from "@aws-sdk/client-s3";
 
 if (!process.env.DO_ACCESS_KEY) {
@@ -19,3 +21,5 @@ const s3Client = new S3Client({
 });
 
 export { s3Client };
+
+/* v8 ignore stop */

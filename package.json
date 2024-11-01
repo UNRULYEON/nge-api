@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "pnpx @dotenvx/dotenvx run -- tsx watch src/index.ts",
     "start": "tsx src/index.ts",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
     "db:seed": "pnpx @dotenvx/dotenvx run -- tsx src/db/seed/index.ts",
     "db:migrate": "pnpx @dotenvx/dotenvx run -- pnpx prisma migrate dev --schema ./src/db/schema.prisma",
     "db:generate": "pnpx @dotenvx/dotenvx run -- pnpx prisma generate --schema ./src/db/schema.prisma",
@@ -28,6 +31,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
-    "prettier": "3.3.3"
+    "@vitest/coverage-v8": "2.1.4",
+    "@vitest/ui": "^2.1.4",
+    "prettier": "3.3.3",
+    "vitest": "^2.1.4"
   }
 }

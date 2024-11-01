@@ -1,0 +1,67 @@
+name: Unit tests
+on:
+  pull_request:
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch:
+          - ${{ github.head_ref }}
+          - "main"
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js 22.9.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.9.0
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run vitest
+        run: pnpm run test:coverage
+
+      - name: "Save unit test coverage report as artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.branch }}
+          path: coverage
+
+  report-coverage:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Download PR test coverage report"
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-${{ github.head_ref }}
+          path: coverage
+
+      - name: "Download main test coverage report"
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-main
+          path: coverage-main
+
+      - name: "Report Coverage"
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          json-summary-compare-path: coverage-main/coverage-summary.json
