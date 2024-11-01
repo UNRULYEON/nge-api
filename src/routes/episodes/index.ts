@@ -1,22 +1,47 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
 
+const EpisodeSchema = z
+  .object({
+    id: z.string().openapi({
+      example: "01J8TXR9AZ891VF828HE22X5BW",
+    }),
+    number: z.string().openapi({
+      example: "1",
+    }),
+    titleEnglish: z.string().openapi({
+      example: "Angel Attack",
+    }),
+    titleJapanese: z.string().openapi({
+      example: "使徒、襲来",
+    }),
+    titleRomaji: z.string().openapi({
+      example: "Shito, shūrai",
+    }),
+  })
+  .openapi("Episode");
+
 const base = createRoute({
-  tags: ['Episodes'],
-  method: 'get',
-  path: '/',
+  tags: ["Episodes"],
+  method: "get",
+  path: "/",
   responses: {
     200: {
-      description: 'Returns details of all episodes',
+      content: {
+        "application/json": {
+          schema: EpisodeSchema.array(),
+        },
+      },
+      description: "Returns details of all episodes",
     },
   },
-})
+});
 
 const id = createRoute({
-  tags: ['Episodes'],
-  method: 'get',
-  path: '/{id}',
+  tags: ["Episodes"],
+  method: "get",
+  path: "/{id}",
   request: {
     params: z.object({
       id: z
@@ -24,27 +49,32 @@ const id = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8TXR9AZ891VF828HE22X5BW',
+          example: "01J8TXR9AZ891VF828HE22X5BW",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns details of an episode',
+      content: {
+        "application/json": {
+          schema: EpisodeSchema,
+        },
+      },
+      description: "Returns details of an episode",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Episode not found",
+    },
   },
-})
+});
 
 const writers = createRoute({
-  tags: ['Episodes'],
-  method: 'get',
-  path: '/{id}/writers',
+  tags: ["Episodes"],
+  method: "get",
+  path: "/{id}/writers",
   request: {
     params: z.object({
       id: z
@@ -52,27 +82,32 @@ const writers = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8TXR9AZ891VF828HE22X5BW',
+          example: "01J8TXR9AZ891VF828HE22X5BW",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns writers of a specific episode',
+      content: {
+        "application/json": {
+          schema: EpisodeSchema.array(),
+        },
+      },
+      description: "Returns writers of a specific episode",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Episode not found",
+    },
   },
-})
+});
 
 const directors = createRoute({
-  tags: ['Episodes'],
-  method: 'get',
-  path: '/{id}/directors',
+  tags: ["Episodes"],
+  method: "get",
+  path: "/{id}/directors",
   request: {
     params: z.object({
       id: z
@@ -80,32 +115,36 @@ const directors = createRoute({
         .min(1)
         .openapi({
           param: {
-            name: 'id',
-            in: 'path',
+            name: "id",
+            in: "path",
           },
-          example: '01J8TXR9AZ891VF828HE22X5BW',
+          example: "01J8TXR9AZ891VF828HE22X5BW",
         }),
-    })
+    }),
   },
   responses: {
     200: {
-      description: 'Returns directores of a specific episode',
+      content: {
+        "application/json": {
+          schema: EpisodeSchema.array(),
+        },
+      },
+      description: "Returns directores of a specific episode",
     },
     404: {
-      description: 'Episode not found',
-    }
+      description: "Episode not found",
+    },
   },
-})
+});
 
 const routes = {
   base,
   id: {
     base: id,
     writers,
-    directors
+    directors,
   },
-}
-
+};
 
 const episode = new OpenAPIHono();
 
