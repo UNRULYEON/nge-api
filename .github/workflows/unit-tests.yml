@@ -6,6 +6,8 @@ jobs:
   unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    outputs:
+      COVERAGE_REPORT_NAME: ${{ steps.normalise_name.outputs.COVERAGE_REPORT_NAME }}
     strategy:
       matrix:
         branch:
@@ -38,21 +40,29 @@ jobs:
       - name: Run vitest
         run: pnpm run test:coverage
 
+      - name: Normalise coverage report name
+        id: normalise_name
+        run: |
+          branch="${{ matrix.branch }}"
+          echo "COVERAGE_REPORT_NAME=${branch//\//-}" >> $GITHUB_OUTPUT
+
       - name: "Save unit test coverage report as artifact"
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.branch }}
+          name: coverage-${{ steps.normalise_name.outputs.COVERAGE_REPORT_NAME }}
           path: coverage
 
   report-coverage:
     needs: unit-tests
     runs-on: ubuntu-latest
+    env:
+      COVERAGE_REPORT_NAME: "${{ needs.unit-tests.outputs.COVERAGE_REPORT_NAME }}"
 
     steps:
       - name: "Download PR test coverage report"
         uses: actions/download-artifact@v4
         with:
-          name: coverage-${{ github.head_ref }}
+          name: coverage-${{ env.COVERAGE_REPORT_NAME }}
           path: coverage
 
       - name: "Download main test coverage report"
