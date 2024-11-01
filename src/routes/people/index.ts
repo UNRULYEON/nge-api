@@ -1,21 +1,8 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
-
-const PersonSchema = z
-  .object({
-    id: z.string().openapi({
-      example: "01J8WYGT621JTJRF0TZYZY8EFP",
-    }),
-    name: z.string().openapi({
-      example: "Hideaki Anno",
-    }),
-    imageUrl: z.string().nullable().openapi({
-      example:
-        "https://https://nge-api.ams3.cdn.digitaloceanspaces.com/production/people/first-name-last-name.jpg",
-    }),
-  })
-  .openapi("Person");
+import { EpisodeSchema, PersonSchema } from "@/schemas";
+import { sortEpisodes } from "@/utils";
 
 const base = createRoute({
   tags: ["People"],
@@ -88,7 +75,7 @@ const written = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: PersonSchema.array(),
+          schema: EpisodeSchema.array(),
         },
       },
       description: "Returns media written by a specific person",
@@ -121,7 +108,7 @@ const directed = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: PersonSchema.array(),
+          schema: EpisodeSchema.array(),
         },
       },
       description: "Returns media directed by a specific person",
@@ -142,7 +129,13 @@ const routes = {
 const people = new OpenAPIHono();
 
 people.openapi(routes.base, async (c) => {
-  const people = await prisma.person.findMany();
+  const people = await prisma.person.findMany({
+    select: {
+      id: true,
+      name: true,
+      imageUrl: true,
+    },
+  });
 
   return c.json(people);
 });
@@ -153,6 +146,11 @@ people.openapi(routes.id, async (c) => {
   const person = await prisma.person.findUnique({
     where: {
       id,
+    },
+    select: {
+      id: true,
+      name: true,
+      imageUrl: true,
     },
   });
 
@@ -170,10 +168,18 @@ people.openapi(routes.written, async (c) => {
     where: {
       id,
     },
-    include: {
+    select: {
       written: {
-        include: {
-          episode: true,
+        select: {
+          episode: {
+            select: {
+              id: true,
+              number: true,
+              titleEnglish: true,
+              titleJapanese: true,
+              titleRomaji: true,
+            },
+          },
         },
       },
     },
@@ -183,7 +189,9 @@ people.openapi(routes.written, async (c) => {
     throw new HTTPException(404, { message: "Person not found" });
   }
 
-  return c.json(person.written);
+  const written = person.written.map((w) => w.episode);
+
+  return c.json(sortEpisodes(written));
 });
 
 people.openapi(routes.directed, async (c) => {
@@ -193,10 +201,18 @@ people.openapi(routes.directed, async (c) => {
     where: {
       id,
     },
-    include: {
+    select: {
       directed: {
-        include: {
-          episode: true,
+        select: {
+          episode: {
+            select: {
+              id: true,
+              number: true,
+              titleEnglish: true,
+              titleJapanese: true,
+              titleRomaji: true,
+            },
+          },
         },
       },
     },
@@ -206,7 +222,9 @@ people.openapi(routes.directed, async (c) => {
     throw new HTTPException(404, { message: "Person not found" });
   }
 
-  return c.json(person.directed);
+  const directed = person.directed.map((w) => w.episode);
+
+  return c.json(sortEpisodes(directed));
 });
 
 export default people;

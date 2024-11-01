@@ -1,26 +1,8 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
-
-const EpisodeSchema = z
-  .object({
-    id: z.string().openapi({
-      example: "01J8TXR9AZ891VF828HE22X5BW",
-    }),
-    number: z.string().openapi({
-      example: "1",
-    }),
-    titleEnglish: z.string().openapi({
-      example: "Angel Attack",
-    }),
-    titleJapanese: z.string().openapi({
-      example: "使徒、襲来",
-    }),
-    titleRomaji: z.string().openapi({
-      example: "Shito, shūrai",
-    }),
-  })
-  .openapi("Episode");
+import { EpisodeSchema, PersonSchema } from "@/schemas";
+import { sortEpisodes } from "@/utils";
 
 const base = createRoute({
   tags: ["Episodes"],
@@ -93,7 +75,7 @@ const writers = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: EpisodeSchema.array(),
+          schema: PersonSchema.array(),
         },
       },
       description: "Returns writers of a specific episode",
@@ -126,7 +108,7 @@ const directors = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: EpisodeSchema.array(),
+          schema: PersonSchema.array(),
         },
       },
       description: "Returns directores of a specific episode",
@@ -149,9 +131,17 @@ const routes = {
 const episode = new OpenAPIHono();
 
 episode.openapi(routes.base, async (c) => {
-  const episodes = await prisma.episode.findMany();
+  const episodes = await prisma.episode.findMany({
+    select: {
+      id: true,
+      number: true,
+      titleEnglish: true,
+      titleJapanese: true,
+      titleRomaji: true,
+    },
+  });
 
-  return c.json(episodes);
+  return c.json(sortEpisodes(episodes));
 });
 
 episode.openapi(routes.id.base, async (c) => {
@@ -160,6 +150,13 @@ episode.openapi(routes.id.base, async (c) => {
   const episode = await prisma.episode.findUnique({
     where: {
       id,
+    },
+    select: {
+      id: true,
+      number: true,
+      titleEnglish: true,
+      titleJapanese: true,
+      titleRomaji: true,
     },
   });
 
@@ -177,10 +174,16 @@ episode.openapi(routes.id.writers, async (c) => {
     where: {
       id,
     },
-    include: {
+    select: {
       writers: {
-        include: {
-          person: true,
+        select: {
+          person: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true,
+            },
+          },
         },
       },
     },
@@ -190,7 +193,9 @@ episode.openapi(routes.id.writers, async (c) => {
     throw new HTTPException(404, { message: "Episode not found" });
   }
 
-  return c.json(person.writers);
+  const writers = person.writers.map((writer) => writer.person);
+
+  return c.json(writers);
 });
 
 episode.openapi(routes.id.directors, async (c) => {
@@ -200,10 +205,16 @@ episode.openapi(routes.id.directors, async (c) => {
     where: {
       id,
     },
-    include: {
+    select: {
       directors: {
-        include: {
-          person: true,
+        select: {
+          person: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true,
+            },
+          },
         },
       },
     },
@@ -213,7 +224,9 @@ episode.openapi(routes.id.directors, async (c) => {
     throw new HTTPException(404, { message: "Episode not found" });
   }
 
-  return c.json(person.directors);
+  const directors = person.directors.map((director) => director.person);
+
+  return c.json(directors);
 });
 
 export default episode;
