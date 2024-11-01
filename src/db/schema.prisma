@@ -8,8 +8,9 @@ datasource db {
 }
 
 model Person {
-  id   String @id
-  name String
+  id       String  @id
+  name     String
+  imageUrl String?
 
   directed Director[]
   written  Writer[]

@@ -1,27 +1,21 @@
-import * as Minio from 'minio'
+import { S3Client } from "@aws-sdk/client-s3";
 
-if (!process.env.MINIO_ENDPOINT) {
-  throw new Error('"MINIO_ENDPOINT" is not defined')
+if (!process.env.DO_ACCESS_KEY) {
+  throw new Error('"DO_ACCESS_KEY" is not defined');
 }
 
-if (!process.env.MINIO_PORT) {
-  throw new Error('"MINIO_PORT" is not defined')
+if (!process.env.DO_SECRET_KEY) {
+  throw new Error('"DO_SECRET_KEY" is not defined');
 }
 
-if (!process.env.MINIO_ACCESS_KEY) {
-  throw new Error('"MINIO_ACCESS_KEY" is not defined')
-}
+const s3Client = new S3Client({
+  endpoint: "https://ams3.digitaloceanspaces.com",
+  forcePathStyle: false,
+  region: "ams3",
+  credentials: {
+    accessKeyId: process.env.DO_ACCESS_KEY,
+    secretAccessKey: process.env.DO_SECRET_KEY,
+  },
+});
 
-if (!process.env.MINIO_SECRET_KEY) {
-  throw new Error('"MINIO_SECRET_KEY" is not defined')
-}
-
-const minioClient = new Minio.Client({
-  endPoint: process.env.MINIO_ENDPOINT,
-  port: parseInt(process.env.MINIO_PORT),
-  useSSL: true,
-  accessKey: process.env.MINIO_ACCESS_KEY,
-  secretKey: process.env.MINIO_SECRET_KEY,
-})
-
-export { minioClient };
+export { s3Client };

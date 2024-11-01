@@ -7,7 +7,8 @@
     "dev": "pnpx @dotenvx/dotenvx run -- tsx watch src/index.ts",
     "start": "tsx src/index.ts",
     "db:seed": "pnpx @dotenvx/dotenvx run -- tsx src/db/seed/index.ts",
-    "db:generate": "pnpx @dotenvx/dotenvx run -- pnpx prisma generate --schema src/db/schema.prisma",
+    "db:migrate": "pnpx @dotenvx/dotenvx run -- pnpx prisma migrate dev --schema ./src/db/schema.prisma",
+    "db:generate": "pnpx @dotenvx/dotenvx run -- pnpx prisma generate --schema ./src/db/schema.prisma",
     "db:push": "pnpx @dotenvx/dotenvx run -- pnpx prisma db push --schema ./src/db/schema.prisma",
     "db:pull": "pnpx @dotenvx/dotenvx run -- pnpx prisma db pull --schema ./src/db/schema.prisma",
     "db:reset": "pnpx @dotenvx/dotenvx run -- pnpx prisma migrate reset --schema ./src/db/schema.prisma",
@@ -16,12 +17,12 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.682.0",
     "@hono/node-server": "^1.13.2",
     "@hono/swagger-ui": "^0.4.1",
     "@hono/zod-openapi": "^0.16.4",
     "@prisma/client": "^5.21.1",
     "hono": "^4.6.7",
-    "minio": "^8.0.2",
     "tsx": "^4.19.2",
     "zod": "^3.23.8"
   },

@@ -4,8 +4,7 @@ namespace NodeJS {
 
     DATABASE_URL: string;
 
-    MINIO_ENDPOINT: string;
-    MINIO_ACCESS_KEY: string;
-    MINIO_SECRET_KEY: string;
+    DO_ACCESS_KEY: string;
+    DO_SECRET_KEY: string;
   }
 }
