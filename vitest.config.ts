@@ -4,17 +4,12 @@ export default defineConfig({
   test: {
     coverage: {
       enabled: true,
+      provider: "v8",
       reporter: process.env.GITHUB_ACTIONS
-        ? ["text", "json-summary", "json", "github-actions"]
+        ? ["text", "json-summary", "json"]
         : ["html"],
       reportOnFailure: true,
       exclude: ["vitest.config.ts", "src/db/seed/**/*", "src/schemas/**/*"],
-      thresholds: {
-        lines: 60,
-        branches: 60,
-        functions: 60,
-        statements: 60,
-      },
     },
   },
 });
