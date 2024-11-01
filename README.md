@@ -12,9 +12,7 @@ This section explains how to get started with the devcontainer which is the reco
 
 Open the command pallete (<kbd>cmd</kbd>/<kbd>ctrl</kbd> + <kbd>p</kbd>) and type `Dev Containers: Reopen in Container`.
 
-Copy `.env.example` → `.env`.
-
-Next, go to your browser and open `http://localhost:9001`. Log in with the credentials for MinIO and create an access key (more info [here](https://min.io/docs/minio/linux/administration/console/security-and-access.html#id1)). Copy the Access Key and Secret Key and update `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in `.env`. Finally, create a bucket with the name `nge-api` (more info [here](https://min.io/docs/minio/linux/administration/console/managing-objects.html#creating-buckets)).
+Copy `.env.example` → `.env` and update `DO_ACCESS_KEY` and `DO_SECRET_KEY`.
 
 Install dependencies with:
 
