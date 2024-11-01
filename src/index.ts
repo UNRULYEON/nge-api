@@ -38,6 +38,7 @@ app.route("/hello-world", helloWorldRoute);
 
 app.route("/people", peopleRoute);
 app.route("/episodes", episodesRoute);
+
 console.log(`Server is running on port ${port}`);
 
 serve({

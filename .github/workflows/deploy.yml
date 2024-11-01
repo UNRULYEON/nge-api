@@ -2,8 +2,6 @@ name: Deploy
 on:
   push:
     branches: main
-  pull_request:
-    branches: main
 
 jobs:
   deploy:
@@ -12,6 +10,8 @@ jobs:
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
+      DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
 
     steps:
       - name: Clone repository

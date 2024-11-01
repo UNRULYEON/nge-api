@@ -4,16 +4,15 @@ An API that serves information about Neon Genesis Evangelion
 
 ## 📦 Getting started
 
+This section explains how to get started with the devcontainer which is the recommended way to develop.
+
 ### Prerequisites
 
-- [Node](https://nodejs.org/en/download/package-manager) (v22.9.0)
-- [pnpm](https://pnpm.io/installation) (v9.12.1)
+- [Docker](https://www.docker.com)
 
-Copy `.env.example` → `.env` and update `DATABASE_URL` with a valid URL pointing to your local Postgres instance:
+Open the command pallete (<kbd>cmd</kbd>/<kbd>ctrl</kbd> + <kbd>p</kbd>) and type `Dev Containers: Reopen in Container`.
 
-```
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"
-```
+Copy `.env.example` → `.env` and update `DO_ACCESS_KEY` and `DO_SECRET_KEY`.
 
 Install dependencies with:
 
