@@ -1,36 +1,28 @@
 import type { PrismaClient } from "@prisma/client";
 import type { Person } from "@/types/index.ts";
 import { s3Client } from "@/s3";
-import { createReadStream, statSync } from "fs";
-import {
-  PutObjectCommand,
-  type PutObjectCommandInput,
-} from "@aws-sdk/client-s3";
+import { createReadStream, statSync, existsSync } from "fs";
 import { CDN_BASE_URL } from "@/constants";
 
 const people = async (prisma: PrismaClient) => {
   return await Promise.all(
     PEOPLE.map(async ({ id, name }) => {
-      let imageUrl;
+      let imageUrl: string | null = null;
 
-      if (name === "Hideaki Anno") {
-        const fileName = name.toLowerCase().replace(" ", "-") + ".jpg";
-        const filePath = `${import.meta.dirname}/images/${fileName}`;
-        const fileStream = createReadStream(filePath);
-        const { size } = statSync(filePath);
+      const fileName = name.toLowerCase().replace(" ", "-") + ".jpg";
+      const path = `${import.meta.dirname}/images/${fileName}`;
+
+      if (existsSync(path)) {
+        const file = createReadStream(path);
+        const { size } = statSync(path);
 
         const key = `production/people/${fileName}`;
 
-        const params: PutObjectCommandInput = {
-          Bucket: "nge-api",
-          Key: key,
-          Body: fileStream,
-          ACL: "public-read",
-          ContentLength: size,
-          ContentType: "image/jpg",
-        };
-
-        await s3Client.send(new PutObjectCommand(params));
+        await s3Client.uploadImage({
+          key,
+          file,
+          size,
+        });
 
         imageUrl = `${CDN_BASE_URL}/${key}`;
       }
@@ -39,14 +31,14 @@ const people = async (prisma: PrismaClient) => {
         create: {
           id,
           name,
-          imageUrl: imageUrl ?? null,
+          imageUrl,
         },
         where: {
           id,
         },
         update: {
           name,
-          imageUrl: imageUrl ?? null,
+          imageUrl,
         },
       });
     })
