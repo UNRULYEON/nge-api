@@ -69,3 +69,12 @@ enum Media {
   MOVIE
   EPISODE
 }
+
+model Character {
+  id       String  @id
+  name     String
+  imageUrl String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
