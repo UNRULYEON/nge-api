@@ -45,6 +45,9 @@ importers:
       prettier:
         specifier: 3.3.3
         version: 3.3.3
+      ulid:
+        specifier: ^2.3.0
+        version: 2.3.0
       vitest:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.17.1)(@vitest/ui@2.1.4)
@@ -1272,6 +1275,10 @@ packages:
   tsx@4.19.2:
     resolution: {integrity: sha512-pOUl6Vo2LUq/bSa8S5q7b91cgNSjctn9ugq/+Mvow99qW6x/UZYwzxy/3NmqoT66eHYfCVvFvACC58UBPFf28g==}
     engines: {node: '>=18.0.0'}
+    hasBin: true
+
+  ulid@2.3.0:
+    resolution: {integrity: sha512-keqHubrlpvT6G2wH0OEfSW4mquYRcbe/J8NMmveoQOjUqmo+hXtO+ORCpWhdbZ7k72UtY61BL7haGxW6enBnjw==}
     hasBin: true
 
   undici-types@6.19.8:
@@ -2915,6 +2922,8 @@ snapshots:
       get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
+
+  ulid@2.3.0: {}
 
   undici-types@6.19.8: {}
 
