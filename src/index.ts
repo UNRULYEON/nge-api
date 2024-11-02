@@ -7,6 +7,7 @@ import {
   helloWorldRoute,
   peopleRoute,
   episodesRoute,
+  charactersRoute,
 } from "@/routes";
 
 const port = 3000;
@@ -38,6 +39,8 @@ app.route("/hello-world", helloWorldRoute);
 
 app.route("/people", peopleRoute);
 app.route("/episodes", episodesRoute);
+
+app.route("/characters", charactersRoute);
 
 console.log(`Server is running on port ${port}`);
 
