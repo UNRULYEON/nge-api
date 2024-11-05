@@ -90,7 +90,7 @@ export const MOVIES: Movie[] = [
       english: "Evangelion: 3.0+1.0 Thrice Upon a Time",
       japanese: "シン・エヴァンゲリオン劇場版:𝄂",
       japaneseLiteral: "Shin Evangelion Theatrical Edition: 𝄂",
-      romaji: "Shin[a] Evangerion Gekijōban:𝄂",
+      romaji: "Shin Evangerion Gekijōban:𝄂",
     },
     runTimeInMinutes: 155,
   },
