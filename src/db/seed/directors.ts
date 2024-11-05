@@ -1,40 +1,89 @@
 import type { PrismaClient } from "@prisma/client";
 
 const directors = async (prisma: PrismaClient) => {
+  console.log(`Seeding ${DIRECTORS.length} directors`);
+
   return await Promise.all(
-    DIRECTORS.map(async ({ id, type, personId, episodeId }) => {
-      return await prisma.director.upsert({
-        create: {
-          id,
-          type,
-          person: {
-            connect: {
-              id: personId,
+    DIRECTORS.map(async ({ id, type, personId, episodeId, movieId }) => {
+      if (!episodeId && !movieId) {
+        throw new Error("episodeId or movieId is required");
+      }
+
+      try {
+        if (episodeId) {
+          return await prisma.director.upsert({
+            create: {
+              id,
+              type,
+              person: {
+                connect: {
+                  id: personId,
+                },
+              },
+              episode: {
+                connect: {
+                  id: episodeId,
+                },
+              },
             },
-          },
-          episode: {
-            connect: {
-              id: episodeId,
+            where: {
+              id,
             },
-          },
-        },
-        where: {
-          id,
-        },
-        update: {
-          type,
-          person: {
-            connect: {
-              id: personId,
+            update: {
+              type,
+              person: {
+                connect: {
+                  id: personId,
+                },
+              },
+              episode: {
+                connect: {
+                  id: episodeId,
+                },
+              },
             },
-          },
-          episode: {
-            connect: {
-              id: episodeId,
+          });
+        }
+
+        if (movieId) {
+          return await prisma.director.upsert({
+            create: {
+              id,
+              type,
+              person: {
+                connect: {
+                  id: personId,
+                },
+              },
+              movie: {
+                connect: {
+                  id: movieId,
+                },
+              },
             },
-          },
-        },
-      });
+            where: {
+              id,
+            },
+            update: {
+              type,
+              person: {
+                connect: {
+                  id: personId,
+                },
+              },
+              movie: {
+                connect: {
+                  id: movieId,
+                },
+              },
+            },
+          });
+        }
+      } catch (e) {
+        console.log("Error creating director");
+        console.table({ id, type, personId, episodeId, movieId });
+        console.error(e);
+      }
     })
   );
 };
@@ -43,9 +92,10 @@ export { directors };
 
 const DIRECTORS: {
   id: string;
-  type: "EPISODE";
+  type: "EPISODE" | "MOVIE";
   personId: string;
-  episodeId: string;
+  episodeId?: string;
+  movieId?: string;
 }[] = [
   {
     id: "01JARBZGA1E4BTC6TCACM5204T",
@@ -214,5 +264,89 @@ const DIRECTORS: {
     type: "EPISODE",
     personId: "01J8WYGT62XX62G8WRCRQ9MNEG",
     episodeId: "01J8TXR9AZ7B3XR4XTQHNTPGMP",
+  },
+  {
+    id: "01JBWTWMZQ0RX3337TQQZYAF9E",
+    type: "MOVIE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    movieId: "01JBWT9VX0VSXDGQ8T1EYBZMCQ",
+  },
+  {
+    id: "01JBWTWMZSHCY88V3HP3HMYX6Y",
+    type: "MOVIE",
+    personId: "01J8WYGT62V72HXT9P1T7BBEBV",
+    movieId: "01JBWT9VX0VSXDGQ8T1EYBZMCQ",
+  },
+  {
+    id: "01JBWTWMZS5EDEKMRD45Y8VVNY",
+    type: "MOVIE",
+    personId: "01J8WYGT62T9TF4TFNFJTD5QMZ",
+    movieId: "01JBWT9VX0VSXDGQ8T1EYBZMCQ",
+  },
+  {
+    id: "01JBWV0M19BX1BPCYT5EBMQHSS",
+    type: "MOVIE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    movieId: "01JBWT9VX22JY7JA73C5EVWARK",
+  },
+  {
+    id: "01JBWV0M1APY3500DKE4706CSE",
+    type: "MOVIE",
+    personId: "01J8WYGT62V72HXT9P1T7BBEBV",
+    movieId: "01JBWT9VX22JY7JA73C5EVWARK",
+  },
+  {
+    id: "01JBWV0M1A7ES920ZFF6QQK73R",
+    type: "MOVIE",
+    personId: "01J8WYGT62T9TF4TFNFJTD5QMZ",
+    movieId: "01JBWT9VX22JY7JA73C5EVWARK",
+  },
+  {
+    id: "01JBWV2YSFBPFRJCMS2JZMXVT0",
+    type: "MOVIE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    movieId: "01JBWT9VX2TY3FJX01A6566RTS",
+  },
+  {
+    id: "01JBWV2YSG60A3ARZ6WJDKEWXP",
+    type: "MOVIE",
+    personId: "01JBWV4JPFMXK7672QHFPMKFH1",
+    movieId: "01JBWT9VX2TY3FJX01A6566RTS",
+  },
+  {
+    id: "01JBWV2YSH1CEQ800F38980Y9V",
+    type: "MOVIE",
+    personId: "01J8WYGT62T9TF4TFNFJTD5QMZ",
+    movieId: "01JBWT9VX2TY3FJX01A6566RTS",
+  },
+  {
+    id: "01JBWV2YSHN26R976WEF90VGYN",
+    type: "MOVIE",
+    personId: "01J8WYGT62V72HXT9P1T7BBEBV",
+    movieId: "01JBWT9VX2TY3FJX01A6566RTS",
+  },
+  {
+    id: "01JBWV5NP2C2X662ZR8JZ2TS35",
+    type: "MOVIE",
+    personId: "01J8WYGT621JTJRF0TZYZY8EFP",
+    movieId: "01JBWT9VX26DG0XMJFTB86HXRP",
+  },
+  {
+    id: "01JBWV5NP3QRSTRKCQ2HEN88BE",
+    type: "MOVIE",
+    personId: "01J8WYGT62T9TF4TFNFJTD5QMZ",
+    movieId: "01JBWT9VX26DG0XMJFTB86HXRP",
+  },
+  {
+    id: "01JBWV5NP3W7141MWMBF42A3WN",
+    type: "MOVIE",
+    personId: "01JBWV4JPFMXK7672QHFPMKFH1",
+    movieId: "01JBWT9VX26DG0XMJFTB86HXRP",
+  },
+  {
+    id: "01JBWV5NP3MC5Q4P8VW2KB2SR9",
+    type: "MOVIE",
+    personId: "01JBWV709M9VMRRJQ9QEGJYVTZ",
+    movieId: "01JBWT9VX26DG0XMJFTB86HXRP",
   },
 ];

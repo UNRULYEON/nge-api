@@ -8,6 +8,7 @@ import {
   peopleRoute,
   episodesRoute,
   charactersRoute,
+  moviesRoute,
 } from "@/routes";
 
 const port = 3000;
@@ -39,6 +40,7 @@ app.route("/hello-world", helloWorldRoute);
 
 app.route("/people", peopleRoute);
 app.route("/episodes", episodesRoute);
+app.route("/movies", moviesRoute);
 
 app.route("/characters", charactersRoute);
 

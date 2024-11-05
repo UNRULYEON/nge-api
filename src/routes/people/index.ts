@@ -1,7 +1,12 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
-import { EpisodeSchema, PersonSchema } from "@/schemas";
+import {
+  EpisodeSchema,
+  PersonSchema,
+  WrittenSchema,
+  DirectedSchema,
+} from "@/schemas";
 import { sortEpisodes } from "@/utils";
 
 const base = createRoute({
@@ -75,7 +80,7 @@ const written = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: EpisodeSchema.array(),
+          schema: WrittenSchema,
         },
       },
       description: "Returns media written by a specific person",
@@ -108,7 +113,7 @@ const directed = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: EpisodeSchema.array(),
+          schema: DirectedSchema,
         },
       },
       description: "Returns media directed by a specific person",
@@ -189,9 +194,14 @@ people.openapi(routes.written, async (c) => {
     throw new HTTPException(404, { message: "Person not found" });
   }
 
-  const written = person.written.map((w) => w.episode);
+  const episodesDirected = person.written
+    .map((m) => m.episode)
+    .filter((e): e is NonNullable<typeof e> => e !== null);
 
-  return c.json(sortEpisodes(written));
+  return c.json({
+    episodes: sortEpisodes(episodesDirected),
+    movies: [],
+  });
 });
 
 people.openapi(routes.directed, async (c) => {
@@ -204,6 +214,7 @@ people.openapi(routes.directed, async (c) => {
     select: {
       directed: {
         select: {
+          type: true,
           episode: {
             select: {
               id: true,
@@ -211,6 +222,16 @@ people.openapi(routes.directed, async (c) => {
               titleEnglish: true,
               titleJapanese: true,
               titleRomaji: true,
+            },
+          },
+          movie: {
+            select: {
+              id: true,
+              titleEnglish: true,
+              titleJapanese: true,
+              titleJapaneseLiteral: true,
+              titleRomaji: true,
+              runTimeInMinutes: true,
             },
           },
         },
@@ -222,9 +243,18 @@ people.openapi(routes.directed, async (c) => {
     throw new HTTPException(404, { message: "Person not found" });
   }
 
-  const directed = person.directed.map((w) => w.episode);
+  const episodesDirected = person.directed
+    .map((m) => m.episode)
+    .filter((e): e is NonNullable<typeof e> => e !== null);
 
-  return c.json(sortEpisodes(directed));
+  const moviesDirected = person.directed
+    .map((m) => m.movie)
+    .filter((m): m is NonNullable<typeof m> => m !== null);
+
+  return c.json({
+    episodes: sortEpisodes(episodesDirected),
+    movies: moviesDirected,
+  });
 });
 
 export default people;

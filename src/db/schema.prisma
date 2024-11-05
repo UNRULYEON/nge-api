@@ -40,8 +40,11 @@ model Director {
   person   Person @relation(fields: [personId], references: [id])
   personId String
 
-  episode   Episode @relation(fields: [episodeId], references: [id])
-  episodeId String
+  episode   Episode? @relation(fields: [episodeId], references: [id])
+  episodeId String?
+
+  movie   Movie?  @relation(fields: [movieId], references: [id])
+  movieId String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -74,6 +77,21 @@ model Character {
   id       String  @id
   name     String
   imageUrl String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Movie {
+  id                   String @id
+  titleEnglish         String
+  titleJapanese        String
+  titleJapaneseLiteral String
+  titleRomaji          String
+
+  runTimeInMinutes Int
+
+  directors Director[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

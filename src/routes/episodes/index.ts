@@ -201,7 +201,7 @@ episode.openapi(routes.id.writers, async (c) => {
 episode.openapi(routes.id.directors, async (c) => {
   const id = c.req.param("id");
 
-  const person = await prisma.episode.findUnique({
+  const people = await prisma.episode.findUnique({
     where: {
       id,
     },
@@ -220,11 +220,11 @@ episode.openapi(routes.id.directors, async (c) => {
     },
   });
 
-  if (!person) {
+  if (!people) {
     throw new HTTPException(404, { message: "Episode not found" });
   }
 
-  const directors = person.directors.map((director) => director.person);
+  const directors = people.directors.map((director) => director.person);
 
   return c.json(directors);
 });

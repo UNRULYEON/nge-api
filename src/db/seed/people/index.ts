@@ -148,4 +148,14 @@ export const PEOPLE: Person[] = [
     name: "Shinji Higuchi",
     imageUrl: "",
   },
+  {
+    id: "01JBWV4JPFMXK7672QHFPMKFH1",
+    name: "Mahiro Maeda",
+    imageUrl: "",
+  },
+  {
+    id: "01JBWV709M9VMRRJQ9QEGJYVTZ",
+    name: "Katsuichi Nakayama",
+    imageUrl: "",
+  },
 ];
