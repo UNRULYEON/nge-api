@@ -17,6 +17,10 @@ export const MovieSchema = z
     titleRomaji: z.string().openapi({
       example: "Evangerion Shin Gekijōban: Jo",
     }),
+    imageUrl: z.string().nullable().openapi({
+      example:
+        "https://https://nge-api.ams3.cdn.digitaloceanspaces.com/production/movies/name.jpg",
+    }),
     runTimeInMinutes: z.number().openapi({
       example: 98,
     }),

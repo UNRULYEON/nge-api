@@ -83,12 +83,14 @@ model Character {
 }
 
 model Movie {
-  id                   String @id
+  id String @id
+
   titleEnglish         String
   titleJapanese        String
   titleJapaneseLiteral String
   titleRomaji          String
 
+  imageUrl         String?
   runTimeInMinutes Int
 
   directors Director[]

@@ -6,5 +6,6 @@ export type Movie = {
     japaneseLiteral: string;
     romaji: string;
   };
+  imageUrl: string | null;
   runTimeInMinutes: number;
 };

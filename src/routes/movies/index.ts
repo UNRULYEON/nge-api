@@ -103,6 +103,7 @@ movie.openapi(routes.base, async (c) => {
       titleJapanese: true,
       titleJapaneseLiteral: true,
       titleRomaji: true,
+      imageUrl: true,
       runTimeInMinutes: true,
     },
   });
@@ -123,6 +124,7 @@ movie.openapi(routes.id.base, async (c) => {
       titleJapanese: true,
       titleJapaneseLiteral: true,
       titleRomaji: true,
+      imageUrl: true,
       runTimeInMinutes: true,
     },
   });

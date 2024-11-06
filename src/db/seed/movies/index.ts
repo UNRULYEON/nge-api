@@ -41,6 +41,7 @@ const movies = async (prisma: PrismaClient) => {
           titleJapanese: title.japanese,
           titleJapaneseLiteral: title.japaneseLiteral,
           titleRomaji: title.romaji,
+          imageUrl,
           runTimeInMinutes: runTimeInMinutes,
         },
         where: {
@@ -51,6 +52,7 @@ const movies = async (prisma: PrismaClient) => {
           titleJapanese: title.japanese,
           titleJapaneseLiteral: title.japaneseLiteral,
           titleRomaji: title.romaji,
+          imageUrl,
           runTimeInMinutes: runTimeInMinutes,
         },
       });
@@ -69,6 +71,7 @@ export const MOVIES: Movie[] = [
       japaneseLiteral: "Evangelion New Theatrical Edition: Prelude",
       romaji: "Evangerion Shin Gekijōban: Jo",
     },
+    imageUrl: null,
     runTimeInMinutes: 98,
   },
   {
@@ -79,6 +82,7 @@ export const MOVIES: Movie[] = [
       japaneseLiteral: "Evangelion New Theatrical Edition: Break",
       romaji: "Evangerion Shin Gekijōban: Ha",
     },
+    imageUrl: null,
     runTimeInMinutes: 108,
   },
   {
@@ -89,6 +93,7 @@ export const MOVIES: Movie[] = [
       japaneseLiteral: "Evangelion New Theatrical Edition: Q",
       romaji: "Evangerion Shin Gekijōban: Kyū",
     },
+    imageUrl: null,
     runTimeInMinutes: 96,
   },
   {
@@ -99,6 +104,7 @@ export const MOVIES: Movie[] = [
       japaneseLiteral: "Shin Evangelion Theatrical Edition: 𝄂",
       romaji: "Shin Evangerion Gekijōban:𝄂",
     },
+    imageUrl: null,
     runTimeInMinutes: 155,
   },
 ];
