@@ -1,6 +1,8 @@
 import type { PrismaClient } from "@prisma/client";
 
 const writers = async (prisma: PrismaClient) => {
+  console.log(`Seeding ${NGE.length} writers`);
+
   return await Promise.all(
     NGE.map(async ({ id, type, personId, episodeId }) => {
       return await prisma.writer.upsert({

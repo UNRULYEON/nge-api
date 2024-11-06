@@ -5,6 +5,8 @@ import { createReadStream, statSync, existsSync } from "fs";
 import { CDN_BASE_URL } from "@/constants";
 
 const characters = async (prisma: PrismaClient) => {
+  console.log(`Seeding ${CHARACTERS.length} characters`);
+
   return await Promise.all(
     CHARACTERS.map(async ({ id, name }) => {
       let imageUrl: string | null = null;

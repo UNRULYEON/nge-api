@@ -5,6 +5,8 @@ import { createReadStream, statSync, existsSync } from "fs";
 import { CDN_BASE_URL } from "@/constants";
 
 const movies = async (prisma: PrismaClient) => {
+  console.log(`Seeding ${MOVIES.length} movies`);
+
   return await Promise.all(
     MOVIES.map(async ({ id, title, runTimeInMinutes }) => {
       let imageUrl: string | null = null;

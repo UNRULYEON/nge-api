@@ -2,6 +2,8 @@ import type { PrismaClient } from "@prisma/client";
 import type { Episode } from "@/types/Episode.ts";
 
 const episodes = async (prisma: PrismaClient) => {
+  console.log(`Seeding ${NGE.length} episodes`);
+
   return await Promise.all(
     NGE.map(async ({ id, number, title }) => {
       return await prisma.episode.upsert({
