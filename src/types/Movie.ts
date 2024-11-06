@@ -3,7 +3,7 @@ export type Movie = {
   title: {
     english: string;
     japanese: string;
-    japaneseLiteral: string;
+    japaneseLiteral: string | null;
     romaji: string;
   };
   imageUrl: string | null;

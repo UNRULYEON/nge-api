@@ -87,7 +87,7 @@ model Movie {
 
   titleEnglish         String
   titleJapanese        String
-  titleJapaneseLiteral String
+  titleJapaneseLiteral String?
   titleRomaji          String
 
   imageUrl         String?

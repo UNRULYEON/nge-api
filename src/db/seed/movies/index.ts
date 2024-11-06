@@ -19,7 +19,8 @@ const movies = async (prisma: PrismaClient) => {
           .replaceAll(")", "")
           .replaceAll(":", "")
           .replaceAll(".", "-")
-          .replaceAll("+", "-") + ".jpg";
+          .replaceAll("+", "-")
+          .replaceAll("&", "and") + ".jpg";
       const path = `${import.meta.dirname}/images/${fileName}`;
 
       if (existsSync(path)) {
@@ -66,6 +67,29 @@ const movies = async (prisma: PrismaClient) => {
 export { movies };
 
 export const MOVIES: Movie[] = [
+  {
+    id: "01JC1J71A6TDCBKCJ544DQ9WBW",
+    title: {
+      english: "Neon Genesis Evangelion: Death & Rebirth",
+      japanese: "新世紀エヴァンゲリオン 劇場版 シト新生",
+      japaneseLiteral: null,
+      romaji: "Shin Seiki Evangerion Gekijō-ban: Shi to Shinsei",
+    },
+    imageUrl: null,
+    runTimeInMinutes: 115,
+  },
+  {
+    id: "01JC1J71A772HH3F7PF14Z8DZ8",
+    title: {
+      english: "The End of Evangelion",
+      japanese: "新世紀エヴァンゲリオン劇場版 Air/まごころを、君に",
+      japaneseLiteral:
+        "New Century Evangelion Theatrical Edition: Air/Sincerely Yours",
+      romaji: "Shin Seiki Evangerion Gekijō-ban: Air/Magokoro o, Kimi ni",
+    },
+    imageUrl: null,
+    runTimeInMinutes: 87,
+  },
   {
     id: "01JBWT9VX0VSXDGQ8T1EYBZMCQ",
     title: {
