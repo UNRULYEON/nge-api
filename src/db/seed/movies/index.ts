@@ -9,14 +9,21 @@ const movies = async (prisma: PrismaClient) => {
     MOVIES.map(async ({ id, title, runTimeInMinutes }) => {
       let imageUrl: string | null = null;
 
-      const fileName = title.english.toLowerCase().replace(" ", "-") + ".jpg";
+      const fileName =
+        title.english
+          .toLowerCase()
+          .replaceAll(" ", "-")
+          .replaceAll("(", "")
+          .replaceAll(")", "")
+          .replaceAll(":", "")
+          .replaceAll(".", "-") + ".jpg";
       const path = `${import.meta.dirname}/images/${fileName}`;
 
       if (existsSync(path)) {
         const file = createReadStream(path);
         const { size } = statSync(path);
 
-        const key = `production/people/${fileName}`;
+        const key = `production/movies/${fileName}`;
 
         await s3Client.uploadImage({
           key,
