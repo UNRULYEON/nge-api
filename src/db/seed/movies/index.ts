@@ -16,7 +16,8 @@ const movies = async (prisma: PrismaClient) => {
           .replaceAll("(", "")
           .replaceAll(")", "")
           .replaceAll(":", "")
-          .replaceAll(".", "-") + ".jpg";
+          .replaceAll(".", "-")
+          .replaceAll("+", "-") + ".jpg";
       const path = `${import.meta.dirname}/images/${fileName}`;
 
       if (existsSync(path)) {
