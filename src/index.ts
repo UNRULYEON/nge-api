@@ -7,6 +7,7 @@ import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { timing } from "hono/timing";
 import type { TimingVariables } from "hono/timing";
+import { apiReference } from "@scalar/hono-api-reference";
 import {
   healthRoute,
   helloWorldRoute,
@@ -32,7 +33,6 @@ app.use("*", secureHeaders());
 app.use("*", etag());
 app.use(prettyJSON());
 
-app.get("/", swaggerUI({ url: "/openapi" }));
 app.doc("/openapi", {
   openapi: "3.0.0",
   servers: [
@@ -45,6 +45,16 @@ app.doc("/openapi", {
     description: "API for Neon Genesis Evangelion",
   },
 });
+app.get("/swagger", swaggerUI({ url: "/openapi" }));
+app.get(
+  "/",
+  apiReference({
+    pageTitle: "NGE API Reference",
+    spec: {
+      url: "/openapi",
+    },
+  })
+);
 
 app.route("/health", healthRoute);
 app.route("/hello-world", helloWorldRoute);
