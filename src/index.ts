@@ -5,6 +5,8 @@ import { secureHeaders } from "hono/secure-headers";
 import { etag } from "hono/etag";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
+import { timing } from "hono/timing";
+import type { TimingVariables } from "hono/timing";
 import {
   healthRoute,
   helloWorldRoute,
@@ -16,8 +18,11 @@ import {
 
 const port = 3000;
 
-const app = new OpenAPIHono();
+type Variables = TimingVariables;
 
+const app = new OpenAPIHono<{ Variables: Variables }>();
+
+app.use(timing());
 app.use(logger());
 app.use("*", async (c, next) => {
   await next();
