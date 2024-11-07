@@ -14,3 +14,5 @@ export const PersonSchema = z
     }),
   })
   .openapi("Person");
+
+export type PersonSchema = z.infer<typeof PersonSchema>;

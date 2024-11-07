@@ -26,3 +26,5 @@ export const MovieSchema = z
     }),
   })
   .openapi("Movie");
+
+export type MovieSchema = z.infer<typeof MovieSchema>;

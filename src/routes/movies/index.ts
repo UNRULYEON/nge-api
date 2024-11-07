@@ -2,6 +2,7 @@ import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@/db";
 import { MovieSchema, PersonSchema } from "@/schemas";
+import { repositories } from "@/repositories";
 
 const base = createRoute({
   tags: ["Movies"],
@@ -96,17 +97,7 @@ const routes = {
 const movie = new OpenAPIHono();
 
 movie.openapi(routes.base, async (c) => {
-  const movies = await prisma.movie.findMany({
-    select: {
-      id: true,
-      titleEnglish: true,
-      titleJapanese: true,
-      titleJapaneseLiteral: true,
-      titleRomaji: true,
-      imageUrl: true,
-      runTimeInMinutes: true,
-    },
-  });
+  const movies = await repositories.movies.get.all();
 
   return c.json(movies);
 });
@@ -114,20 +105,7 @@ movie.openapi(routes.base, async (c) => {
 movie.openapi(routes.id.base, async (c) => {
   const id = c.req.param("id");
 
-  const movie = await prisma.movie.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      titleEnglish: true,
-      titleJapanese: true,
-      titleJapaneseLiteral: true,
-      titleRomaji: true,
-      imageUrl: true,
-      runTimeInMinutes: true,
-    },
-  });
+  const movie = await repositories.movies.get.byId(id);
 
   if (!movie) {
     throw new HTTPException(404, { message: "Movie not found" });
@@ -139,30 +117,11 @@ movie.openapi(routes.id.base, async (c) => {
 movie.openapi(routes.id.directors, async (c) => {
   const id = c.req.param("id");
 
-  const people = await prisma.movie.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      directors: {
-        select: {
-          person: {
-            select: {
-              id: true,
-              name: true,
-              imageUrl: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const directors = await repositories.movies.get.byDirector(id);
 
-  if (!people) {
+  if (!directors) {
     throw new HTTPException(404, { message: "Movie not found" });
   }
-
-  const directors = people.directors.map((director) => director.person);
 
   return c.json(directors);
 });
