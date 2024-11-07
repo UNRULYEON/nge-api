@@ -4,6 +4,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
 import { etag } from "hono/etag";
 import { logger } from "hono/logger";
+import { prettyJSON } from "hono/pretty-json";
 import {
   healthRoute,
   helloWorldRoute,
@@ -24,6 +25,7 @@ app.use("*", async (c, next) => {
 });
 app.use("*", secureHeaders());
 app.use("*", etag());
+app.use(prettyJSON());
 
 app.get("/", swaggerUI({ url: "/openapi" }));
 app.doc("/openapi", {
