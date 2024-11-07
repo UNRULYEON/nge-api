@@ -11,7 +11,7 @@ export const MovieSchema = z
     titleJapanese: z.string().openapi({
       example: "ヱヴァンゲリヲン新劇場版: 序",
     }),
-    titleJapaneseLiteral: z.string().openapi({
+    titleJapaneseLiteral: z.string().nullable().openapi({
       example: "Evangelion New Theatrical Edition: Prelude",
     }),
     titleRomaji: z.string().openapi({
