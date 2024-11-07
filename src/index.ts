@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
+import { etag } from "hono/etag";
 import {
   healthRoute,
   helloWorldRoute,
@@ -20,6 +21,7 @@ app.use("*", async (c, next) => {
   c.header("x-powered-by", "your mom");
 });
 app.use("*", secureHeaders());
+app.use("*", etag());
 
 app.get("/", swaggerUI({ url: "/openapi" }));
 app.doc("/openapi", {
