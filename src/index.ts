@@ -3,6 +3,7 @@ import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
 import { etag } from "hono/etag";
+import { logger } from "hono/logger";
 import {
   healthRoute,
   helloWorldRoute,
@@ -16,6 +17,7 @@ const port = 3000;
 
 const app = new OpenAPIHono();
 
+app.use(logger());
 app.use("*", async (c, next) => {
   await next();
   c.header("x-powered-by", "your mom");
