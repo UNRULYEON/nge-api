@@ -1,4 +1,5 @@
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
@@ -50,11 +51,14 @@ app.get(
   "/",
   apiReference({
     pageTitle: "NGE API Reference",
+    favicon: "/static/rei-plush-favicon.svg",
     spec: {
       url: "/openapi",
     },
   })
 );
+
+app.use("/static/*", serveStatic({ root: "./src" }));
 
 app.route("/health", healthRoute);
 app.route("/hello-world", helloWorldRoute);
