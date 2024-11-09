@@ -6,7 +6,7 @@ const base = createRoute({
   path: "/",
   responses: {
     200: {
-      description: 'Return "OK" when the API is health',
+      description: 'Return "OK" when the API is healthy',
     },
   },
 });
