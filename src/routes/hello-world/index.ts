@@ -1,19 +1,5 @@
-import { OpenAPIHono, createRoute } from '@hono/zod-openapi'
-
-const base = createRoute({
-  tags: ['Hello world'],
-  method: 'get',
-  path: '/',
-  responses: {
-    200: {
-      description: 'Return "Hello, world!"',
-    },
-  },
-})
-
-const routes = {
-  base,
-}
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { routes } from "./routes";
 
 const helloWorld = new OpenAPIHono();
 
