@@ -8,3 +8,5 @@ export const DirectedSchema = z
     movies: MovieSchema.array(),
   })
   .openapi("Directed");
+
+export type DirectedSchema = z.infer<typeof DirectedSchema>;

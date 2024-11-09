@@ -8,3 +8,5 @@ export const WrittenSchema = z
     movies: MovieSchema.array(),
   })
   .openapi("Written");
+
+export type WrittenSchema = z.infer<typeof WrittenSchema>;

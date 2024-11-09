@@ -1,6 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
-import { prisma } from "@/db";
 import { MovieSchema, PersonSchema } from "@/schemas";
 import { repositories } from "@/repositories";
 
