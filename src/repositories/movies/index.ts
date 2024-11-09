@@ -17,10 +17,10 @@ const all = async (): Promise<MovieSchema[]> => {
   return movies;
 };
 
-const byId = async (movieId: string): Promise<MovieSchema | null> => {
+const byId = async ({ id }: { id: string }): Promise<MovieSchema | null> => {
   const movie = await prisma.movie.findUnique({
     where: {
-      id: movieId,
+      id,
     },
     select: {
       id: true,
@@ -36,10 +36,14 @@ const byId = async (movieId: string): Promise<MovieSchema | null> => {
   return movie;
 };
 
-const byDirector = async (personId: string): Promise<PersonSchema[] | null> => {
+const byDirector = async ({
+  id,
+}: {
+  id: string;
+}): Promise<PersonSchema[] | null> => {
   const people = await prisma.movie.findUnique({
     where: {
-      id: personId,
+      id,
     },
     select: {
       directors: {
