@@ -14,3 +14,5 @@ export const CharacterSchema = z
     }),
   })
   .openapi("Character");
+
+export type CharacterSchema = z.infer<typeof CharacterSchema>;
