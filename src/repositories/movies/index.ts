@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { MovieSchema, PersonSchema } from "@/schemas";
+import type { MovieSchema, PersonSchema } from "@/schemas";
 
 const all = async (): Promise<MovieSchema[]> => {
   const movies = await prisma.movie.findMany({

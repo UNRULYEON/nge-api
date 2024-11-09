@@ -19,3 +19,5 @@ export const EpisodeSchema = z
     }),
   })
   .openapi("Episode");
+
+export type EpisodeSchema = z.infer<typeof EpisodeSchema>;

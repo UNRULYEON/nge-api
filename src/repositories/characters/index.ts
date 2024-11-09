@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { CharacterSchema } from "@/schemas";
+import type { CharacterSchema } from "@/schemas";
 
 const all = async (): Promise<CharacterSchema[]> => {
   const characters = await prisma.character.findMany({
