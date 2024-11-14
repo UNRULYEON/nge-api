@@ -11,6 +11,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.682.0
         version: 3.682.0
+      '@hono/graphql-server':
+        specifier: ^0.5.1
+        version: 0.5.1(hono@4.6.7)
       '@hono/node-server':
         specifier: ^1.13.2
         version: 1.13.2(hono@4.6.7)
@@ -26,6 +29,9 @@ importers:
       '@scalar/hono-api-reference':
         specifier: ^0.5.158
         version: 0.5.158(hono@4.6.7)
+      graphql:
+        specifier: ^16.9.0
+        version: 16.9.0
       hono:
         specifier: ^4.6.7
         version: 4.6.7
@@ -530,6 +536,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@hono/graphql-server@0.5.1':
+    resolution: {integrity: sha512-gYEHsfvUEz1/GQ614N2jihdTInMRCOCo5mvyf6O0rgt5jfGJ+OrL3KeYLStsEYJQlbpk1UlMD8kAC+2bt5wwJg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      hono: '>=3.0.0'
 
   '@hono/node-server@1.13.2':
     resolution: {integrity: sha512-0w8nEmAyx0Ul0CQp8BL2VtAG4YVdpzXd/mvvM+l0G5Oq22pUyHS+KeFFPSY+czLOF5NAiV3MUNPD1n14Ol5svg==}
@@ -1083,6 +1095,10 @@ packages:
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
+
+  graphql@16.9.0:
+    resolution: {integrity: sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
@@ -2074,6 +2090,11 @@ snapshots:
   '@esbuild/win32-x64@0.23.1':
     optional: true
 
+  '@hono/graphql-server@0.5.1(hono@4.6.7)':
+    dependencies:
+      graphql: 16.9.0
+      hono: 4.6.7
+
   '@hono/node-server@1.13.2(hono@4.6.7)':
     dependencies:
       hono: 4.6.7
@@ -2761,6 +2782,8 @@ snapshots:
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
+
+  graphql@16.9.0: {}
 
   has-flag@4.0.0: {}
 

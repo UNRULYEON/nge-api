@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.682.0",
+    "@hono/graphql-server": "^0.5.1",
     "@hono/node-server": "^1.13.2",
     "@hono/swagger-ui": "^0.4.1",
     "@hono/zod-openapi": "^0.16.4",
     "@prisma/client": "^5.21.1",
     "@scalar/hono-api-reference": "^0.5.158",
+    "graphql": "^16.9.0",
     "hono": "^4.6.7",
     "tsx": "^4.19.2",
     "zod": "^3.23.8"

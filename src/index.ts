@@ -1,5 +1,7 @@
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
+import { graphqlServer } from "@hono/graphql-server";
+import { schema } from "@/graphql";
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
@@ -59,6 +61,14 @@ app.get(
 );
 
 app.use("/static/*", serveStatic({ root: "./src" }));
+
+app.use(
+  "/graphql",
+  graphqlServer({
+    schema,
+    graphiql: true,
+  })
+);
 
 app.route("/health", healthRoute);
 app.route("/hello-world", helloWorldRoute);
