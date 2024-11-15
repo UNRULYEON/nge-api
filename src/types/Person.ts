@@ -1,4 +1,5 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
+import { episodeGraphQLType } from "@/types";
 
 export type Person = {
   id: string;
@@ -13,6 +14,12 @@ export const peopleGraphQLType = new GraphQLObjectType({
     name: { type: GraphQLString },
     imageUrl: {
       type: GraphQLString,
+    },
+    written: {
+      type: episodeGraphQLType,
+    },
+    directed: {
+      type: episodeGraphQLType,
     },
   }),
 });

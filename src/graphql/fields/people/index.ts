@@ -4,11 +4,13 @@ import { peopleGraphQLType } from "@/types/Person";
 
 const allPeopleFields: GraphQLFieldConfig<any, any> = {
   type: new GraphQLList(peopleGraphQLType),
+  description: "Returns details of all people",
   resolve: () => repositories.person.get.all(),
 };
 
 const personById: GraphQLFieldConfig<any, any, Partial<{ id: string }>> = {
   type: peopleGraphQLType,
+  description: "Returns details of a person",
   args: {
     id: { type: GraphQLString },
   },

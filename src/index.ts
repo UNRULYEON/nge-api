@@ -62,13 +62,13 @@ app.get(
 
 app.use("/static/*", serveStatic({ root: "./src" }));
 
-app.use(
-  "/graphql",
-  graphqlServer({
-    schema,
-    graphiql: true,
-  })
-);
+// app.use(
+//   "/graphql",
+//   graphqlServer({
+//     schema,
+//     graphiql: true,
+//   })
+// );
 
 app.route("/health", healthRoute);
 app.route("/hello-world", helloWorldRoute);
