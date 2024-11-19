@@ -33,14 +33,12 @@ const characters = async (prisma: PrismaClient) => {
         create: {
           id,
           name,
-          imageUrl,
         },
         where: {
           id,
         },
         update: {
           name,
-          imageUrl,
         },
       });
     })
@@ -53,111 +51,121 @@ export const CHARACTERS: Character[] = [
   {
     id: "01JBN9BCKHZ3GSCMAD95TMR1M8",
     name: "Shinji Ikari",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKJ1Y6QGVKH0DFXEPHD",
     name: "Rei Ayanami",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKK6XX01VY14HFA3AA4",
     name: "Asuka Langley Sohryu",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKKF2EY0SV7TNWE99S1",
-    name: "Toji Suzuhara",
-    imageUrl: "",
+    name: "Tōji Suzuhara",
   },
   {
     id: "01JBN9BCKKJK8Z8Y58G3BVYF5G",
     name: "Kaworu Nagisa",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKKM65D1S0CDV4ARDE2",
     name: "Asuka Shikinami Langley",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKKDCK57789XDGXJMCX",
     name: "Mari Makinami Illustrious",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKKNC9KYZV9ZNP81EXA",
     name: "Gendo Ikari",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKKWXC05NW6EQRQ42P6",
-    name: "Kozo Fuyutsuki",
-    imageUrl: "",
+    name: "Kōzō Fuyutsuki",
   },
   {
     id: "01JBN9BCKMCW0TSXK1TZEH4XQP",
     name: "Misato Katsuragi",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKMXRPXDRGEB3407B1D",
     name: "Ritsuko Akagi",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKMAF8R9DMFNRZWYP15",
     name: "Ryoji Kaji",
-    imageUrl: "",
+  },
+  {
+    id: "01JD2WWK26PJ81NYA7771QA9V2",
+    name: "Ryoji Kaji (Boy)",
   },
   {
     id: "01JBN9BCKMCQDZBX6BJ43886BJ",
     name: "Makoto Hyuga",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKM9XAVTH8BB5B4GP9K",
     name: "Maya Ibuki",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKM6R2GT81R7PKHTA3E",
     name: "Shigeru Aoba",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKMADXDSB0D2QW6T6AF",
     name: "Naoko Akagi",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKMB9XQ7XCP0RFDPCX8",
     name: "Yui Ikari",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKM312C39GEZC20RPAG",
     name: "Kyoko Zeppelin Soryu",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKMZPC9APE1N9AYMGJS",
     name: "Keel Lorenz",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKM5QDVXVWZN9T7HS6M",
     name: "Kensuke Aida",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKNEBSGMMFPJFBXXFV4",
     name: "Hikari Horaki",
-    imageUrl: "",
   },
   {
     id: "01JBN9BCKN60VAV2T3M5WPK523",
     name: "Pen Pen",
-    imageUrl: "",
+  },
+  {
+    id: "01JD2WWK20VN581YAHAF6GT5GM",
+    name: "Koji Takao",
+  },
+  {
+    id: "01JD2WWK209BFJSSE4MR9YWM8D",
+    name: "Sumire Nagara",
+  },
+  {
+    id: "01JD2WWK21XBHE8MQAWQRXCWH0",
+    name: "Hideki Tama",
+  },
+  {
+    id: "01JD2WWK21R7FJB6PEV3322FNR",
+    name: "Midori Kitakami",
+  },
+  {
+    id: "01JD2WWK211PXASYZXDYTVN0Z2",
+    name: "Sakura Suzuhara",
+  },
+  {
+    id: "01JD2WWK26ARNGE9EDSHGAX525",
+    name: "Bunzaemon Horaki",
+  },
+  {
+    id: "01JD2WWK266ZQJQPRR3XYDXDEF",
+    name: "Tsubame Suzuhara",
   },
 ];

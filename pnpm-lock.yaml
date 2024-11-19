@@ -24,8 +24,8 @@ importers:
         specifier: ^0.16.4
         version: 0.16.4(hono@4.6.7)(zod@3.23.8)
       '@prisma/client':
-        specifier: ^5.21.1
-        version: 5.21.1
+        specifier: 5.22.0
+        version: 5.22.0
       '@scalar/hono-api-reference':
         specifier: ^0.5.158
         version: 0.5.158(hono@4.6.7)
@@ -600,8 +600,8 @@ packages:
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
 
-  '@prisma/client@5.21.1':
-    resolution: {integrity: sha512-3n+GgbAZYjaS/k0M03yQsQfR1APbr411r74foknnsGpmhNKBG49VuUkxIU6jORgvJPChoD4WC4PqoHImN1FP0w==}
+  '@prisma/client@5.22.0':
+    resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
     engines: {node: '>=16.13'}
     peerDependencies:
       prisma: '*'
@@ -2148,7 +2148,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.28': {}
 
-  '@prisma/client@5.21.1': {}
+  '@prisma/client@5.22.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.24.3':
     optional: true

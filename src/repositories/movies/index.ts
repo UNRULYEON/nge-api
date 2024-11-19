@@ -1,5 +1,7 @@
 import { prisma } from "@/db";
 import type { MovieSchema, PersonSchema } from "@/schemas";
+import type { MediaCharacter } from "@/types";
+import type { Media } from "@prisma/client";
 
 const all = async (): Promise<MovieSchema[]> => {
   const movies = await prisma.movie.findMany({
@@ -69,11 +71,50 @@ const byDirector = async ({
   return directors;
 };
 
+const characters = async ({
+  id,
+}: {
+  id: string;
+}): Promise<MediaCharacter[] | null> => {
+  const movie = await prisma.movie.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!movie) {
+    return null;
+  }
+
+  const mediaCharacters = await prisma.mediaCharacter.findMany({
+    where: {
+      movieId: movie.id,
+    },
+    select: {
+      id: true,
+
+      movieId: true,
+      episodeId: true,
+      characterId: true,
+
+      media: true,
+      characterName: true,
+      imageUrl: true,
+    },
+  });
+
+  return mediaCharacters;
+};
+
 const moviesRepository = {
   get: {
     all,
     byId,
     byDirector,
+    characters,
   },
 };
 

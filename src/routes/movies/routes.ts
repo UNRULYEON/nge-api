@@ -75,7 +75,40 @@ const directors = createRoute({
           schema: PersonSchema.array(),
         },
       },
-      description: "Returns directores of a specific movie",
+      description: "Returns directors of a specific movie",
+    },
+    404: {
+      description: "Movie not found",
+    },
+  },
+});
+
+const characters = createRoute({
+  tags: ["Movies"],
+  method: "get",
+  path: "/{id}/characters",
+  request: {
+    params: z.object({
+      id: z
+        .string()
+        .min(1)
+        .openapi({
+          param: {
+            name: "id",
+            in: "path",
+          },
+          example: "01JBWT9VX0VSXDGQ8T1EYBZMCQ",
+        }),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: PersonSchema.array(),
+        },
+      },
+      description: "Returns characters of a specific movie",
     },
     404: {
       description: "Movie not found",
@@ -88,6 +121,7 @@ const routes = {
   id: {
     base: id,
     directors,
+    characters,
   },
 };
 

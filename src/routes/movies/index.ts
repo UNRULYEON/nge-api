@@ -35,4 +35,20 @@ movie.openapi(routes.id.directors, async (c) => {
   return c.json(directors);
 });
 
+movie.openapi(routes.id.characters, async (c) => {
+  const id = c.req.param("id");
+
+  if (!id) {
+    throw new HTTPException(404, { message: "Movie not found" });
+  }
+
+  const mediaCharacters = await repositories.movies.get.characters({ id });
+
+  if (!mediaCharacters) {
+    throw new HTTPException(404, { message: "Movie not found" });
+  }
+
+  return c.json(mediaCharacters);
+});
+
 export default movie;

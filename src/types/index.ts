@@ -4,3 +4,4 @@ export type { Person } from "@/types/Person";
 export { peopleGraphQLType } from "@/types/Person";
 export type { Character } from "@/types/Character";
 export type { Movie } from "@/types/Movie";
+export type { MediaCharacter } from "@/types/MediaCharacter";

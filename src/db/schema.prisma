@@ -19,6 +19,24 @@ model Person {
   updated_at DateTime @updatedAt
 }
 
+model Movie {
+  id String @id
+
+  titleEnglish         String
+  titleJapanese        String
+  titleJapaneseLiteral String?
+  titleRomaji          String
+
+  imageUrl         String?
+  runTimeInMinutes Int
+
+  directors      Director[]
+  MediaCharacter MediaCharacter[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model Episode {
   id            String @id
   number        String
@@ -26,8 +44,9 @@ model Episode {
   titleJapanese String
   titleRomaji   String
 
-  directors Director[]
-  writers   Writer[]
+  directors      Director[]
+  writers        Writer[]
+  MediaCharacter MediaCharacter[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -68,33 +87,37 @@ model Writer {
   @@index([personId, episodeId])
 }
 
+model Character {
+  id   String @id
+  name String
+
+  MediaCharacter MediaCharacter[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model MediaCharacter {
+  id String @id
+
+  media         Media
+  characterName String
+  imageUrl      String?
+
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId String
+
+  movie   Movie?  @relation(fields: [movieId], references: [id])
+  movieId String?
+
+  episode   Episode? @relation(fields: [episodeId], references: [id])
+  episodeId String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 enum Media {
   MOVIE
   EPISODE
-}
-
-model Character {
-  id       String  @id
-  name     String
-  imageUrl String?
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-}
-
-model Movie {
-  id String @id
-
-  titleEnglish         String
-  titleJapanese        String
-  titleJapaneseLiteral String?
-  titleRomaji          String
-
-  imageUrl         String?
-  runTimeInMinutes Int
-
-  directors Director[]
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
 }
