@@ -72,13 +72,17 @@ const byDirector = async ({
 };
 
 const characters = async ({
-  id,
+  movieId,
 }: {
-  id: string;
+  movieId: string;
 }): Promise<MediaCharacter[] | null> => {
+  if (!movieId) {
+    return null;
+  }
+
   const movie = await prisma.movie.findUnique({
     where: {
-      id,
+      id: movieId,
     },
     select: {
       id: true,

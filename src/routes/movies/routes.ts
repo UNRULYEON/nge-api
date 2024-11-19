@@ -1,5 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
-import { MovieSchema, PersonSchema } from "@/schemas";
+import { MediaCharacter, MovieSchema, PersonSchema } from "@/schemas";
+import { mediaCharacters } from "@/db/seed/mediaCharacters";
 
 const base = createRoute({
   tags: ["Movies"],
@@ -105,7 +106,7 @@ const characters = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: PersonSchema.array(),
+          schema: MediaCharacter.array(),
         },
       },
       description: "Returns characters of a specific movie",

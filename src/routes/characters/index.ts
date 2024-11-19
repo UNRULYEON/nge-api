@@ -12,7 +12,7 @@ characters.openapi(routes.base, async (c) => {
   return c.json(characters);
 });
 
-characters.openapi(routes.id, async (c) => {
+characters.openapi(routes.id.base, async (c) => {
   const id = c.req.param("id");
 
   const character = await repositories.characters.get.byId({ id });
@@ -24,4 +24,19 @@ characters.openapi(routes.id, async (c) => {
   return c.json(character);
 });
 
+characters.openapi(routes.id.appearsIn, async (c) => {
+  const id = c.req.param("id");
+
+  const character = await repositories.characters.appearsIn({
+    characterId: id,
+  });
+
+  if (!character) {
+    throw new HTTPException(404, { message: "Character not found" });
+  }
+
+  return c.json(character);
+});
+
 export default characters;
+``;
