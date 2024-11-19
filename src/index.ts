@@ -1,7 +1,6 @@
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
-import { graphqlServer } from "@hono/graphql-server";
-import { schema } from "@/graphql";
+import { cors } from "hono/cors";
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { secureHeaders } from "hono/secure-headers";
@@ -35,6 +34,14 @@ app.use("*", async (c, next) => {
 app.use("*", secureHeaders());
 app.use("*", etag());
 app.use(prettyJSON());
+app.use(
+  "*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "OPTIONS"],
+    credentials: false,
+  })
+);
 
 app.doc("/openapi", {
   openapi: "3.0.0",
