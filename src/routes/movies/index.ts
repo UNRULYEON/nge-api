@@ -42,7 +42,9 @@ movie.openapi(routes.id.characters, async (c) => {
     throw new HTTPException(404, { message: "Movie not found" });
   }
 
-  const mediaCharacters = await repositories.movies.get.characters({ id });
+  const mediaCharacters = await repositories.movies.get.characters({
+    movieId: id,
+  });
 
   if (!mediaCharacters) {
     throw new HTTPException(404, { message: "Movie not found" });
