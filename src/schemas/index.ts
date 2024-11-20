@@ -5,3 +5,4 @@ export { CharacterSchema } from "./Character";
 export { WrittenSchema } from "./Written";
 export { DirectedSchema } from "./Directed";
 export { MediaCharacter } from "./MediaCharacter";
+export { TVShowSchema } from "./TVShow";

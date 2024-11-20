@@ -6,5 +6,6 @@ export { default as peopleRoute } from "./people";
 export { default as episodesRoute } from "./episodes";
 export { default as moviesRoute } from "./movies";
 export { default as charactersRoute } from "./characters";
+export { default as tvShowsRoute } from "./tv-shows";
 
 /* v8 ignore stop */

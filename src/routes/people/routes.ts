@@ -12,7 +12,7 @@ const base = createRoute({
           schema: PersonSchema.array(),
         },
       },
-      description: "Returns details of all people",
+      description: "Returns all people",
     },
   },
 });

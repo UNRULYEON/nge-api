@@ -19,6 +19,20 @@ model Person {
   updated_at DateTime @updatedAt
 }
 
+model TVShow {
+  id String @id
+
+  titleEnglish         String
+  titleJapanese        String
+  titleJapaneseLiteral String?
+  titleRomaji          String
+
+  imageUrl String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model Movie {
   id String @id
 

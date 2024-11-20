@@ -4,11 +4,13 @@ import { directors } from "@/db/seed/directors";
 import { writers } from "@/db/seed/writers";
 import { characters } from "@/db/seed/characters";
 import { mediaCharacters } from "@/db/seed/mediaCharacters";
+import { tvShows } from "@/db/seed/tvShows";
 import { movies } from "@/db/seed/movies";
 import { prisma } from "@/db";
 
 await people(prisma);
 
+await tvShows(prisma);
 await episodes(prisma);
 await movies(prisma);
 
