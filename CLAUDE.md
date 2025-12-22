@@ -44,6 +44,74 @@ app
 
 Use `.group()` for route prefixing and `.decorate()` for dependency injection.
 
+## Endpoint Creation Rules
+
+Follow the health endpoint pattern when creating new endpoints:
+
+### File Structure
+
+Each endpoint module lives in `src/modules/<name>/` with:
+- `index.ts` - Route definitions
+- `model.ts` - Request/response schemas using Elysia's `t` validator
+
+### Model Pattern
+
+```typescript
+// src/modules/<name>/model.ts
+import { t } from "elysia";
+
+export namespace <Name>Model {
+  export const response = t.Object({
+    // schema definition
+  });
+  export type response = typeof response.static;
+}
+```
+
+### Route Pattern
+
+```typescript
+// src/modules/<name>/index.ts
+import { Elysia } from "elysia";
+import { <Name>Model } from "./model";
+
+export const <name> = new Elysia({
+  prefix: "/<name>",
+  tags: ["<name>"],
+}).get(
+  "/",
+  () => {
+    return { /* response */ };
+  },
+  {
+    response: {
+      200: <Name>Model.response,
+    },
+  },
+);
+```
+
+### Registration
+
+1. Export from `src/modules/index.ts`:
+   ```typescript
+   export { <name> } from "./<name>";
+   ```
+
+2. Register in `src/index.ts`:
+   ```typescript
+   import { <name> } from "./modules";
+   // ...
+   .use(<name>)
+   ```
+
+### Key Conventions
+
+- Use namespaced model exports (e.g., `HealthModel.response`)
+- Always define response schemas for OpenAPI documentation
+- Set `tags` for Scalar UI grouping
+- Use `prefix` for route grouping
+
 ## TypeScript Configuration
 
 - Strict mode enabled
