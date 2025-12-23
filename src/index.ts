@@ -5,6 +5,7 @@ import {
   angels,
   characters,
   episodes,
+  evaUnits,
   health,
   movies,
   organizations,
@@ -40,6 +41,7 @@ const app = new Elysia()
   .use(angels)
   .use(characters)
   .use(episodes)
+  .use(evaUnits)
   .use(health)
   .use(movies)
   .use(organizations)

@@ -58,3 +58,12 @@ export interface Angel {
   number: number;
   description: string;
 }
+
+export interface Eva {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  designation: string;
+  type: string;
+  description: string;
+}

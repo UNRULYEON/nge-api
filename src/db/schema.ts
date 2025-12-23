@@ -297,6 +297,7 @@ export function initializeDatabase(db: Database) {
     hikari: "019b491a-6b36-700a-b44e-a41035614633",
     kaji: "019b491a-6b36-700b-8a56-65c22af2e85b",
     yui: "019b491a-6b36-700c-9161-4718f2c0ac14",
+    kyoko: "019b496e-d1d6-7000-9bc5-22f6c2164637",
     penpen: "019b491a-6b36-700d-bc23-fc5b19bad780",
     mari: "019b491a-6b36-700e-bc42-1e7497fb9d27",
   };
@@ -418,6 +419,15 @@ export function initializeDatabase(db: Database) {
       gender: "Female",
       occupations: ["Scientist"],
       bio: "Shinji's mother and Gendo's wife who was absorbed into Evangelion Unit-01 during a contact experiment. Her soul remains within the Eva, and her death shaped both Gendo's and Shinji's lives profoundly.",
+    },
+    {
+      id: CHAR_IDS.kyoko,
+      name: "Kyoko Zeppelin Soryu",
+      nameJapanese: "惣流・キョウコ・ツェッペリン",
+      age: null,
+      gender: "Female",
+      occupations: ["Scientist"],
+      bio: "Asuka's mother and a scientist who worked on the Evangelion project. During a contact experiment with Evangelion Unit-02, part of her soul was absorbed into the Eva, leading to her mental breakdown and eventual suicide.",
     },
     {
       id: CHAR_IDS.penpen,
@@ -1366,4 +1376,275 @@ export function initializeDatabase(db: Database) {
 
   // Japanese Government
   insertCharacterOrg.run(CHAR_IDS.kaji, ORG_IDS.japanGov);
+
+  // Evas table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS evas (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      name_japanese TEXT NOT NULL,
+      designation TEXT NOT NULL,
+      type TEXT NOT NULL,
+      soul_id TEXT,
+      description TEXT NOT NULL,
+      FOREIGN KEY (soul_id) REFERENCES characters(id)
+    )
+  `);
+
+  const insertEva = db.prepare(
+    "INSERT INTO evas (id, name, name_japanese, designation, type, soul_id, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+  );
+
+  const EVA_IDS = {
+    unit00: "019b4966-ecc6-7000-968f-386c0db53e65",
+    unit01: "019b4966-ecc6-7001-af53-7e7c9bcb93aa",
+    unit02: "019b4966-ecc6-7002-ae41-f4f4371235bf",
+    unit03: "019b4966-ecc6-7003-834c-ea1759e33483",
+    unit04: "019b4966-ecc6-7004-b21a-b03e1932407c",
+    massProduction: "019b4966-ecc6-7005-b2d6-c74d0cb3fb0d",
+    unit08: "019b4966-ecc6-7006-877c-a1f73e7190b7",
+    unit13: "019b4966-ecc6-7007-b7ff-346cd143f5fc",
+    mark06: "019b4966-ecc6-7008-88f9-f9d49f7ed190",
+  };
+
+  const evas = [
+    {
+      id: EVA_IDS.unit00,
+      name: "Evangelion Unit-00",
+      nameJapanese: "エヴァンゲリオン零号機",
+      designation: "EVA-00",
+      type: "Prototype",
+      soulId: null,
+      description:
+        "The first functional Evangelion, designated as the Prototype. It has an unstable temperament and went berserk during early activation tests. Originally orange, it was rebuilt with blue armor after being damaged. Piloted by Rei Ayanami.",
+    },
+    {
+      id: EVA_IDS.unit01,
+      name: "Evangelion Unit-01",
+      nameJapanese: "エヴァンゲリオン初号機",
+      designation: "EVA-01",
+      type: "Test Type",
+      soulId: CHAR_IDS.yui,
+      description:
+        "The Test Type Evangelion and the series' iconic purple mecha. Contains the soul of Yui Ikari, Shinji's mother. Known for going berserk and displaying unprecedented power. It later absorbs the S² Engine from the Angel Zeruel. Piloted by Shinji Ikari.",
+    },
+    {
+      id: EVA_IDS.unit02,
+      name: "Evangelion Unit-02",
+      nameJapanese: "エヴァンゲリオン弐号機",
+      designation: "EVA-02",
+      type: "Production Model",
+      soulId: CHAR_IDS.kyoko,
+      description:
+        "The first Production Model Evangelion, built in Germany. Features distinctive red armor and four-eyed head design. Contains the soul of Kyoko Zeppelin Soryu, Asuka's mother. Piloted primarily by Asuka Langley Soryu.",
+    },
+    {
+      id: EVA_IDS.unit03,
+      name: "Evangelion Unit-03",
+      nameJapanese: "エヴァンゲリオン参号機",
+      designation: "EVA-03",
+      type: "Production Model",
+      soulId: null,
+      description:
+        "A Production Model built in the United States. During its activation test in Japan, it was possessed by the Angel Bardiel. The Dummy Plug-controlled Unit-01 brutally destroyed it, severely injuring its pilot Toji Suzuhara.",
+    },
+    {
+      id: EVA_IDS.unit04,
+      name: "Evangelion Unit-04",
+      nameJapanese: "エヴァンゲリオン四号機",
+      designation: "EVA-04",
+      type: "Production Model",
+      soulId: null,
+      description:
+        "A Production Model that was being built in the United States. It was destroyed along with NERV's Second Branch during an experiment with the S² Engine, creating a massive explosion.",
+    },
+    {
+      id: EVA_IDS.massProduction,
+      name: "Mass Production Evangelions",
+      nameJapanese: "エヴァンゲリオン量産機",
+      designation: "EVA-05 to EVA-13",
+      type: "Mass Production Model",
+      soulId: null,
+      description:
+        "Nine identical Evangelions produced by SEELE, designated Units 05 through 13. They feature white armor, no eyes, and are equipped with Dummy Plugs based on Kaworu Nagisa. Each carries a replica of the Lance of Longinus and possesses S² Engines for unlimited power.",
+    },
+    {
+      id: EVA_IDS.unit08,
+      name: "Evangelion Unit-08",
+      nameJapanese: "エヴァンゲリオン8号機",
+      designation: "EVA-08",
+      type: "Production Model (Rebuild)",
+      soulId: null,
+      description:
+        "A new Evangelion appearing in the Rebuild of Evangelion series. Features distinctive pink armor and is piloted by Mari Makinami Illustrious. It can transform into various configurations and is operated by WILLE.",
+    },
+    {
+      id: EVA_IDS.unit13,
+      name: "Evangelion Unit-13",
+      nameJapanese: "エヴァンゲリオン第13号機",
+      designation: "EVA-13",
+      type: "Special Model (Rebuild)",
+      soulId: null,
+      description:
+        "A unique dual-entry Evangelion from the Rebuild series, requiring two pilots: Shinji Ikari and Kaworu Nagisa. It has four arms and is central to Gendo's plans in Evangelion 3.0.",
+    },
+    {
+      id: EVA_IDS.mark06,
+      name: "Evangelion Mark.06",
+      nameJapanese: "エヴァンゲリオンMark.06",
+      designation: "Mark.06",
+      type: "Special Model (Rebuild)",
+      soulId: null,
+      description:
+        "A mysterious Evangelion constructed on the Moon by SEELE in the Rebuild continuity. Features blue armor with a distinctive halo. Piloted by Kaworu Nagisa.",
+    },
+  ];
+
+  for (const eva of evas) {
+    insertEva.run(
+      eva.id,
+      eva.name,
+      eva.nameJapanese,
+      eva.designation,
+      eva.type,
+      eva.soulId,
+      eva.description
+    );
+  }
+
+  // Eva-Pilot junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS eva_pilots (
+      eva_id TEXT NOT NULL,
+      character_id TEXT NOT NULL,
+      PRIMARY KEY (eva_id, character_id),
+      FOREIGN KEY (eva_id) REFERENCES evas(id),
+      FOREIGN KEY (character_id) REFERENCES characters(id)
+    )
+  `);
+
+  const insertEvaPilot = db.prepare(
+    "INSERT INTO eva_pilots (eva_id, character_id) VALUES (?, ?)"
+  );
+
+  // Unit-00 pilots
+  insertEvaPilot.run(EVA_IDS.unit00, CHAR_IDS.rei);
+
+  // Unit-01 pilots
+  insertEvaPilot.run(EVA_IDS.unit01, CHAR_IDS.shinji);
+
+  // Unit-02 pilots
+  insertEvaPilot.run(EVA_IDS.unit02, CHAR_IDS.asuka);
+  insertEvaPilot.run(EVA_IDS.unit02, CHAR_IDS.kaworu); // briefly in episode 24
+
+  // Unit-03 pilots
+  insertEvaPilot.run(EVA_IDS.unit03, CHAR_IDS.toji);
+
+  // Unit-08 pilots (Rebuild)
+  insertEvaPilot.run(EVA_IDS.unit08, CHAR_IDS.mari);
+
+  // Unit-13 pilots (Rebuild)
+  insertEvaPilot.run(EVA_IDS.unit13, CHAR_IDS.shinji);
+  insertEvaPilot.run(EVA_IDS.unit13, CHAR_IDS.kaworu);
+
+  // Mark.06 pilots (Rebuild)
+  insertEvaPilot.run(EVA_IDS.mark06, CHAR_IDS.kaworu);
+
+  // Eva-Episode junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS eva_episodes (
+      eva_id TEXT NOT NULL,
+      episode_id TEXT NOT NULL,
+      PRIMARY KEY (eva_id, episode_id),
+      FOREIGN KEY (eva_id) REFERENCES evas(id),
+      FOREIGN KEY (episode_id) REFERENCES episodes(id)
+    )
+  `);
+
+  const insertEvaEpisode = db.prepare(
+    "INSERT INTO eva_episodes (eva_id, episode_id) VALUES (?, ?)"
+  );
+
+  // Unit-00 episodes (5-6, 9, 11-12, 16, 19, 22-23)
+  const unit00Episodes = [
+    EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep12,
+    EP_IDS.ep16, EP_IDS.ep19, EP_IDS.ep22, EP_IDS.ep23,
+  ];
+  for (const epId of unit00Episodes) {
+    insertEvaEpisode.run(EVA_IDS.unit00, epId);
+  }
+
+  // Unit-01 appears in most battle episodes
+  const unit01Episodes = [
+    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep5, EP_IDS.ep6,
+    EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep12, EP_IDS.ep16, EP_IDS.ep18, EP_IDS.ep19,
+    EP_IDS.ep20, EP_IDS.ep24,
+  ];
+  for (const epId of unit01Episodes) {
+    insertEvaEpisode.run(EVA_IDS.unit01, epId);
+  }
+
+  // Unit-02 episodes (8-12, 16, 19, 22)
+  const unit02Episodes = [
+    EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep12,
+    EP_IDS.ep16, EP_IDS.ep19, EP_IDS.ep22,
+  ];
+  for (const epId of unit02Episodes) {
+    insertEvaEpisode.run(EVA_IDS.unit02, epId);
+  }
+
+  // Unit-03 episodes (17-18)
+  insertEvaEpisode.run(EVA_IDS.unit03, EP_IDS.ep17);
+  insertEvaEpisode.run(EVA_IDS.unit03, EP_IDS.ep18);
+
+  // Unit-04 mentioned in episode 17
+  insertEvaEpisode.run(EVA_IDS.unit04, EP_IDS.ep17);
+
+  // Eva-Movie junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS eva_movies (
+      eva_id TEXT NOT NULL,
+      movie_id TEXT NOT NULL,
+      PRIMARY KEY (eva_id, movie_id),
+      FOREIGN KEY (eva_id) REFERENCES evas(id),
+      FOREIGN KEY (movie_id) REFERENCES movies(id)
+    )
+  `);
+
+  const insertEvaMovie = db.prepare(
+    "INSERT INTO eva_movies (eva_id, movie_id) VALUES (?, ?)"
+  );
+
+  // Death and Rebirth / End of Evangelion - Units 00, 01, 02, Mass Production
+  const classicMovies = [MOVIES.deathAndRebirth, MOVIES.endOfEva];
+  for (const movieId of classicMovies) {
+    insertEvaMovie.run(EVA_IDS.unit00, movieId);
+    insertEvaMovie.run(EVA_IDS.unit01, movieId);
+    insertEvaMovie.run(EVA_IDS.unit02, movieId);
+  }
+  insertEvaMovie.run(EVA_IDS.massProduction, MOVIES.endOfEva);
+
+  // Rebuild 1.0 - Units 00, 01
+  insertEvaMovie.run(EVA_IDS.unit00, MOVIES.rebuild1);
+  insertEvaMovie.run(EVA_IDS.unit01, MOVIES.rebuild1);
+
+  // Rebuild 2.0 - Units 00, 01, 02, 03
+  insertEvaMovie.run(EVA_IDS.unit00, MOVIES.rebuild2);
+  insertEvaMovie.run(EVA_IDS.unit01, MOVIES.rebuild2);
+  insertEvaMovie.run(EVA_IDS.unit02, MOVIES.rebuild2);
+  insertEvaMovie.run(EVA_IDS.unit03, MOVIES.rebuild2);
+  insertEvaMovie.run(EVA_IDS.mark06, MOVIES.rebuild2);
+
+  // Rebuild 3.0 - Units 01, 02, 08, 13, Mark.06
+  insertEvaMovie.run(EVA_IDS.unit01, MOVIES.rebuild3);
+  insertEvaMovie.run(EVA_IDS.unit02, MOVIES.rebuild3);
+  insertEvaMovie.run(EVA_IDS.unit08, MOVIES.rebuild3);
+  insertEvaMovie.run(EVA_IDS.unit13, MOVIES.rebuild3);
+  insertEvaMovie.run(EVA_IDS.mark06, MOVIES.rebuild3);
+
+  // Rebuild 3.0+1.0 - Units 01, 02, 08, 13
+  insertEvaMovie.run(EVA_IDS.unit01, MOVIES.rebuild4);
+  insertEvaMovie.run(EVA_IDS.unit02, MOVIES.rebuild4);
+  insertEvaMovie.run(EVA_IDS.unit08, MOVIES.rebuild4);
+  insertEvaMovie.run(EVA_IDS.unit13, MOVIES.rebuild4);
 }
