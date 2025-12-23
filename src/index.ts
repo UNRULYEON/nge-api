@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
 import { staticPlugin } from "@elysiajs/static";
-import { health } from "./modules";
+import { health, studios } from "./modules";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -25,6 +25,7 @@ const app = new Elysia()
   )
   .get("/", () => "Hello Elysia")
   .use(health)
+  .use(studios)
   .listen(3000);
 
 console.log(

@@ -23,8 +23,10 @@ bun install
 
 - **Runtime**: Bun (not Node.js)
 - **Framework**: Elysia - lightweight, fast web framework for Bun
+- **Database**: SQLite in-memory via `bun:sqlite`
 - **Documentation**: Scalar (OpenAPI) at `/` with spec at `/openapi.json`
 - **Static files**: Served from `/public` directory
+- **Path aliases**: `@/*` maps to `src/*`
 
 ### Entry Point
 
@@ -111,6 +113,120 @@ export const <name> = new Elysia({
 - Always define response schemas for OpenAPI documentation
 - Set `tags` for Scalar UI grouping
 - Use `prefix` for route grouping
+
+## Database
+
+SQLite in-memory database initialized on server start. Schema and seed data live in `src/db/schema.ts`.
+
+### Structure
+
+```
+src/db/
+├── index.ts      # Creates db connection, calls initializeDatabase()
+└── schema.ts     # Table definitions and seed data
+```
+
+### Adding Tables and Seed Data
+
+```typescript
+// In src/db/schema.ts initializeDatabase()
+db.run(`
+  CREATE TABLE IF NOT EXISTS <table> (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    // ... fields
+  )
+`);
+
+const insert<Name> = db.prepare(
+  "INSERT INTO <table> (id, name, ...) VALUES (?, ?, ...)"
+);
+
+const <items> = [
+  { id: "<uuid>", name: "...", ... },
+];
+
+for (const item of <items>) {
+  insert<Name>.run(item.id, item.name, ...);
+}
+```
+
+## Entity Types
+
+Entity interfaces live in `src/types/entities.ts`:
+
+```typescript
+// src/types/entities.ts
+export interface <Name> {
+  id: string;
+  // ... fields
+}
+```
+
+Re-export from `src/types/index.ts`:
+
+```typescript
+export type { <Name> } from "./entities";
+```
+
+## Repository Layer
+
+Database operations are abstracted through repositories in `src/repositories/`. Modules should never access the database directly.
+
+### Repository Pattern
+
+```typescript
+// src/repositories/<name>.ts
+import { db } from "@/db";
+import type { <Name> } from "@/types/entities";
+
+export const <name> = {
+  getAll(): <Name>[] {
+    return db.query("SELECT * FROM <table>").all() as <Name>[];
+  },
+
+  getById(id: string): <Name> | null {
+    return db.query("SELECT * FROM <table> WHERE id = ?").get(id) as <Name> | null;
+  },
+};
+```
+
+### Registration
+
+Add to `src/repositories/index.ts`:
+
+```typescript
+import { <name> } from "./<name>";
+
+export const repositories = {
+  // ... existing repositories
+  <name>,
+};
+```
+
+### Usage in Modules
+
+```typescript
+import { repositories } from "@/repositories";
+
+// In route handler
+const items = repositories.<name>.getAll();
+const item = repositories.<name>.getById(id);
+```
+
+## UUID Generation
+
+When adding seed data or generating IDs, always use UUIDv7 via the utility script:
+
+```bash
+# Generate a single UUID
+bun run src/utils/generate-uuid.ts
+
+# Generate multiple UUIDs
+bun run src/utils/generate-uuid.ts 5
+```
+
+All entity IDs use UUIDv7 format (e.g., `019b48ba-31f2-7000-85c6-4417181f7f88`).
 
 ## TypeScript Configuration
 
