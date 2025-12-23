@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
+import { rateLimit } from "elysia-rate-limit";
 import { staticPlugin } from "@elysiajs/static";
 import {
   angels,
@@ -20,6 +21,11 @@ const app = new Elysia()
     "X-Powered-By": "your-mom",
   })
   .use(serverTiming())
+  .use(
+    rateLimit({
+      max: 1000,
+    }),
+  )
   .use(staticPlugin())
   .use(
     openapi({
