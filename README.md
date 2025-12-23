@@ -29,7 +29,7 @@ Interactive API documentation is available at the root URL. The OpenAPI spec can
 ### Installation
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:UNRULYEON/nge-api.git
 cd nge-api
 bun install
 ```
