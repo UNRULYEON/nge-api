@@ -12,7 +12,6 @@ export interface Show {
   titleJapanese: string;
   episodes: number;
   aired: string;
-  studioId: string;
   synopsis: string;
 }
 
@@ -22,7 +21,6 @@ export interface Movie {
   titleJapanese: string;
   releaseDate: string;
   runtime: number;
-  studioId: string;
   synopsis: string;
 }
 
@@ -34,10 +32,6 @@ export interface Character {
   gender: string;
   occupations: string[];
   bio: string;
-  showIds: string[];
-  movieIds: string[];
-  organizationIds: string[];
-  episodeIds: string[];
 }
 
 export interface Organization {
@@ -46,19 +40,15 @@ export interface Organization {
   nameJapanese: string;
   type: string;
   description: string;
-  episodeIds: string[];
 }
 
 export interface Episode {
   id: string;
-  showId: string;
   episodeNumber: number;
   title: string;
   titleJapanese: string;
   airDate: string;
   synopsis: string;
-  characterIds: string[];
-  angelIds: string[];
 }
 
 export interface Angel {
@@ -67,5 +57,4 @@ export interface Angel {
   nameJapanese: string;
   number: number;
   description: string;
-  episodeIds: string[];
 }

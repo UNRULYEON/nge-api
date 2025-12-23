@@ -1,44 +1,32 @@
 import { db } from "@/db";
-import type { Angel } from "@/types/entities";
-
-interface AngelRow {
-  id: string;
-  name: string;
-  nameJapanese: string;
-  number: number;
-  description: string;
-}
-
-function getEpisodeIds(angelId: string): string[] {
-  const rows = db
-    .query(`SELECT episode_id FROM angel_episodes WHERE angel_id = ?`)
-    .all(angelId) as { episode_id: string }[];
-  return rows.map((r) => r.episode_id);
-}
-
-function parseAngel(row: AngelRow): Angel {
-  return {
-    ...row,
-    episodeIds: getEpisodeIds(row.id),
-  };
-}
+import type { Angel, Episode } from "@/types/entities";
 
 export const angels = {
   getAll(): Angel[] {
-    const rows = db
+    return db
       .query(
         `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels ORDER BY number`
       )
-      .all() as AngelRow[];
-    return rows.map(parseAngel);
+      .all() as Angel[];
   },
 
   getById(id: string): Angel | null {
-    const row = db
+    return db
       .query(
         `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels WHERE id = ?`
       )
-      .get(id) as AngelRow | null;
-    return row ? parseAngel(row) : null;
+      .get(id) as Angel | null;
+  },
+
+  getEpisodes(angelId: string): Episode[] {
+    return db
+      .query(
+        `SELECT e.id, e.episode_number as episodeNumber, e.title, e.title_japanese as titleJapanese, e.air_date as airDate, e.synopsis
+         FROM episodes e
+         JOIN angel_episodes ae ON ae.episode_id = e.id
+         WHERE ae.angel_id = ?
+         ORDER BY e.episode_number`
+      )
+      .all(angelId) as Episode[];
   },
 };

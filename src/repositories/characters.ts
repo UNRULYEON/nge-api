@@ -1,5 +1,11 @@
 import { db } from "@/db";
-import type { Character } from "@/types/entities";
+import type {
+  Character,
+  Episode,
+  Movie,
+  Organization,
+  Show,
+} from "@/types/entities";
 
 interface CharacterRow {
   id: string;
@@ -11,46 +17,10 @@ interface CharacterRow {
   bio: string;
 }
 
-function getShowIds(characterId: string): string[] {
-  const rows = db
-    .query(`SELECT show_id FROM character_shows WHERE character_id = ?`)
-    .all(characterId) as { show_id: string }[];
-  return rows.map((r) => r.show_id);
-}
-
-function getMovieIds(characterId: string): string[] {
-  const rows = db
-    .query(`SELECT movie_id FROM character_movies WHERE character_id = ?`)
-    .all(characterId) as { movie_id: string }[];
-  return rows.map((r) => r.movie_id);
-}
-
-function getOrganizationIds(characterId: string): string[] {
-  const rows = db
-    .query(
-      `SELECT organization_id FROM character_organizations WHERE character_id = ?`
-    )
-    .all(characterId) as { organization_id: string }[];
-  return rows.map((r) => r.organization_id);
-}
-
-function getEpisodeIds(characterId: string): string[] {
-  const rows = db
-    .query(
-      `SELECT episode_id FROM character_episodes WHERE character_id = ?`
-    )
-    .all(characterId) as { episode_id: string }[];
-  return rows.map((r) => r.episode_id);
-}
-
 function parseCharacter(row: CharacterRow): Character {
   return {
     ...row,
     occupations: JSON.parse(row.occupations),
-    showIds: getShowIds(row.id),
-    movieIds: getMovieIds(row.id),
-    organizationIds: getOrganizationIds(row.id),
-    episodeIds: getEpisodeIds(row.id),
   };
 }
 
@@ -71,5 +41,51 @@ export const characters = {
       )
       .get(id) as CharacterRow | null;
     return row ? parseCharacter(row) : null;
+  },
+
+  getShows(characterId: string): Show[] {
+    return db
+      .query(
+        `SELECT s.id, s.title, s.title_japanese as titleJapanese, s.episodes, s.aired, s.synopsis
+         FROM shows s
+         JOIN character_shows cs ON cs.show_id = s.id
+         WHERE cs.character_id = ?`
+      )
+      .all(characterId) as Show[];
+  },
+
+  getMovies(characterId: string): Movie[] {
+    return db
+      .query(
+        `SELECT m.id, m.title, m.title_japanese as titleJapanese, m.release_date as releaseDate, m.runtime, m.synopsis
+         FROM movies m
+         JOIN character_movies cm ON cm.movie_id = m.id
+         WHERE cm.character_id = ?
+         ORDER BY m.release_date`
+      )
+      .all(characterId) as Movie[];
+  },
+
+  getEpisodes(characterId: string): Episode[] {
+    return db
+      .query(
+        `SELECT e.id, e.episode_number as episodeNumber, e.title, e.title_japanese as titleJapanese, e.air_date as airDate, e.synopsis
+         FROM episodes e
+         JOIN character_episodes ce ON ce.episode_id = e.id
+         WHERE ce.character_id = ?
+         ORDER BY e.episode_number`
+      )
+      .all(characterId) as Episode[];
+  },
+
+  getOrganizations(characterId: string): Organization[] {
+    return db
+      .query(
+        `SELECT o.id, o.name, o.name_japanese as nameJapanese, o.type, o.description
+         FROM organizations o
+         JOIN character_organizations co ON co.organization_id = o.id
+         WHERE co.character_id = ?`
+      )
+      .all(characterId) as Organization[];
   },
 };

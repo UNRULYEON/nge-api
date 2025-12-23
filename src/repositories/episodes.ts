@@ -1,65 +1,97 @@
 import { db } from "@/db";
-import type { Episode } from "@/types/entities";
+import type {
+  Angel,
+  Character,
+  Episode,
+  Organization,
+  Show,
+} from "@/types/entities";
 
-interface EpisodeRow {
+interface CharacterRow {
   id: string;
-  showId: string;
-  episodeNumber: number;
-  title: string;
-  titleJapanese: string;
-  airDate: string;
-  synopsis: string;
+  name: string;
+  nameJapanese: string;
+  age: number | null;
+  gender: string;
+  occupations: string;
+  bio: string;
 }
 
-function getCharacterIds(episodeId: string): string[] {
-  const rows = db
-    .query(
-      `SELECT character_id FROM character_episodes WHERE episode_id = ?`
-    )
-    .all(episodeId) as { character_id: string }[];
-  return rows.map((r) => r.character_id);
-}
-
-function getAngelIds(episodeId: string): string[] {
-  const rows = db
-    .query(`SELECT angel_id FROM angel_episodes WHERE episode_id = ?`)
-    .all(episodeId) as { angel_id: string }[];
-  return rows.map((r) => r.angel_id);
-}
-
-function parseEpisode(row: EpisodeRow): Episode {
+function parseCharacter(row: CharacterRow): Character {
   return {
     ...row,
-    characterIds: getCharacterIds(row.id),
-    angelIds: getAngelIds(row.id),
+    occupations: JSON.parse(row.occupations),
   };
 }
 
 export const episodes = {
   getAll(): Episode[] {
-    const rows = db
+    return db
       .query(
-        `SELECT id, show_id as showId, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes ORDER BY episode_number`
+        `SELECT id, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes ORDER BY episode_number`
       )
-      .all() as EpisodeRow[];
-    return rows.map(parseEpisode);
+      .all() as Episode[];
   },
 
   getById(id: string): Episode | null {
-    const row = db
+    return db
       .query(
-        `SELECT id, show_id as showId, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes WHERE id = ?`
+        `SELECT id, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes WHERE id = ?`
       )
-      .get(id) as EpisodeRow | null;
-    return row ? parseEpisode(row) : null;
+      .get(id) as Episode | null;
   },
 
   getByShowId(showId: string): Episode[] {
+    return db
+      .query(
+        `SELECT id, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes WHERE show_id = ? ORDER BY episode_number`
+      )
+      .all(showId) as Episode[];
+  },
+
+  getShow(episodeId: string): Show | null {
+    return db
+      .query(
+        `SELECT s.id, s.title, s.title_japanese as titleJapanese, s.episodes, s.aired, s.synopsis
+         FROM shows s
+         JOIN episodes e ON e.show_id = s.id
+         WHERE e.id = ?`
+      )
+      .get(episodeId) as Show | null;
+  },
+
+  getCharacters(episodeId: string): Character[] {
     const rows = db
       .query(
-        `SELECT id, show_id as showId, episode_number as episodeNumber, title, title_japanese as titleJapanese, air_date as airDate, synopsis FROM episodes WHERE show_id = ? ORDER BY episode_number`
+        `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
+         FROM characters c
+         JOIN character_episodes ce ON ce.character_id = c.id
+         WHERE ce.episode_id = ?`
       )
-      .all(showId) as EpisodeRow[];
-    return rows.map(parseEpisode);
+      .all(episodeId) as CharacterRow[];
+    return rows.map(parseCharacter);
+  },
+
+  getAngels(episodeId: string): Angel[] {
+    return db
+      .query(
+        `SELECT a.id, a.name, a.name_japanese as nameJapanese, a.number, a.description
+         FROM angels a
+         JOIN angel_episodes ae ON ae.angel_id = a.id
+         WHERE ae.episode_id = ?
+         ORDER BY a.number`
+      )
+      .all(episodeId) as Angel[];
+  },
+
+  getOrganizations(episodeId: string): Organization[] {
+    return db
+      .query(
+        `SELECT o.id, o.name, o.name_japanese as nameJapanese, o.type, o.description
+         FROM organizations o
+         JOIN organization_episodes oe ON oe.organization_id = o.id
+         WHERE oe.episode_id = ?`
+      )
+      .all(episodeId) as Organization[];
   },
 };

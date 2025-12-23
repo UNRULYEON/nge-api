@@ -7,7 +7,6 @@ export namespace ShowsModel {
     titleJapanese: t.String(),
     episodes: t.Number(),
     aired: t.String(),
-    studioId: t.String({ format: "uuid" }),
     synopsis: t.String(),
   });
   export type show = typeof show.static;

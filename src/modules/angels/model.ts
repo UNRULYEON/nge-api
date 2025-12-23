@@ -7,7 +7,6 @@ export namespace AngelsModel {
     nameJapanese: t.String(),
     number: t.Number(),
     description: t.String(),
-    episodeIds: t.Array(t.String({ format: "uuid" })),
   });
   export type angel = typeof angel.static;
 

@@ -7,7 +7,6 @@ export namespace OrganizationsModel {
     nameJapanese: t.String(),
     type: t.String(),
     description: t.String(),
-    episodeIds: t.Array(t.String({ format: "uuid" })),
   });
   export type organization = typeof organization.static;
 

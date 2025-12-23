@@ -9,10 +9,6 @@ export namespace CharactersModel {
     gender: t.String(),
     occupations: t.Array(t.String()),
     bio: t.String(),
-    showIds: t.Array(t.String({ format: "uuid" })),
-    movieIds: t.Array(t.String({ format: "uuid" })),
-    organizationIds: t.Array(t.String({ format: "uuid" })),
-    episodeIds: t.Array(t.String({ format: "uuid" })),
   });
   export type character = typeof character.static;
 

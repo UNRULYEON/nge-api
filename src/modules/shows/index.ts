@@ -1,6 +1,9 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
 import { ShowsModel } from "./model";
+import { EpisodesModel } from "../episodes/model";
+import { CharactersModel } from "../characters/model";
+import { StudiosModel } from "../studios/model";
 import { BaseModel } from "@/utils/base-model";
 
 export const shows = new Elysia({
@@ -32,6 +35,66 @@ export const shows = new Elysia({
     {
       response: {
         200: ShowsModel.getResponse,
+        404: BaseModel.notFound,
+      },
+    }
+  )
+  .get(
+    "/:id/episodes",
+    ({ params }) => {
+      const show = repositories.shows.getById(params.id);
+
+      if (!show) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+
+      return repositories.episodes.getByShowId(params.id);
+    },
+    {
+      response: {
+        200: EpisodesModel.listResponse,
+        404: BaseModel.notFound,
+      },
+    }
+  )
+  .get(
+    "/:id/characters",
+    ({ params }) => {
+      const show = repositories.shows.getById(params.id);
+
+      if (!show) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+
+      return repositories.shows.getCharacters(params.id);
+    },
+    {
+      response: {
+        200: CharactersModel.listResponse,
+        404: BaseModel.notFound,
+      },
+    }
+  )
+  .get(
+    "/:id/studio",
+    ({ params }) => {
+      const show = repositories.shows.getById(params.id);
+
+      if (!show) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+
+      const studio = repositories.shows.getStudio(params.id);
+
+      if (!studio) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+
+      return studio;
+    },
+    {
+      response: {
+        200: StudiosModel.getResponse,
         404: BaseModel.notFound,
       },
     }

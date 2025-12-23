@@ -7,7 +7,6 @@ export namespace MoviesModel {
     titleJapanese: t.String(),
     releaseDate: t.String(),
     runtime: t.Number(),
-    studioId: t.String({ format: "uuid" }),
     synopsis: t.String(),
   });
   export type movie = typeof movie.static;
