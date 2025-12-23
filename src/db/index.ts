@@ -1,4 +1,3 @@
-import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
+import Database from "bun:sqlite";
 
-export const db = drizzle(process.env.DATABASE_URL);
+export const db = new Database(":memory:");

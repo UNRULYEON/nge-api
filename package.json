@@ -3,22 +3,15 @@
   "version": "0.0.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts",
-    "db:generate": "bunx drizzle-kit generate",
-    "db:migrate": "bunx drizzle-kit migrate"
+    "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.4.12",
     "@elysiajs/static": "^1.4.7",
-    "dotenv": "^17.2.3",
-    "drizzle-orm": "^0.45.1",
-    "elysia": "latest",
-    "pg": "^8.16.3"
+    "elysia": "latest"
   },
   "devDependencies": {
-    "@types/pg": "^8.16.0",
     "bun-types": "latest",
-    "drizzle-kit": "^0.31.8",
     "tsx": "^4.21.0"
   },
   "module": "src/index.js"

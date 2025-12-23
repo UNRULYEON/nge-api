@@ -23,6 +23,7 @@ bun install
 
 - **Runtime**: Bun (not Node.js)
 - **Framework**: Elysia - lightweight, fast web framework for Bun
+- **Database**: Drizzle ORM with in-memory SQLite (`bun:sqlite`)
 - **Documentation**: Scalar (OpenAPI) at `/` with spec at `/openapi.json`
 - **Static files**: Served from `/public` directory
 
@@ -111,6 +112,51 @@ export const <name> = new Elysia({
 - Always define response schemas for OpenAPI documentation
 - Set `tags` for Scalar UI grouping
 - Use `prefix` for route grouping
+
+## Database
+
+- **ORM**: Drizzle with `bun-sqlite` driver
+- **Storage**: In-memory SQLite (`:memory:`)
+- **Location**: `src/db/`
+
+### Structure
+
+```
+src/db/
+├── index.ts      # Database connection and export
+└── schema.ts     # Table definitions (if needed)
+```
+
+### Usage
+
+```typescript
+import { db } from "./db";
+
+// Query example
+const results = await db.query.tableName.findMany();
+```
+
+### Schema Definition
+
+Use `drizzle-orm/sqlite-core` for table definitions:
+
+```typescript
+// src/db/schema.ts
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+
+export const example = sqliteTable("example", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+});
+```
+
+### Notes
+
+- Database is in-memory; data resets on server restart
+- Pass schema to drizzle for type-safe queries: `drizzle(sqlite, { schema })`
 
 ## TypeScript Configuration
 
