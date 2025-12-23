@@ -3,6 +3,7 @@ import { openapi } from "@elysiajs/openapi";
 import { staticPlugin } from "@elysiajs/static";
 import {
   characters,
+  episodes,
   health,
   movies,
   organizations,
@@ -32,6 +33,7 @@ const app = new Elysia()
   )
   .get("/", () => "Hello Elysia")
   .use(characters)
+  .use(episodes)
   .use(health)
   .use(movies)
   .use(organizations)

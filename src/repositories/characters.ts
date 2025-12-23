@@ -34,6 +34,15 @@ function getOrganizationIds(characterId: string): string[] {
   return rows.map((r) => r.organization_id);
 }
 
+function getEpisodeIds(characterId: string): string[] {
+  const rows = db
+    .query(
+      `SELECT episode_id FROM character_episodes WHERE character_id = ?`
+    )
+    .all(characterId) as { episode_id: string }[];
+  return rows.map((r) => r.episode_id);
+}
+
 function parseCharacter(row: CharacterRow): Character {
   return {
     ...row,
@@ -41,6 +50,7 @@ function parseCharacter(row: CharacterRow): Character {
     showIds: getShowIds(row.id),
     movieIds: getMovieIds(row.id),
     organizationIds: getOrganizationIds(row.id),
+    episodeIds: getEpisodeIds(row.id),
   };
 }
 

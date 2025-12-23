@@ -37,6 +37,7 @@ export interface Character {
   showIds: string[];
   movieIds: string[];
   organizationIds: string[];
+  episodeIds: string[];
 }
 
 export interface Organization {
@@ -45,4 +46,16 @@ export interface Organization {
   nameJapanese: string;
   type: string;
   description: string;
+  episodeIds: string[];
+}
+
+export interface Episode {
+  id: string;
+  showId: string;
+  episodeNumber: number;
+  title: string;
+  titleJapanese: string;
+  airDate: string;
+  synopsis: string;
+  characterIds: string[];
 }

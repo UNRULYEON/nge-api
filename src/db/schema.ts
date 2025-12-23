@@ -611,6 +611,487 @@ export function initializeDatabase(db: Database) {
     insertCharacterMovie.run(charId, MOVIES.rebuild4);
   }
 
+  // Episodes table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS episodes (
+      id TEXT PRIMARY KEY,
+      show_id TEXT NOT NULL,
+      episode_number INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      title_japanese TEXT NOT NULL,
+      air_date TEXT NOT NULL,
+      synopsis TEXT NOT NULL,
+      FOREIGN KEY (show_id) REFERENCES shows(id)
+    )
+  `);
+
+  const insertEpisode = db.prepare(
+    "INSERT INTO episodes (id, show_id, episode_number, title, title_japanese, air_date, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)"
+  );
+
+  const episodes = [
+    {
+      id: "019b492f-8465-7000-bb58-88b18b1c1c8c",
+      showId: NGE_SHOW,
+      episodeNumber: 1,
+      title: "Angel Attack",
+      titleJapanese: "使徒、襲来",
+      airDate: "1995-10-04",
+      synopsis: "Shinji Ikari arrives in Tokyo-3 and is recruited by his estranged father Gendo to pilot Evangelion Unit-01 against the Angel Sachiel.",
+    },
+    {
+      id: "019b492f-8465-7001-8b63-c4863cd09e51",
+      showId: NGE_SHOW,
+      episodeNumber: 2,
+      title: "The Beast",
+      titleJapanese: "見知らぬ、天井",
+      airDate: "1995-10-11",
+      synopsis: "Shinji wakes up in the hospital after his first battle and struggles to come to terms with his new role as an Eva pilot.",
+    },
+    {
+      id: "019b492f-8465-7002-b189-d2594083307b",
+      showId: NGE_SHOW,
+      episodeNumber: 3,
+      title: "A Transfer",
+      titleJapanese: "鳴らない、電話",
+      airDate: "1995-10-18",
+      synopsis: "Shinji begins attending school in Tokyo-3 and meets his classmates Toji and Kensuke, while struggling to connect with others.",
+    },
+    {
+      id: "019b492f-8465-7003-be1c-77509f5cab70",
+      showId: NGE_SHOW,
+      episodeNumber: 4,
+      title: "Hedgehog's Dilemma",
+      titleJapanese: "雨、逃げ出した後",
+      airDate: "1995-10-25",
+      synopsis: "After a difficult battle, Shinji runs away from NERV and wanders Tokyo-3, questioning his purpose and relationships.",
+    },
+    {
+      id: "019b492f-8465-7004-b35f-01df8b5e1325",
+      showId: NGE_SHOW,
+      episodeNumber: 5,
+      title: "Rei I",
+      titleJapanese: "レイ、心のむこうに",
+      airDate: "1995-11-01",
+      synopsis: "Shinji learns more about the mysterious Rei Ayanami and witnesses her cold relationship with his father during a reactivation test of Unit-00.",
+    },
+    {
+      id: "019b492f-8465-7005-ae30-55cbf2ad7b1a",
+      showId: NGE_SHOW,
+      episodeNumber: 6,
+      title: "Rei II",
+      titleJapanese: "決戦、第3新東京市",
+      airDate: "1995-11-08",
+      synopsis: "Shinji and Rei must work together to defeat the Angel Ramiel, which is drilling through the Geofront toward NERV headquarters.",
+    },
+    {
+      id: "019b492f-8465-7006-b399-85748d7fc96d",
+      showId: NGE_SHOW,
+      episodeNumber: 7,
+      title: "A Human Work",
+      titleJapanese: "人の造りしもの",
+      airDate: "1995-11-15",
+      synopsis: "NERV faces political pressure when the UN-backed Jet Alone project threatens to replace the Evangelions.",
+    },
+    {
+      id: "019b492f-8465-7007-96e9-33f1dee09cbf",
+      showId: NGE_SHOW,
+      episodeNumber: 8,
+      title: "Asuka Strikes!",
+      titleJapanese: "アスカ、来日",
+      airDate: "1995-11-22",
+      synopsis: "The Second Child, Asuka Langley Soryu, arrives from Germany with Evangelion Unit-02 and immediately clashes with Shinji.",
+    },
+    {
+      id: "019b492f-8465-7008-8da6-98ea8a70c9f4",
+      showId: NGE_SHOW,
+      episodeNumber: 9,
+      title: "Both of You, Dance Like You Want to Win!",
+      titleJapanese: "瞬間、心、重ねて",
+      airDate: "1995-11-29",
+      synopsis: "Shinji and Asuka must learn to synchronize their movements to defeat the Angel Israfel, which can split into two separate entities.",
+    },
+    {
+      id: "019b492f-8465-7009-aa58-a6cd3df0b96e",
+      showId: NGE_SHOW,
+      episodeNumber: 10,
+      title: "Magmadiver",
+      titleJapanese: "マグマダイバー",
+      airDate: "1995-12-06",
+      synopsis: "Asuka pilots Unit-02 into a volcano to capture an Angel embryo, but the mission goes awry when the Angel hatches.",
+    },
+    {
+      id: "019b492f-8465-700a-8a59-5c749ff2d371",
+      showId: NGE_SHOW,
+      episodeNumber: 11,
+      title: "The Day Tokyo-3 Stood Still",
+      titleJapanese: "静止した闇の中で",
+      airDate: "1995-12-13",
+      synopsis: "A massive power outage cripples Tokyo-3 and NERV, leaving the pilots trapped and vulnerable when an Angel attacks.",
+    },
+    {
+      id: "019b492f-8465-700b-8f70-1a4df0d2bb18",
+      showId: NGE_SHOW,
+      episodeNumber: 12,
+      title: "She Said, 'Don't Make Others Suffer for Your Personal Hatred.'",
+      titleJapanese: "奇跡の価値は",
+      airDate: "1995-12-20",
+      synopsis: "Misato confronts her past during a mission to destroy an Angel in orbit, reflecting on her father and her motivations.",
+    },
+    {
+      id: "019b492f-8465-700c-9ed6-39480ce4a3d7",
+      showId: NGE_SHOW,
+      episodeNumber: 13,
+      title: "Lilliputian Hitcher",
+      titleJapanese: "使徒、侵入",
+      airDate: "1995-12-27",
+      synopsis: "A microscopic Angel infiltrates the MAGI supercomputer system, forcing Ritsuko to confront her mother's legacy.",
+    },
+    {
+      id: "019b492f-8465-700d-9c1f-579632c3a5f9",
+      showId: NGE_SHOW,
+      episodeNumber: 14,
+      title: "Weaving a Story",
+      titleJapanese: "ゼーレ、魂の座",
+      airDate: "1996-01-03",
+      synopsis: "A recap episode interspersed with new scenes showing SEELE's perspective and Rei's mysterious inner world.",
+    },
+    {
+      id: "019b492f-8465-700e-a92e-d28d63809bb8",
+      showId: NGE_SHOW,
+      episodeNumber: 15,
+      title: "Those Women Longed for the Touch of Others' Lips, and Thus Invited Their Kisses.",
+      titleJapanese: "嘘と沈黙",
+      airDate: "1996-01-10",
+      synopsis: "Romantic tensions arise as Kaji returns to Tokyo-3, while Shinji experiences his first kiss with Asuka.",
+    },
+    {
+      id: "019b492f-8465-700f-a2f0-f3fa6e4f97e5",
+      showId: NGE_SHOW,
+      episodeNumber: 16,
+      title: "Splitting of the Breast",
+      titleJapanese: "死に至る病、そして",
+      airDate: "1996-01-17",
+      synopsis: "Shinji is absorbed into the Angel Leliel and experiences a psychological journey through his own mind.",
+    },
+    {
+      id: "019b492f-8465-7010-a795-afcaa41ed548",
+      showId: NGE_SHOW,
+      episodeNumber: 17,
+      title: "Fourth Child",
+      titleJapanese: "四人目の適格者",
+      airDate: "1996-01-24",
+      synopsis: "NERV identifies the Fourth Child for the new Evangelion Unit-03, with the choice having profound implications.",
+    },
+    {
+      id: "019b492f-8465-7011-a180-5e1fa8e3577c",
+      showId: NGE_SHOW,
+      episodeNumber: 18,
+      title: "Ambivalence",
+      titleJapanese: "命の選択を",
+      airDate: "1996-01-31",
+      synopsis: "Unit-03 is taken over by an Angel during its activation test, forcing Shinji into an impossible situation.",
+    },
+    {
+      id: "019b492f-8465-7012-b5de-0a2f64ef42f6",
+      showId: NGE_SHOW,
+      episodeNumber: 19,
+      title: "Introjection",
+      titleJapanese: "男の戰い",
+      airDate: "1996-02-07",
+      synopsis: "After refusing to pilot, Shinji watches helplessly as Unit-01 goes berserk against the powerful Angel Zeruel.",
+    },
+    {
+      id: "019b492f-8465-7013-9f88-14315c9d30df",
+      showId: NGE_SHOW,
+      episodeNumber: 20,
+      title: "Weaving a Story 2: Oral Stage",
+      titleJapanese: "心のかたち 人のかたち",
+      airDate: "1996-02-14",
+      synopsis: "Shinji is absorbed into Unit-01 after its awakening, and NERV attempts to recover him while exploring his memories.",
+    },
+    {
+      id: "019b492f-8465-7014-bfa6-2a5f007005fd",
+      showId: NGE_SHOW,
+      episodeNumber: 21,
+      title: "He Was Aware That He Was Still a Child",
+      titleJapanese: "ネルフ、誕生",
+      airDate: "1996-02-21",
+      synopsis: "Flashbacks reveal the history of NERV, the truth about the Second Impact, and the complex relationships between key personnel.",
+    },
+    {
+      id: "019b492f-8465-7015-9345-642da2140c42",
+      showId: NGE_SHOW,
+      episodeNumber: 22,
+      title: "Don't Be.",
+      titleJapanese: "せめて、人間らしく",
+      airDate: "1996-02-28",
+      synopsis: "Asuka's sync rate drops as she battles the Angel Arael, which psychologically attacks her, revealing her traumatic past.",
+    },
+    {
+      id: "019b492f-8465-7016-8e22-13e7381c5b78",
+      showId: NGE_SHOW,
+      episodeNumber: 23,
+      title: "Rei III",
+      titleJapanese: "涙",
+      airDate: "1996-03-06",
+      synopsis: "The truth about Rei Ayanami is revealed as she sacrifices herself to destroy the Angel Armisael.",
+    },
+    {
+      id: "019b492f-8465-7017-8b2a-2cd062a231d6",
+      showId: NGE_SHOW,
+      episodeNumber: 24,
+      title: "The Beginning and the End, or 'Knockin' on Heaven's Door'",
+      titleJapanese: "最後のシ者",
+      airDate: "1996-03-13",
+      synopsis: "Kaworu Nagisa, the Fifth Child, befriends Shinji but is revealed to be the final Angel, Tabris.",
+    },
+    {
+      id: "019b492f-8465-7018-b565-6924fdf3e6d3",
+      showId: NGE_SHOW,
+      episodeNumber: 25,
+      title: "Do You Love Me?",
+      titleJapanese: "終わる世界",
+      airDate: "1996-03-20",
+      synopsis: "As Instrumentality begins, the characters undergo psychological introspection, questioning their existence and relationships.",
+    },
+    {
+      id: "019b492f-8465-7019-a0cc-4cdc5e84db1c",
+      showId: NGE_SHOW,
+      episodeNumber: 26,
+      title: "Take Care of Yourself.",
+      titleJapanese: "世界の中心でアイを叫んだけもの",
+      airDate: "1996-03-27",
+      synopsis: "The series concludes with Shinji's internal journey toward self-acceptance, culminating in a message of hope and congratulations.",
+    },
+  ];
+
+  for (const episode of episodes) {
+    insertEpisode.run(
+      episode.id,
+      episode.showId,
+      episode.episodeNumber,
+      episode.title,
+      episode.titleJapanese,
+      episode.airDate,
+      episode.synopsis
+    );
+  }
+
+  // Episode IDs for junction table references
+  const EP_IDS = {
+    ep1: "019b492f-8465-7000-bb58-88b18b1c1c8c",
+    ep2: "019b492f-8465-7001-8b63-c4863cd09e51",
+    ep3: "019b492f-8465-7002-b189-d2594083307b",
+    ep4: "019b492f-8465-7003-be1c-77509f5cab70",
+    ep5: "019b492f-8465-7004-b35f-01df8b5e1325",
+    ep6: "019b492f-8465-7005-ae30-55cbf2ad7b1a",
+    ep7: "019b492f-8465-7006-b399-85748d7fc96d",
+    ep8: "019b492f-8465-7007-96e9-33f1dee09cbf",
+    ep9: "019b492f-8465-7008-8da6-98ea8a70c9f4",
+    ep10: "019b492f-8465-7009-aa58-a6cd3df0b96e",
+    ep11: "019b492f-8465-700a-8a59-5c749ff2d371",
+    ep12: "019b492f-8465-700b-8f70-1a4df0d2bb18",
+    ep13: "019b492f-8465-700c-9ed6-39480ce4a3d7",
+    ep14: "019b492f-8465-700d-9c1f-579632c3a5f9",
+    ep15: "019b492f-8465-700e-a92e-d28d63809bb8",
+    ep16: "019b492f-8465-700f-a2f0-f3fa6e4f97e5",
+    ep17: "019b492f-8465-7010-a795-afcaa41ed548",
+    ep18: "019b492f-8465-7011-a180-5e1fa8e3577c",
+    ep19: "019b492f-8465-7012-b5de-0a2f64ef42f6",
+    ep20: "019b492f-8465-7013-9f88-14315c9d30df",
+    ep21: "019b492f-8465-7014-bfa6-2a5f007005fd",
+    ep22: "019b492f-8465-7015-9345-642da2140c42",
+    ep23: "019b492f-8465-7016-8e22-13e7381c5b78",
+    ep24: "019b492f-8465-7017-8b2a-2cd062a231d6",
+    ep25: "019b492f-8465-7018-b565-6924fdf3e6d3",
+    ep26: "019b492f-8465-7019-a0cc-4cdc5e84db1c",
+  };
+
+  const ALL_EPISODES = Object.values(EP_IDS);
+
+  // Character-Episode junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS character_episodes (
+      character_id TEXT NOT NULL,
+      episode_id TEXT NOT NULL,
+      PRIMARY KEY (character_id, episode_id),
+      FOREIGN KEY (character_id) REFERENCES characters(id),
+      FOREIGN KEY (episode_id) REFERENCES episodes(id)
+    )
+  `);
+
+  const insertCharacterEpisode = db.prepare(
+    "INSERT INTO character_episodes (character_id, episode_id) VALUES (?, ?)"
+  );
+
+  // Shinji appears in all episodes
+  for (const epId of ALL_EPISODES) {
+    insertCharacterEpisode.run(CHAR_IDS.shinji, epId);
+  }
+
+  // Rei appears in most episodes (1-6, 9, 11, 14, 16, 19-26)
+  const reiEpisodes = [
+    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep5, EP_IDS.ep6,
+    EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep14, EP_IDS.ep16,
+    EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21, EP_IDS.ep22, EP_IDS.ep23,
+    EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of reiEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.rei, epId);
+  }
+
+  // Asuka appears from episode 8 onwards
+  const asukaEpisodes = ALL_EPISODES.slice(7); // ep8-26
+  for (const epId of asukaEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.asuka, epId);
+  }
+
+  // Misato appears in all episodes
+  for (const epId of ALL_EPISODES) {
+    insertCharacterEpisode.run(CHAR_IDS.misato, epId);
+  }
+
+  // Gendo appears in most episodes
+  const gendoEpisodes = [
+    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep5, EP_IDS.ep6,
+    EP_IDS.ep7, EP_IDS.ep12, EP_IDS.ep13, EP_IDS.ep14, EP_IDS.ep15,
+    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21,
+    EP_IDS.ep23, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of gendoEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.gendo, epId);
+  }
+
+  // Kaworu appears in episode 24 primarily
+  const kaworuEpisodes = [EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26];
+  for (const epId of kaworuEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.kaworu, epId);
+  }
+
+  // Ritsuko appears in many episodes
+  const ritsukoEpisodes = [
+    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep7,
+    EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep12, EP_IDS.ep13, EP_IDS.ep14,
+    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21,
+    EP_IDS.ep23, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of ritsukoEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.ritsuko, epId);
+  }
+
+  // Fuyutsuki appears in several episodes
+  const fuyutsukiEpisodes = [
+    EP_IDS.ep1, EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep7, EP_IDS.ep12,
+    EP_IDS.ep14, EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20,
+    EP_IDS.ep21, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of fuyutsukiEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.fuyutsuki, epId);
+  }
+
+  // Toji appears in episodes 3-4, 8-9, 11, 17-18, 26
+  const tojiEpisodes = [
+    EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep11,
+    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep26,
+  ];
+  for (const epId of tojiEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.toji, epId);
+  }
+
+  // Kensuke appears in episodes 3-4, 8-9, 11, 26
+  const kensukeEpisodes = [
+    EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep26,
+  ];
+  for (const epId of kensukeEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.kensuke, epId);
+  }
+
+  // Hikari appears in episodes 3, 9, 11, 17, 26
+  const hikariEpisodes = [
+    EP_IDS.ep3, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep17, EP_IDS.ep26,
+  ];
+  for (const epId of hikariEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.hikari, epId);
+  }
+
+  // Kaji appears in episodes 8, 10, 12, 15, 17, 18, 21
+  const kajiEpisodes = [
+    EP_IDS.ep8, EP_IDS.ep10, EP_IDS.ep12, EP_IDS.ep15, EP_IDS.ep17,
+    EP_IDS.ep18, EP_IDS.ep21,
+  ];
+  for (const epId of kajiEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.kaji, epId);
+  }
+
+  // Yui appears in flashbacks: episodes 16, 20, 21, 25, 26
+  const yuiEpisodes = [
+    EP_IDS.ep16, EP_IDS.ep20, EP_IDS.ep21, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of yuiEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.yui, epId);
+  }
+
+  // Pen Pen appears in domestic scenes throughout
+  const penpenEpisodes = [
+    EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9,
+    EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep15, EP_IDS.ep26,
+  ];
+  for (const epId of penpenEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.penpen, epId);
+  }
+
+  // Mari doesn't appear in the TV series (Rebuild only)
+
+  // Organization-Episode junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS organization_episodes (
+      organization_id TEXT NOT NULL,
+      episode_id TEXT NOT NULL,
+      PRIMARY KEY (organization_id, episode_id),
+      FOREIGN KEY (organization_id) REFERENCES organizations(id),
+      FOREIGN KEY (episode_id) REFERENCES episodes(id)
+    )
+  `);
+
+  const insertOrgEpisode = db.prepare(
+    "INSERT INTO organization_episodes (organization_id, episode_id) VALUES (?, ?)"
+  );
+
+  // NERV appears in all episodes
+  for (const epId of ALL_EPISODES) {
+    insertOrgEpisode.run(ORG_IDS.nerv, epId);
+  }
+
+  // SEELE appears in committee scenes
+  const seeleEpisodes = [
+    EP_IDS.ep7, EP_IDS.ep12, EP_IDS.ep14, EP_IDS.ep17, EP_IDS.ep21,
+    EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+  ];
+  for (const epId of seeleEpisodes) {
+    insertOrgEpisode.run(ORG_IDS.seele, epId);
+  }
+
+  // Gehirn appears in flashbacks
+  const gehirnEpisodes = [EP_IDS.ep21];
+  for (const epId of gehirnEpisodes) {
+    insertOrgEpisode.run(ORG_IDS.gehirn, epId);
+  }
+
+  // Japanese Government appears occasionally
+  const japanGovEpisodes = [EP_IDS.ep7, EP_IDS.ep12, EP_IDS.ep17];
+  for (const epId of japanGovEpisodes) {
+    insertOrgEpisode.run(ORG_IDS.japanGov, epId);
+  }
+
+  // UN appears in political episodes
+  const unEpisodes = [EP_IDS.ep7, EP_IDS.ep12];
+  for (const epId of unEpisodes) {
+    insertOrgEpisode.run(ORG_IDS.un, epId);
+  }
+
+  // WILLE doesn't appear in the TV series (Rebuild only)
+
   // Character-Organization relationships
   // NERV members
   const nervMembers = [
