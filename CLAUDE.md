@@ -20,6 +20,9 @@ bun run start
 
 # Install dependencies
 bun install
+
+# Run tests
+bun test
 ```
 
 ## Architecture
@@ -34,8 +37,10 @@ bun install
 ### Entry Point
 
 `src/index.ts` - Creates the Elysia app instance with plugins:
+- `serverTiming()` - Adds Server-Timing headers for performance monitoring
+- `rateLimit()` - Rate limiting (1000 requests max)
 - `staticPlugin()` - Serves static files from /public
-- `openapi()` - Provides Scalar documentation UI
+- `openapi()` - Provides Scalar documentation UI at `/`
 
 ### Adding Endpoints
 
@@ -58,6 +63,7 @@ Follow the studios endpoint pattern when creating new endpoints:
 Each endpoint module lives in `src/modules/<name>/` with:
 - `index.ts` - Route definitions
 - `model.ts` - Request/response schemas using Elysia's `t` validator
+- `<name>.test.ts` - Unit tests for the module
 
 ### Model Pattern
 
@@ -294,3 +300,59 @@ The project uses Railpack for deployment configuration. The `railpack.json` file
 # Build for production
 bun build src/index.ts --outdir=dist --target=bun
 ```
+
+## Testing
+
+Tests use Bun's built-in test runner with a Jest-like API. Test files are co-located with their modules.
+
+### Test Pattern
+
+```typescript
+// src/modules/<name>/<name>.test.ts
+import { describe, expect, it } from "bun:test";
+import { Elysia } from "elysia";
+import { <name> } from ".";
+
+const app = new Elysia().use(<name>);
+
+describe("<Name>", () => {
+  describe("GET /<name>", () => {
+    it("returns a list of all items", async () => {
+      const response = await app.handle(
+        new Request("http://localhost/<name>")
+      );
+
+      expect(response.status).toBe(200);
+
+      const data = await response.json();
+      expect(Array.isArray(data)).toBe(true);
+    });
+  });
+
+  describe("GET /<name>/:id", () => {
+    it("returns an item by ID", async () => {
+      const response = await app.handle(
+        new Request("http://localhost/<name>/<valid-id>")
+      );
+
+      expect(response.status).toBe(200);
+    });
+
+    it("returns 404 for non-existent item", async () => {
+      const response = await app.handle(
+        new Request("http://localhost/<name>/<invalid-id>")
+      );
+
+      expect(response.status).toBe(404);
+    });
+  });
+});
+```
+
+### Key Testing Conventions
+
+- Use Elysia's `handle()` method to simulate HTTP requests
+- Requests require fully qualified URLs (e.g., `http://localhost/path`)
+- Create a minimal app instance with only the module under test
+- Test both success and error cases (200, 404, etc.)
+- Verify response structure matches expected schema
