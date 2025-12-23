@@ -15,6 +15,9 @@ bun run dev
 # Run the application directly
 bun run src/index.ts
 
+# Start production server
+bun run start
+
 # Install dependencies
 bun install
 ```
@@ -48,7 +51,7 @@ Use `.group()` for route prefixing and `.decorate()` for dependency injection.
 
 ## Endpoint Creation Rules
 
-Follow the health endpoint pattern when creating new endpoints:
+Follow the studios endpoint pattern when creating new endpoints:
 
 ### File Structure
 
@@ -63,10 +66,20 @@ Each endpoint module lives in `src/modules/<name>/` with:
 import { t } from "elysia";
 
 export namespace <Name>Model {
-  export const response = t.Object({
-    // schema definition
+  // Define entity schema
+  export const <name> = t.Object({
+    id: t.String({ format: "uuid" }),
+    name: t.String(),
+    // ... other fields
   });
-  export type response = typeof response.static;
+  export type <name> = typeof <name>.static;
+
+  // Compose response types
+  export const listResponse = t.Array(<name>);
+  export type listResponse = typeof listResponse.static;
+
+  export const getResponse = <name>;
+  export type getResponse = typeof getResponse.static;
 }
 ```
 
@@ -74,23 +87,42 @@ export namespace <Name>Model {
 
 ```typescript
 // src/modules/<name>/index.ts
-import { Elysia } from "elysia";
+import { Elysia, NotFoundError } from "elysia";
+import { repositories } from "@/repositories";
 import { <Name>Model } from "./model";
+import { BaseModel } from "@/utils/base-model";
 
 export const <name> = new Elysia({
   prefix: "/<name>",
   tags: ["<name>"],
-}).get(
-  "/",
-  () => {
-    return { /* response */ };
-  },
-  {
-    response: {
-      200: <Name>Model.response,
+})
+  .get(
+    "/",
+    () => {
+      return repositories.<name>.getAll();
     },
-  },
-);
+    {
+      response: {
+        200: <Name>Model.listResponse,
+      },
+    },
+  )
+  .get(
+    "/:id",
+    ({ params }) => {
+      const item = repositories.<name>.getById(params.id);
+      if (!item) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+      return item;
+    },
+    {
+      response: {
+        200: <Name>Model.getResponse,
+        404: BaseModel.notFound,
+      },
+    },
+  );
 ```
 
 ### Registration
@@ -109,10 +141,27 @@ export const <name> = new Elysia({
 
 ### Key Conventions
 
-- Use namespaced model exports (e.g., `HealthModel.response`)
+- Use namespaced model exports (e.g., `StudiosModel.listResponse`)
 - Always define response schemas for OpenAPI documentation
 - Set `tags` for Scalar UI grouping
 - Use `prefix` for route grouping
+- Use `BaseModel` for common error responses
+
+## Base Model
+
+Common response types are defined in `src/utils/base-model.ts`:
+
+```typescript
+import { BaseModel } from "@/utils/base-model";
+
+// Available types:
+BaseModel.ok           // "OK"
+BaseModel.badRequest   // "BAD_REQUEST"
+BaseModel.notFound     // "NOT_FOUND"
+BaseModel.internalServerError  // "INTERNAL_SERVER_ERROR"
+```
+
+Use these in route response schemas for consistent error handling.
 
 ## Database
 
@@ -233,3 +282,15 @@ All entity IDs use UUIDv7 format (e.g., `019b48ba-31f2-7000-85c6-4417181f7f88`).
 - Strict mode enabled
 - Target: ES2021, Module: ES2022
 - Bun types included via `bun-types`
+
+## Deployment
+
+The project uses Railpack for deployment configuration. The `railpack.json` file defines:
+
+- **Bundle step**: Builds the app with `bun build` to `dist/`
+- **Deploy step**: Runs the bundled app with `bun run dist/index.js`
+
+```bash
+# Build for production
+bun build src/index.ts --outdir=dist --target=bun
+```
