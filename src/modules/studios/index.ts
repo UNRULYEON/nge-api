@@ -3,6 +3,7 @@ import { repositories } from "@/repositories";
 import { StudiosModel } from "./model";
 import { ShowsModel } from "../shows/model";
 import { MoviesModel } from "../movies/model";
+import { StaffModel } from "../staff/model";
 import { BaseModel } from "@/utils/base-model";
 
 export const studios = new Elysia({
@@ -70,6 +71,24 @@ export const studios = new Elysia({
     {
       response: {
         200: MoviesModel.listResponse,
+        404: BaseModel.notFound,
+      },
+    },
+  )
+  .get(
+    "/:id/staff",
+    ({ params }) => {
+      const studio = repositories.studios.getById(params.id);
+
+      if (!studio) {
+        throw new NotFoundError("NOT_FOUND");
+      }
+
+      return repositories.studios.getStaff(params.id);
+    },
+    {
+      response: {
+        200: StaffModel.listResponse,
         404: BaseModel.notFound,
       },
     },

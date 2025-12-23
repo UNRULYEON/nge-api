@@ -5,6 +5,7 @@ import { evaUnits } from "./eva-units";
 import { movies } from "./movies";
 import { organizations } from "./organizations";
 import { shows } from "./shows";
+import { staff } from "./staff";
 import { studios } from "./studios";
 
 export const repositories = {
@@ -15,5 +16,6 @@ export const repositories = {
   movies,
   organizations,
   shows,
+  staff,
   studios,
 };

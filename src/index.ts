@@ -10,6 +10,7 @@ import {
   movies,
   organizations,
   shows,
+  staff,
   studios,
 } from "./modules";
 import serverTiming from "@elysiajs/server-timing";
@@ -46,6 +47,7 @@ const app = new Elysia()
   .use(movies)
   .use(organizations)
   .use(shows)
+  .use(staff)
   .use(studios)
   .listen(3000);
 

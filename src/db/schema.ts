@@ -1647,4 +1647,218 @@ export function initializeDatabase(db: Database) {
   insertEvaMovie.run(EVA_IDS.unit02, MOVIES.rebuild4);
   insertEvaMovie.run(EVA_IDS.unit08, MOVIES.rebuild4);
   insertEvaMovie.run(EVA_IDS.unit13, MOVIES.rebuild4);
+
+  // Staff table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS staff (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      name_japanese TEXT NOT NULL,
+      role TEXT NOT NULL,
+      bio TEXT NOT NULL
+    )
+  `);
+
+  const insertStaff = db.prepare(
+    "INSERT INTO staff (id, name, name_japanese, role, bio) VALUES (?, ?, ?, ?, ?)"
+  );
+
+  const STAFF_IDS = {
+    anno: "019b4ba4-16c8-7000-aa9b-7379f799e904",
+    sadamoto: "019b4ba4-16ca-7000-b03f-d97d012ed240",
+    tsurumaki: "019b4ba4-16ca-7001-bad0-f5cdc574d625",
+    sagisu: "019b4ba4-16ca-7002-ab9a-d229c562fcd2",
+    takahashi: "019b4ba4-16ca-7003-a43b-debc1f1ce38e",
+    honda: "019b4ba4-16ca-7004-9383-e3cc3f612d83",
+    masayuki: "019b4ba4-16ca-7005-981f-164175a0c7b4",
+    enokido: "019b4ba4-16ca-7006-8a1e-4f59fb4f68b6",
+    satsukawa: "019b4ba4-16ca-7007-96d2-f832d4569e91",
+    ogata: "019b4ba4-16ca-7008-8f05-e8d74edacc85",
+    miyamura: "019b4ba4-16ca-7009-9b24-de1b90e53a0c",
+    hayashibara: "019b4ba4-16ca-700a-bc2d-228087b81942",
+    mitsuishi: "019b4ba4-16ca-700b-8ae3-f5194f33c5a4",
+    ishida: "019b4ba4-16ca-700c-9a7c-8ec1d47610c2",
+    tachiki: "019b4ba4-16ca-700d-9dbe-a39aeee76195",
+  };
+
+  const staff = [
+    {
+      id: STAFF_IDS.anno,
+      name: "Hideaki Anno",
+      nameJapanese: "庵野秀明",
+      role: "Director",
+      bio: "Creator and director of Neon Genesis Evangelion. Anno is known for his influential work in anime and his deeply personal storytelling approach. He founded Studio Khara in 2006 and directed the Rebuild of Evangelion tetralogy.",
+    },
+    {
+      id: STAFF_IDS.sadamoto,
+      name: "Yoshiyuki Sadamoto",
+      nameJapanese: "貞本義行",
+      role: "Character Designer",
+      bio: "Character designer for Evangelion and author of the manga adaptation. Sadamoto's distinctive character designs became iconic in anime history. He also worked on FLCL, The Girl Who Leapt Through Time, and Summer Wars.",
+    },
+    {
+      id: STAFF_IDS.tsurumaki,
+      name: "Kazuya Tsurumaki",
+      nameJapanese: "鶴巻和哉",
+      role: "Assistant Director",
+      bio: "Assistant director on the original Evangelion series and co-director on the Rebuild films. Later directed FLCL and Diebuster. Known for his dynamic action sequences and visual storytelling.",
+    },
+    {
+      id: STAFF_IDS.sagisu,
+      name: "Shiro Sagisu",
+      nameJapanese: "鷺巣詩郎",
+      role: "Composer",
+      bio: "Composer of the Evangelion soundtrack, creating one of the most acclaimed anime scores. His work blends classical orchestration with electronic and choral elements. Also composed music for Bleach and Shin Godzilla.",
+    },
+    {
+      id: STAFF_IDS.takahashi,
+      name: "Hiroki Takahashi",
+      nameJapanese: "高橋洋樹",
+      role: "Art Director",
+      bio: "Art director responsible for Evangelion's distinctive visual atmosphere. His work established the series' unique aesthetic combining urban landscapes with apocalyptic imagery.",
+    },
+    {
+      id: STAFF_IDS.honda,
+      name: "Takeshi Honda",
+      nameJapanese: "本田雄",
+      role: "Animation Director",
+      bio: "Key animator and animation director on Evangelion. Honda's fluid animation style defined many of the series' most memorable sequences. He continued his work on the Rebuild films.",
+    },
+    {
+      id: STAFF_IDS.masayuki,
+      name: "Masayuki",
+      nameJapanese: "摩砂雪",
+      role: "Co-Director",
+      bio: "Co-director on the Rebuild of Evangelion films. Masayuki brought fresh perspectives to the reimagined series while maintaining the original's thematic depth.",
+    },
+    {
+      id: STAFF_IDS.enokido,
+      name: "Yoji Enokido",
+      nameJapanese: "榎戸洋司",
+      role: "Writer",
+      bio: "Screenplay writer for several Evangelion episodes. Enokido later wrote for Revolutionary Girl Utena, FLCL, and Star Driver, known for his unconventional narrative structures.",
+    },
+    {
+      id: STAFF_IDS.satsukawa,
+      name: "Akio Satsukawa",
+      nameJapanese: "薩川昭夫",
+      role: "Writer",
+      bio: "Screenplay writer who contributed to multiple Evangelion episodes. His writing helped develop the series' psychological depth and character complexity.",
+    },
+    {
+      id: STAFF_IDS.ogata,
+      name: "Megumi Ogata",
+      nameJapanese: "緒方恵美",
+      role: "Voice Actor",
+      bio: "Voice actor for Shinji Ikari in both the original series and Rebuild films. Ogata's portrayal of Shinji's vulnerability and growth became definitive for the character.",
+    },
+    {
+      id: STAFF_IDS.miyamura,
+      name: "Yuko Miyamura",
+      nameJapanese: "宮村優子",
+      role: "Voice Actor",
+      bio: "Voice actor for Asuka Langley Soryu/Shikinami. Miyamura brought fierce energy and emotional depth to the character across all Evangelion productions.",
+    },
+    {
+      id: STAFF_IDS.hayashibara,
+      name: "Megumi Hayashibara",
+      nameJapanese: "林原めぐみ",
+      role: "Voice Actor",
+      bio: "Voice actor for Rei Ayanami and performed the iconic ending theme 'Fly Me to the Moon.' One of the most prolific voice actors in anime history.",
+    },
+    {
+      id: STAFF_IDS.mitsuishi,
+      name: "Kotono Mitsuishi",
+      nameJapanese: "三石琴乃",
+      role: "Voice Actor",
+      bio: "Voice actor for Misato Katsuragi. Known for her range from Sailor Moon to Evangelion, Mitsuishi created one of anime's most complex adult female characters.",
+    },
+    {
+      id: STAFF_IDS.ishida,
+      name: "Akira Ishida",
+      nameJapanese: "石田彰",
+      role: "Voice Actor",
+      bio: "Voice actor for Kaworu Nagisa. Ishida's gentle yet enigmatic performance made Kaworu one of anime's most memorable characters despite limited screen time.",
+    },
+    {
+      id: STAFF_IDS.tachiki,
+      name: "Fumihiko Tachiki",
+      nameJapanese: "立木文彦",
+      role: "Voice Actor",
+      bio: "Voice actor for Gendo Ikari and narrator. Tachiki's commanding presence defined the intimidating character. Also narrated the title cards throughout the series.",
+    },
+  ];
+
+  for (const member of staff) {
+    insertStaff.run(
+      member.id,
+      member.name,
+      member.nameJapanese,
+      member.role,
+      member.bio
+    );
+  }
+
+  // Studio-Staff junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS studio_staff (
+      studio_id TEXT NOT NULL,
+      staff_id TEXT NOT NULL,
+      PRIMARY KEY (studio_id, staff_id),
+      FOREIGN KEY (studio_id) REFERENCES studios(id),
+      FOREIGN KEY (staff_id) REFERENCES staff(id)
+    )
+  `);
+
+  const insertStudioStaff = db.prepare(
+    "INSERT INTO studio_staff (studio_id, staff_id) VALUES (?, ?)"
+  );
+
+  // Gainax staff (original series production)
+  const gainaxStaff = [
+    STAFF_IDS.anno,
+    STAFF_IDS.sadamoto,
+    STAFF_IDS.tsurumaki,
+    STAFF_IDS.sagisu,
+    STAFF_IDS.takahashi,
+    STAFF_IDS.honda,
+    STAFF_IDS.enokido,
+    STAFF_IDS.satsukawa,
+    STAFF_IDS.ogata,
+    STAFF_IDS.miyamura,
+    STAFF_IDS.hayashibara,
+    STAFF_IDS.mitsuishi,
+    STAFF_IDS.ishida,
+    STAFF_IDS.tachiki,
+  ];
+  for (const staffId of gainaxStaff) {
+    insertStudioStaff.run(STUDIO_IDS.gainax, staffId);
+  }
+
+  // Khara staff (Rebuild films)
+  const kharaStaff = [
+    STAFF_IDS.anno,
+    STAFF_IDS.sadamoto,
+    STAFF_IDS.tsurumaki,
+    STAFF_IDS.sagisu,
+    STAFF_IDS.honda,
+    STAFF_IDS.masayuki,
+    STAFF_IDS.ogata,
+    STAFF_IDS.miyamura,
+    STAFF_IDS.hayashibara,
+    STAFF_IDS.mitsuishi,
+    STAFF_IDS.ishida,
+    STAFF_IDS.tachiki,
+  ];
+  for (const staffId of kharaStaff) {
+    insertStudioStaff.run(STUDIO_IDS.khara, staffId);
+  }
+
+  // Tatsunoko Production assisted with animation
+  const tatsunokoStaff = [
+    STAFF_IDS.honda,
+  ];
+  for (const staffId of tatsunokoStaff) {
+    insertStudioStaff.run(STUDIO_IDS.tatsunoko, staffId);
+  }
 }

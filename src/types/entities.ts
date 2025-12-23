@@ -67,3 +67,11 @@ export interface Eva {
   type: string;
   description: string;
 }
+
+export interface Staff {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  role: string;
+  bio: string;
+}
