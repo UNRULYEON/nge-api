@@ -32,7 +32,6 @@ const app = new Elysia()
       },
     }),
   )
-  .get("/", () => "Hello Elysia")
   .use(angels)
   .use(characters)
   .use(episodes)
