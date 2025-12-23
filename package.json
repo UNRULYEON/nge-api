@@ -8,8 +8,11 @@
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.4.12",
+    "@elysiajs/opentelemetry": "^1.4.9",
     "@elysiajs/server-timing": "^1.4.0",
     "@elysiajs/static": "^1.4.7",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.67.3",
     "elysia": "latest",
     "elysia-rate-limit": "^4.4.2"
   },

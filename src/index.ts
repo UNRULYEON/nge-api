@@ -15,8 +15,26 @@ import {
   studios,
 } from "./modules";
 import serverTiming from "@elysiajs/server-timing";
+import { opentelemetry } from "@elysiajs/opentelemetry";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 
 const app = new Elysia()
+  .use(
+    opentelemetry({
+      serviceName: "nge-api",
+      spanProcessors: [
+        new BatchSpanProcessor(
+          new OTLPTraceExporter({
+            url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
+            headers: {
+              "signoz-ingestion-key": process.env.SIGNOZ_INGESTION_KEY,
+            },
+          }),
+        ),
+      ],
+    }),
+  )
   .headers({
     "X-Powered-By": "your-mom",
   })
