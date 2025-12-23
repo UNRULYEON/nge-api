@@ -11,8 +11,13 @@ import {
   shows,
   studios,
 } from "./modules";
+import serverTiming from "@elysiajs/server-timing";
 
 const app = new Elysia()
+  .headers({
+    "X-Powered-By": "your-mom",
+  })
+  .use(serverTiming())
   .use(staticPlugin())
   .use(
     openapi({

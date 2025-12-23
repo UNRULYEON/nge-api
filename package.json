@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.4.12",
+    "@elysiajs/server-timing": "^1.4.0",
     "@elysiajs/static": "^1.4.7",
     "elysia": "latest"
   },

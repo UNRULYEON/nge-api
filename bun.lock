@@ -5,6 +5,7 @@
       "name": "nge-api",
       "dependencies": {
         "@elysiajs/openapi": "^1.4.12",
+        "@elysiajs/server-timing": "^1.4.0",
         "@elysiajs/static": "^1.4.7",
         "elysia": "latest",
       },
@@ -18,6 +19,8 @@
     "@borewit/text-codec": ["@borewit/text-codec@0.1.1", "", {}, "sha512-5L/uBxmjaCIX5h8Z+uu+kA9BQLkc/Wl06UGR5ajNRxu+/XjonB5i8JpgFMrPj3LXTCPA0pv8yxUvbUi+QthGGA=="],
 
     "@elysiajs/openapi": ["@elysiajs/openapi@1.4.12", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-FhmWqUFDOidD2tUR0mrLnD2M0OUFF6cFUfKtHkQDbnAmCihFusxs7JvtUJjmEKZ++mzNvYLpbhZeJIXA7tIzLA=="],
+
+    "@elysiajs/server-timing": ["@elysiajs/server-timing@1.4.0", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-vDFdHyi8Q43vgA5MaTQMA9v4/bgKrtqPrpVqVuHlMCRQgfOpvYGXPj3okSttyendG5r2bRHfyPG11lTWWIrzrQ=="],
 
     "@elysiajs/static": ["@elysiajs/static@1.4.7", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-Go4kIXZ0G3iWfkAld07HmLglqIDMVXdyRKBQK/sVEjtpDdjHNb+rUIje73aDTWpZYg4PEVHUpi9v4AlNEwrQug=="],
 
