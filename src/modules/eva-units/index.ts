@@ -16,6 +16,9 @@ export const evaUnits = new Elysia({
       return repositories.evaUnits.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all EVA units.",
+      },
       response: {
         200: EvaUnitsModel.listResponse,
       },
@@ -33,6 +36,9 @@ export const evaUnits = new Elysia({
       return evaUnit;
     },
     {
+      detail: {
+        description: "Get an EVA unit by ID.",
+      },
       response: {
         200: EvaUnitsModel.getResponse,
         404: BaseModel.notFound,
@@ -51,6 +57,9 @@ export const evaUnits = new Elysia({
       return repositories.evaUnits.getPilots(params.id);
     },
     {
+      detail: {
+        description: "Get a list of pilots for an EVA unit.",
+      },
       response: {
         200: CharactersModel.listResponse,
         404: BaseModel.notFound,
@@ -75,6 +84,9 @@ export const evaUnits = new Elysia({
       return soul;
     },
     {
+      detail: {
+        description: "Get the soul contained within an EVA unit.",
+      },
       response: {
         200: CharactersModel.getResponse,
         404: BaseModel.notFound,
@@ -93,6 +105,9 @@ export const evaUnits = new Elysia({
       return repositories.evaUnits.getEpisodes(params.id);
     },
     {
+      detail: {
+        description: "Get a list of episodes for an EVA unit.",
+      },
       response: {
         200: EpisodesModel.listResponse,
         404: BaseModel.notFound,
@@ -111,6 +126,9 @@ export const evaUnits = new Elysia({
       return repositories.evaUnits.getMovies(params.id);
     },
     {
+      detail: {
+        description: "Get a list of movies for an EVA unit.",
+      },
       response: {
         200: MoviesModel.listResponse,
         404: BaseModel.notFound,

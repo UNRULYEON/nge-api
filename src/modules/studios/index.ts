@@ -16,6 +16,9 @@ export const studios = new Elysia({
       return repositories.studios.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all studios.",
+      },
       response: {
         200: StudiosModel.listResponse,
       },
@@ -33,6 +36,9 @@ export const studios = new Elysia({
       return studio;
     },
     {
+      detail: {
+        description: "Get a studio by ID.",
+      },
       response: {
         200: StudiosModel.getResponse,
         404: BaseModel.notFound,
@@ -51,6 +57,9 @@ export const studios = new Elysia({
       return repositories.studios.getShows(params.id);
     },
     {
+      detail: {
+        description: "Get a list of shows for a studio.",
+      },
       response: {
         200: ShowsModel.listResponse,
         404: BaseModel.notFound,
@@ -69,6 +78,9 @@ export const studios = new Elysia({
       return repositories.studios.getMovies(params.id);
     },
     {
+      detail: {
+        description: "Get a list of movies for a studio.",
+      },
       response: {
         200: MoviesModel.listResponse,
         404: BaseModel.notFound,
@@ -87,6 +99,9 @@ export const studios = new Elysia({
       return repositories.studios.getStaff(params.id);
     },
     {
+      detail: {
+        description: "Get a list of staff for a studio.",
+      },
       response: {
         200: StaffModel.listResponse,
         404: BaseModel.notFound,

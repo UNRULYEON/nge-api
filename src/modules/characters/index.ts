@@ -17,6 +17,9 @@ export const characters = new Elysia({
       return repositories.characters.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all characters.",
+      },
       response: {
         200: CharactersModel.listResponse,
       },
@@ -34,6 +37,9 @@ export const characters = new Elysia({
       return character;
     },
     {
+      detail: {
+        description: "Get a character by ID.",
+      },
       response: {
         200: CharactersModel.getResponse,
         404: BaseModel.notFound,
@@ -52,6 +58,9 @@ export const characters = new Elysia({
       return repositories.characters.getShows(params.id);
     },
     {
+      detail: {
+        description: "Get a list of shows for a character.",
+      },
       response: {
         200: ShowsModel.listResponse,
         404: BaseModel.notFound,
@@ -70,6 +79,9 @@ export const characters = new Elysia({
       return repositories.characters.getMovies(params.id);
     },
     {
+      detail: {
+        description: "Get a list of movies for a character.",
+      },
       response: {
         200: MoviesModel.listResponse,
         404: BaseModel.notFound,
@@ -88,6 +100,9 @@ export const characters = new Elysia({
       return repositories.characters.getEpisodes(params.id);
     },
     {
+      detail: {
+        description: "Get a list of episodes for a character.",
+      },
       response: {
         200: EpisodesModel.listResponse,
         404: BaseModel.notFound,
@@ -106,6 +121,9 @@ export const characters = new Elysia({
       return repositories.characters.getOrganizations(params.id);
     },
     {
+      detail: {
+        description: "Get a list of organizations for a character.",
+      },
       response: {
         200: OrganizationsModel.listResponse,
         404: BaseModel.notFound,

@@ -15,6 +15,9 @@ export const organizations = new Elysia({
       return repositories.organizations.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all organizations.",
+      },
       response: {
         200: OrganizationsModel.listResponse,
       },
@@ -32,6 +35,9 @@ export const organizations = new Elysia({
       return organization;
     },
     {
+      detail: {
+        description: "Get an organization by ID.",
+      },
       response: {
         200: OrganizationsModel.getResponse,
         404: BaseModel.notFound,
@@ -50,6 +56,9 @@ export const organizations = new Elysia({
       return repositories.organizations.getCharacters(params.id);
     },
     {
+      detail: {
+        description: "Get a list of characters for an organization.",
+      },
       response: {
         200: CharactersModel.listResponse,
         404: BaseModel.notFound,
@@ -68,6 +77,9 @@ export const organizations = new Elysia({
       return repositories.organizations.getEpisodes(params.id);
     },
     {
+      detail: {
+        description: "Get a list of episodes for an organization.",
+      },
       response: {
         200: EpisodesModel.listResponse,
         404: BaseModel.notFound,

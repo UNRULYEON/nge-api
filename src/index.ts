@@ -27,6 +27,12 @@ const app = new Elysia()
         info: {
           title: "NGE API",
           version: "0.0.1",
+          description: "An API for the Neon Genesis Evangelion franchise.",
+          contact: {
+            name: "Amar Kisoensingh",
+            email: "amar@kisoensingh.sh",
+            url: "https://amar.sh",
+          },
         },
       },
       path: "/",

@@ -14,6 +14,9 @@ export const staff = new Elysia({
       return repositories.staff.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all staff members.",
+      },
       response: {
         200: StaffModel.listResponse,
       },
@@ -31,6 +34,9 @@ export const staff = new Elysia({
       return member;
     },
     {
+      detail: {
+        description: "Get a staff member by ID.",
+      },
       response: {
         200: StaffModel.getResponse,
         404: BaseModel.notFound,
@@ -49,6 +55,9 @@ export const staff = new Elysia({
       return repositories.staff.getStudios(params.id);
     },
     {
+      detail: {
+        description: "Get a list of studios for a staff member.",
+      },
       response: {
         200: StudiosModel.listResponse,
         404: BaseModel.notFound,

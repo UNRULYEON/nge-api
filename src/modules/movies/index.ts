@@ -15,6 +15,9 @@ export const movies = new Elysia({
       return repositories.movies.getAll();
     },
     {
+      detail: {
+        description: "Get a list of all movies.",
+      },
       response: {
         200: MoviesModel.listResponse,
       },
@@ -32,6 +35,9 @@ export const movies = new Elysia({
       return movie;
     },
     {
+      detail: {
+        description: "Get a movie by ID.",
+      },
       response: {
         200: MoviesModel.getResponse,
         404: BaseModel.notFound,
@@ -50,6 +56,9 @@ export const movies = new Elysia({
       return repositories.movies.getCharacters(params.id);
     },
     {
+      detail: {
+        description: "Get a list of characters for a movie.",
+      },
       response: {
         200: CharactersModel.listResponse,
         404: BaseModel.notFound,
@@ -74,6 +83,9 @@ export const movies = new Elysia({
       return studio;
     },
     {
+      detail: {
+        description: "Get the studio for a movie.",
+      },
       response: {
         200: StudiosModel.getResponse,
         404: BaseModel.notFound,
