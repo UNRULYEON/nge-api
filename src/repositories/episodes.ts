@@ -20,10 +20,18 @@ function getCharacterIds(episodeId: string): string[] {
   return rows.map((r) => r.character_id);
 }
 
+function getAngelIds(episodeId: string): string[] {
+  const rows = db
+    .query(`SELECT angel_id FROM angel_episodes WHERE episode_id = ?`)
+    .all(episodeId) as { angel_id: string }[];
+  return rows.map((r) => r.angel_id);
+}
+
 function parseEpisode(row: EpisodeRow): Episode {
   return {
     ...row,
     characterIds: getCharacterIds(row.id),
+    angelIds: getAngelIds(row.id),
   };
 }
 

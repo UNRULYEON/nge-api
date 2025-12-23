@@ -878,6 +878,173 @@ export function initializeDatabase(db: Database) {
     );
   }
 
+  // Angels table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS angels (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      name_japanese TEXT NOT NULL,
+      number INTEGER NOT NULL,
+      description TEXT NOT NULL
+    )
+  `);
+
+  const insertAngel = db.prepare(
+    "INSERT INTO angels (id, name, name_japanese, number, description) VALUES (?, ?, ?, ?, ?)"
+  );
+
+  const ANGEL_IDS = {
+    adam: "019b4942-6ba6-7000-b4c3-bcde78d7ef7a",
+    lilith: "019b4942-6ba6-7001-9dbf-5d4564002a02",
+    sachiel: "019b4942-6ba6-7002-8642-12737a5ad140",
+    shamshel: "019b4942-6ba6-7003-9ad7-451cb89f665f",
+    ramiel: "019b4942-6ba6-7004-abbd-78b47f6f2813",
+    gaghiel: "019b4942-6ba6-7005-a8e7-5e90f5e108c6",
+    israfel: "019b4942-6ba6-7006-ad7f-477ac503e22f",
+    sandalphon: "019b4942-6ba6-7007-b9cf-25153d6db589",
+    matarael: "019b4942-6ba6-7008-8c54-a0d1a92f6a07",
+    sahaquiel: "019b4942-6ba6-7009-ba95-8303557856bf",
+    ireul: "019b4942-6ba6-700a-b673-dfc0bcb8c0c9",
+    leliel: "019b4942-6ba6-700b-b2c2-a6a9867d1135",
+    bardiel: "019b4942-6ba6-700c-93d8-db60b0cadfd2",
+    zeruel: "019b4942-6ba6-700d-b4f9-4654f0078550",
+    arael: "019b4942-6ba6-700e-a4ad-49e657db7e39",
+    armisael: "019b4942-6ba6-700f-816d-9994ec3bd985",
+    tabris: "019b4942-6ba6-7010-8d0a-b5ca4a58a4fc",
+  };
+
+  const angels = [
+    {
+      id: ANGEL_IDS.adam,
+      name: "Adam",
+      nameJapanese: "アダム",
+      number: 1,
+      description: "The First Angel, the progenitor of the other Angels. Adam was discovered in Antarctica and its awakening caused the Second Impact. Its embryonic form was later recovered and used in NERV's experiments.",
+    },
+    {
+      id: ANGEL_IDS.lilith,
+      name: "Lilith",
+      nameJapanese: "リリス",
+      number: 2,
+      description: "The Second Angel, the progenitor of humanity. Lilith is crucified in Terminal Dogma beneath NERV headquarters. The Evangelions are actually clones derived from Lilith, not Adam.",
+    },
+    {
+      id: ANGEL_IDS.sachiel,
+      name: "Sachiel",
+      nameJapanese: "サキエル",
+      number: 3,
+      description: "The Third Angel and the first to attack Tokyo-3. A humanoid Angel with a distinctive bird-like mask face. Defeated by Evangelion Unit-01 piloted by Shinji Ikari in his first battle.",
+    },
+    {
+      id: ANGEL_IDS.shamshel,
+      name: "Shamshel",
+      nameJapanese: "シャムシェル",
+      number: 4,
+      description: "The Fourth Angel, an insectoid creature with energy whips for arms. Shinji defeats it in close combat, though NERV is frustrated that its core was destroyed rather than captured for study.",
+    },
+    {
+      id: ANGEL_IDS.ramiel,
+      name: "Ramiel",
+      nameJapanese: "ラミエル",
+      number: 5,
+      description: "The Fifth Angel, a massive floating blue octahedron with a powerful particle beam and strong AT Field. Defeated through Operation Yashima using a positron rifle powered by Japan's entire electrical grid.",
+    },
+    {
+      id: ANGEL_IDS.gaghiel,
+      name: "Gaghiel",
+      nameJapanese: "ガギエル",
+      number: 6,
+      description: "The Sixth Angel, an aquatic Angel resembling a massive fish. It attacks the UN Pacific Fleet during the transport of Unit-02. Defeated by Asuka and Shinji working together in Unit-02.",
+    },
+    {
+      id: ANGEL_IDS.israfel,
+      name: "Israfel",
+      nameJapanese: "イスラフェル",
+      number: 7,
+      description: "The Seventh Angel, capable of splitting into two separate entities that must be destroyed simultaneously. Defeated by Shinji and Asuka performing a synchronized attack after extensive training.",
+    },
+    {
+      id: ANGEL_IDS.sandalphon,
+      name: "Sandalphon",
+      nameJapanese: "サンダルフォン",
+      number: 8,
+      description: "The Eighth Angel, discovered in embryonic form within a volcano. NERV attempts to capture it, but it hatches during the operation. Defeated by Asuka in Unit-02 in an underwater battle.",
+    },
+    {
+      id: ANGEL_IDS.matarael,
+      name: "Matarael",
+      nameJapanese: "マトリエル",
+      number: 9,
+      description: "The Ninth Angel, a spider-like creature that attacks during a citywide power outage. It secretes a powerful acid from its central eye. Defeated by all three Eva pilots working together.",
+    },
+    {
+      id: ANGEL_IDS.sahaquiel,
+      name: "Sahaquiel",
+      nameJapanese: "サハクィエル",
+      number: 10,
+      description: "The Tenth Angel, a massive orbital Angel that drops pieces of itself as bombs. It attempts to destroy NERV by falling on it directly. Caught and destroyed by all three Evangelion units.",
+    },
+    {
+      id: ANGEL_IDS.ireul,
+      name: "Ireul",
+      nameJapanese: "イロウル",
+      number: 11,
+      description: "The Eleventh Angel, a microscopic, computer virus-like entity that infiltrates the MAGI supercomputer system. Defeated by Ritsuko through a biological hack that accelerated its evolution to death.",
+    },
+    {
+      id: ANGEL_IDS.leliel,
+      name: "Leliel",
+      nameJapanese: "レリエル",
+      number: 12,
+      description: "The Twelfth Angel, whose true body is a shadow-like Dirac Sea that absorbs Unit-01 and Shinji. Its spherical appearance is actually its shadow. Unit-01 escapes by going berserk.",
+    },
+    {
+      id: ANGEL_IDS.bardiel,
+      name: "Bardiel",
+      nameJapanese: "バルディエル",
+      number: 13,
+      description: "The Thirteenth Angel, a parasitic entity that infects Evangelion Unit-03 during its activation test. The Dummy Plug system in Unit-01 brutally destroys it, severely injuring pilot Toji Suzuhara.",
+    },
+    {
+      id: ANGEL_IDS.zeruel,
+      name: "Zeruel",
+      nameJapanese: "ゼルエル",
+      number: 14,
+      description: "The Fourteenth Angel, one of the most powerful. A humanoid Angel with razor-sharp ribbon-like arms. Defeats Units 00 and 02 before being consumed by a berserk Unit-01, which absorbs its S² Engine.",
+    },
+    {
+      id: ANGEL_IDS.arael,
+      name: "Arael",
+      nameJapanese: "アラエル",
+      number: 15,
+      description: "The Fifteenth Angel, an orbital entity that psychologically attacks Asuka with a beam of light, forcing her to relive traumatic memories. Destroyed by Rei using the Lance of Longinus.",
+    },
+    {
+      id: ANGEL_IDS.armisael,
+      name: "Armisael",
+      nameJapanese: "アルミサエル",
+      number: 16,
+      description: "The Sixteenth Angel, a ring-shaped entity that attempts to merge with Unit-00 and Rei. Rei sacrifices herself and Unit-00 to destroy it, revealing her nature as a clone.",
+    },
+    {
+      id: ANGEL_IDS.tabris,
+      name: "Tabris (Kaworu Nagisa)",
+      nameJapanese: "タブリス（渚カヲル）",
+      number: 17,
+      description: "The Seventeenth and final Angel, who takes human form as Kaworu Nagisa. He befriends Shinji before revealing his nature and attempting to initiate Third Impact. Killed by Shinji in Unit-01.",
+    },
+  ];
+
+  for (const angel of angels) {
+    insertAngel.run(
+      angel.id,
+      angel.name,
+      angel.nameJapanese,
+      angel.number,
+      angel.description
+    );
+  }
+
   // Episode IDs for junction table references
   const EP_IDS = {
     ep1: "019b492f-8465-7000-bb58-88b18b1c1c8c",
@@ -1091,6 +1258,77 @@ export function initializeDatabase(db: Database) {
   }
 
   // WILLE doesn't appear in the TV series (Rebuild only)
+
+  // Angel-Episode junction table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS angel_episodes (
+      angel_id TEXT NOT NULL,
+      episode_id TEXT NOT NULL,
+      PRIMARY KEY (angel_id, episode_id),
+      FOREIGN KEY (angel_id) REFERENCES angels(id),
+      FOREIGN KEY (episode_id) REFERENCES episodes(id)
+    )
+  `);
+
+  const insertAngelEpisode = db.prepare(
+    "INSERT INTO angel_episodes (angel_id, episode_id) VALUES (?, ?)"
+  );
+
+  // Adam appears in flashbacks and Episode 21
+  insertAngelEpisode.run(ANGEL_IDS.adam, EP_IDS.ep15);
+  insertAngelEpisode.run(ANGEL_IDS.adam, EP_IDS.ep21);
+
+  // Lilith appears when revealed in Terminal Dogma
+  insertAngelEpisode.run(ANGEL_IDS.lilith, EP_IDS.ep15);
+  insertAngelEpisode.run(ANGEL_IDS.lilith, EP_IDS.ep24);
+
+  // Sachiel - Episodes 1-2
+  insertAngelEpisode.run(ANGEL_IDS.sachiel, EP_IDS.ep1);
+  insertAngelEpisode.run(ANGEL_IDS.sachiel, EP_IDS.ep2);
+
+  // Shamshel - Episode 3
+  insertAngelEpisode.run(ANGEL_IDS.shamshel, EP_IDS.ep3);
+
+  // Ramiel - Episodes 5-6
+  insertAngelEpisode.run(ANGEL_IDS.ramiel, EP_IDS.ep5);
+  insertAngelEpisode.run(ANGEL_IDS.ramiel, EP_IDS.ep6);
+
+  // Gaghiel - Episode 8
+  insertAngelEpisode.run(ANGEL_IDS.gaghiel, EP_IDS.ep8);
+
+  // Israfel - Episode 9
+  insertAngelEpisode.run(ANGEL_IDS.israfel, EP_IDS.ep9);
+
+  // Sandalphon - Episode 10
+  insertAngelEpisode.run(ANGEL_IDS.sandalphon, EP_IDS.ep10);
+
+  // Matarael - Episode 11
+  insertAngelEpisode.run(ANGEL_IDS.matarael, EP_IDS.ep11);
+
+  // Sahaquiel - Episode 12
+  insertAngelEpisode.run(ANGEL_IDS.sahaquiel, EP_IDS.ep12);
+
+  // Ireul - Episode 13
+  insertAngelEpisode.run(ANGEL_IDS.ireul, EP_IDS.ep13);
+
+  // Leliel - Episode 16
+  insertAngelEpisode.run(ANGEL_IDS.leliel, EP_IDS.ep16);
+
+  // Bardiel - Episodes 17-18
+  insertAngelEpisode.run(ANGEL_IDS.bardiel, EP_IDS.ep17);
+  insertAngelEpisode.run(ANGEL_IDS.bardiel, EP_IDS.ep18);
+
+  // Zeruel - Episode 19
+  insertAngelEpisode.run(ANGEL_IDS.zeruel, EP_IDS.ep19);
+
+  // Arael - Episode 22
+  insertAngelEpisode.run(ANGEL_IDS.arael, EP_IDS.ep22);
+
+  // Armisael - Episode 23
+  insertAngelEpisode.run(ANGEL_IDS.armisael, EP_IDS.ep23);
+
+  // Tabris (Kaworu) - Episode 24
+  insertAngelEpisode.run(ANGEL_IDS.tabris, EP_IDS.ep24);
 
   // Character-Organization relationships
   // NERV members

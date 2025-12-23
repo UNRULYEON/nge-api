@@ -10,6 +10,7 @@ export namespace EpisodesModel {
     airDate: t.String(),
     synopsis: t.String(),
     characterIds: t.Array(t.String({ format: "uuid" })),
+    angelIds: t.Array(t.String({ format: "uuid" })),
   });
   export type episode = typeof episode.static;
 

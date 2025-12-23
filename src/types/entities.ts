@@ -58,4 +58,14 @@ export interface Episode {
   airDate: string;
   synopsis: string;
   characterIds: string[];
+  angelIds: string[];
+}
+
+export interface Angel {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  number: number;
+  description: string;
+  episodeIds: string[];
 }

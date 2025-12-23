@@ -1,3 +1,4 @@
+export { angels } from "./angels";
 export { characters } from "./characters";
 export { episodes } from "./episodes";
 export { health } from "./health";
