@@ -7,7 +7,6 @@ interface CharacterRow {
   nameJapanese: string;
   age: number | null;
   gender: string;
-  affiliations: string;
   occupations: string;
   bio: string;
 }
@@ -26,13 +25,22 @@ function getMovieIds(characterId: string): string[] {
   return rows.map((r) => r.movie_id);
 }
 
+function getOrganizationIds(characterId: string): string[] {
+  const rows = db
+    .query(
+      `SELECT organization_id FROM character_organizations WHERE character_id = ?`
+    )
+    .all(characterId) as { organization_id: string }[];
+  return rows.map((r) => r.organization_id);
+}
+
 function parseCharacter(row: CharacterRow): Character {
   return {
     ...row,
-    affiliations: JSON.parse(row.affiliations),
     occupations: JSON.parse(row.occupations),
     showIds: getShowIds(row.id),
     movieIds: getMovieIds(row.id),
+    organizationIds: getOrganizationIds(row.id),
   };
 }
 
@@ -40,7 +48,7 @@ export const characters = {
   getAll(): Character[] {
     const rows = db
       .query(
-        `SELECT id, name, name_japanese as nameJapanese, age, gender, affiliations, occupations, bio FROM characters`
+        `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio FROM characters`
       )
       .all() as CharacterRow[];
     return rows.map(parseCharacter);
@@ -49,7 +57,7 @@ export const characters = {
   getById(id: string): Character | null {
     const row = db
       .query(
-        `SELECT id, name, name_japanese as nameJapanese, age, gender, affiliations, occupations, bio FROM characters WHERE id = ?`
+        `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio FROM characters WHERE id = ?`
       )
       .get(id) as CharacterRow | null;
     return row ? parseCharacter(row) : null;

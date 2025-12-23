@@ -32,9 +32,17 @@ export interface Character {
   nameJapanese: string;
   age: number | null;
   gender: string;
-  affiliations: string[];
   occupations: string[];
   bio: string;
   showIds: string[];
   movieIds: string[];
+  organizationIds: string[];
+}
+
+export interface Organization {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  type: string;
+  description: string;
 }

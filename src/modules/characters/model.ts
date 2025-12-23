@@ -7,11 +7,11 @@ export namespace CharactersModel {
     nameJapanese: t.String(),
     age: t.Nullable(t.Number()),
     gender: t.String(),
-    affiliations: t.Array(t.String()),
     occupations: t.Array(t.String()),
     bio: t.String(),
     showIds: t.Array(t.String({ format: "uuid" })),
     movieIds: t.Array(t.String({ format: "uuid" })),
+    organizationIds: t.Array(t.String({ format: "uuid" })),
   });
   export type character = typeof character.static;
 

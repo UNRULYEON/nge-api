@@ -1,7 +1,14 @@
 import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
 import { staticPlugin } from "@elysiajs/static";
-import { characters, health, movies, shows, studios } from "./modules";
+import {
+  characters,
+  health,
+  movies,
+  organizations,
+  shows,
+  studios,
+} from "./modules";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -27,6 +34,7 @@ const app = new Elysia()
   .use(characters)
   .use(health)
   .use(movies)
+  .use(organizations)
   .use(shows)
   .use(studios)
   .listen(3000);
