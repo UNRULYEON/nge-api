@@ -25,3 +25,16 @@ export interface Movie {
   studioId: string;
   synopsis: string;
 }
+
+export interface Character {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  age: number | null;
+  gender: string;
+  affiliations: string[];
+  occupations: string[];
+  bio: string;
+  showIds: string[];
+  movieIds: string[];
+}
