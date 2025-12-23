@@ -33,10 +33,12 @@ bun test
 - **Documentation**: Scalar (OpenAPI) at `/` with spec at `/openapi.json`
 - **Static files**: Served from `/public` directory
 - **Path aliases**: `@/*` maps to `src/*`
+- **Observability**: OpenTelemetry for distributed tracing
 
 ### Entry Point
 
 `src/index.ts` - Creates the Elysia app instance with plugins:
+- `opentelemetry()` - Distributed tracing with OpenTelemetry
 - `serverTiming()` - Adds Server-Timing headers for performance monitoring
 - `rateLimit()` - Rate limiting (1000 requests max)
 - `staticPlugin()` - Serves static files from /public
@@ -56,7 +58,7 @@ Use `.group()` for route prefixing and `.decorate()` for dependency injection.
 
 ## Endpoint Creation Rules
 
-Follow the studios endpoint pattern when creating new endpoints:
+Follow the characters or studios endpoint pattern when creating new endpoints:
 
 ### File Structure
 
@@ -108,6 +110,9 @@ export const <name> = new Elysia({
       return repositories.<name>.getAll();
     },
     {
+      detail: {
+        description: "Get all <name>",
+      },
       response: {
         200: <Name>Model.listResponse,
       },
@@ -123,12 +128,41 @@ export const <name> = new Elysia({
       return item;
     },
     {
+      detail: {
+        description: "Get a <name> by ID",
+      },
       response: {
         200: <Name>Model.getResponse,
         404: BaseModel.notFound,
       },
     },
   );
+```
+
+### Relationship Endpoints
+
+For entities with relationships, add sub-resource endpoints:
+
+```typescript
+.get(
+  "/:id/shows",
+  ({ params }) => {
+    const item = repositories.<name>.getById(params.id);
+    if (!item) {
+      throw new NotFoundError("NOT_FOUND");
+    }
+    return repositories.<name>.getShows(params.id);
+  },
+  {
+    detail: {
+      description: "Get shows related to this <name>",
+    },
+    response: {
+      200: ShowsModel.listResponse,
+      404: BaseModel.notFound,
+    },
+  },
+)
 ```
 
 ### Registration
@@ -149,6 +183,7 @@ export const <name> = new Elysia({
 
 - Use namespaced model exports (e.g., `StudiosModel.listResponse`)
 - Always define response schemas for OpenAPI documentation
+- Add `detail.description` for OpenAPI endpoint descriptions
 - Set `tags` for Scalar UI grouping
 - Use `prefix` for route grouping
 - Use `BaseModel` for common error responses
@@ -171,40 +206,106 @@ Use these in route response schemas for consistent error handling.
 
 ## Database
 
-SQLite in-memory database initialized on server start. Schema and seed data live in `src/db/schema.ts`.
+SQLite in-memory database initialized on server start. The schema is modularized into separate files per entity.
 
 ### Structure
 
 ```
 src/db/
-├── index.ts      # Creates db connection, calls initializeDatabase()
-└── schema.ts     # Table definitions and seed data
+├── index.ts           # Creates db connection
+└── schema/
+    ├── index.ts       # Orchestrates all initialization functions
+    ├── ids.ts         # Shared UUIDs for cross-file references
+    ├── characters.ts  # Character table and seed data
+    ├── episodes.ts    # Episode table and seed data
+    ├── evas.ts        # Eva unit table and seed data
+    ├── movies.ts      # Movie table and seed data
+    ├── organizations.ts # Organization table and seed data
+    ├── relations.ts   # Junction tables for many-to-many relationships
+    ├── shows.ts       # Show table and seed data
+    ├── staff.ts       # Staff table and seed data
+    └── studios.ts     # Studio table and seed data
 ```
 
-### Adding Tables and Seed Data
+### Schema Module Pattern
+
+Each schema file exports an initialization function:
 
 ```typescript
-// In src/db/schema.ts initializeDatabase()
-db.run(`
-  CREATE TABLE IF NOT EXISTS <table> (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    // ... fields
-  )
-`);
+// src/db/schema/<name>.ts
+import type { Database } from "bun:sqlite";
+import { <NAME>_IDS } from "./ids";
 
-const insert<Name> = db.prepare(
-  "INSERT INTO <table> (id, name, ...) VALUES (?, ?, ...)"
-);
+export function initialize<Name>(db: Database) {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS <table> (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      // ... fields
+    )
+  `);
 
-const <items> = [
-  { id: "<uuid>", name: "...", ... },
-];
+  const insert = db.prepare(
+    "INSERT INTO <table> (id, name, ...) VALUES (?, ?, ...)"
+  );
 
-for (const item of <items>) {
-  insert<Name>.run(item.id, item.name, ...);
+  const items = [
+    { id: <NAME>_IDS.item1, name: "...", ... },
+  ];
+
+  for (const item of items) {
+    insert.run(item.id, item.name, ...);
+  }
 }
 ```
+
+### Centralized IDs
+
+The `src/db/schema/ids.ts` file exports ID constants for all entities:
+
+```typescript
+export const STUDIO_IDS = {
+  gainax: "019b48ba-...",
+  khara: "019b48ba-...",
+};
+
+export const CHAR_IDS = {
+  shinji: "019b48ba-...",
+  rei: "019b48ba-...",
+};
+```
+
+This enables safe foreign key references across schema files.
+
+### Junction Tables (Relations)
+
+Many-to-many relationships use junction tables defined in `src/db/schema/relations.ts`:
+
+```typescript
+db.run(`
+  CREATE TABLE IF NOT EXISTS character_shows (
+    character_id TEXT NOT NULL,
+    show_id TEXT NOT NULL,
+    PRIMARY KEY (character_id, show_id),
+    FOREIGN KEY (character_id) REFERENCES characters(id),
+    FOREIGN KEY (show_id) REFERENCES shows(id)
+  )
+`);
+```
+
+Available junction tables:
+- `character_shows` - Characters appearing in shows
+- `character_movies` - Characters appearing in movies
+- `character_organizations` - Characters belonging to organizations
+- `character_episodes` - Characters appearing in episodes
+- `organization_episodes` - Organizations featured in episodes
+
+### Adding New Schema
+
+1. Create `src/db/schema/<name>.ts` with `initialize<Name>(db)` function
+2. Add IDs to `src/db/schema/ids.ts` if needed for cross-references
+3. Import and call in `src/db/schema/index.ts` (respect dependency order)
+4. Add junction tables to `relations.ts` if relationships exist
 
 ## Entity Types
 
@@ -233,17 +334,55 @@ Database operations are abstracted through repositories in `src/repositories/`. 
 ```typescript
 // src/repositories/<name>.ts
 import { db } from "@/db";
+import { record } from "@/utils/otel";
 import type { <Name> } from "@/types/entities";
 
 export const <name> = {
   getAll(): <Name>[] {
-    return db.query("SELECT * FROM <table>").all() as <Name>[];
+    return record("<name>.getAll", () => {
+      return db.query("SELECT * FROM <table>").all() as <Name>[];
+    });
   },
 
   getById(id: string): <Name> | null {
-    return db.query("SELECT * FROM <table> WHERE id = ?").get(id) as <Name> | null;
+    return record("<name>.getById", () => {
+      return db.query("SELECT * FROM <table> WHERE id = ?").get(id) as <Name> | null;
+    });
   },
 };
+```
+
+### Relationship Queries
+
+For entities with relationships, add methods to query related data:
+
+```typescript
+getShows(id: string): Show[] {
+  return record("<name>.getShows", () => {
+    return db.query(`
+      SELECT s.* FROM shows s
+      JOIN <name>_shows ns ON s.id = ns.show_id
+      WHERE ns.<name>_id = ?
+    `).all(id) as Show[];
+  });
+},
+```
+
+### JSON Field Parsing
+
+For entities with JSON fields stored as strings:
+
+```typescript
+interface <Name>Row {
+  occupations: string;  // JSON string in DB
+}
+
+function parse<Name>(row: <Name>Row): <Name> {
+  return {
+    ...row,
+    occupations: JSON.parse(row.occupations),
+  };
+}
 ```
 
 ### Registration
@@ -267,7 +406,32 @@ import { repositories } from "@/repositories";
 // In route handler
 const items = repositories.<name>.getAll();
 const item = repositories.<name>.getById(id);
+const shows = repositories.<name>.getShows(id);
 ```
+
+## OpenTelemetry
+
+The API uses OpenTelemetry for distributed tracing.
+
+### Configuration
+
+Environment variables:
+- `OTEL_EXPORTER_OTLP_ENDPOINT` - OTLP endpoint URL
+- `SIGNOZ_INGESTION_KEY` - SigNoz ingestion key (optional)
+
+### Tracing Database Operations
+
+Use the `record` utility to wrap database operations:
+
+```typescript
+import { record } from "@/utils/otel";
+
+const result = record("operation.name", () => {
+  return db.query("SELECT * FROM table").all();
+});
+```
+
+This creates spans for each operation, enabling performance analysis.
 
 ## UUID Generation
 
