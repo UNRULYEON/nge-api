@@ -20,7 +20,7 @@ export function registerStaffTools(server: McpServer) {
       record("mcp.tool.list-staff", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.staff.getAll(), null, 2),
           },
         ],
@@ -41,7 +41,7 @@ export function registerStaffTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Staff member not found" }),
               },
             ],
@@ -49,7 +49,7 @@ export function registerStaffTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(staffMember, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(staffMember, null, 2) }],
         };
       })
   );
@@ -68,7 +68,7 @@ export function registerStaffTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Staff member not found" }),
               },
             ],
@@ -77,7 +77,7 @@ export function registerStaffTools(server: McpServer) {
         }
         const studios = repositories.staff.getStudios(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(studios, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(studios, null, 2) }],
         };
       })
   );

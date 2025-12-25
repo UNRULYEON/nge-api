@@ -20,7 +20,7 @@ export function registerOrganizationTools(server: McpServer) {
       record("mcp.tool.list-organizations", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.organizations.getAll(), null, 2),
           },
         ],
@@ -41,7 +41,7 @@ export function registerOrganizationTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Organization not found" }),
               },
             ],
@@ -50,7 +50,7 @@ export function registerOrganizationTools(server: McpServer) {
         }
         return {
           content: [
-            { type: "text", text: JSON.stringify(organization, null, 2) },
+            { type: "text" as const, text: JSON.stringify(organization, null, 2) },
           ],
         };
       })
@@ -70,7 +70,7 @@ export function registerOrganizationTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Organization not found" }),
               },
             ],
@@ -79,7 +79,7 @@ export function registerOrganizationTools(server: McpServer) {
         }
         const characters = repositories.organizations.getCharacters(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(characters, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(characters, null, 2) }],
         };
       })
   );
@@ -98,7 +98,7 @@ export function registerOrganizationTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Organization not found" }),
               },
             ],
@@ -107,7 +107,7 @@ export function registerOrganizationTools(server: McpServer) {
         }
         const episodes = repositories.organizations.getEpisodes(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
         };
       })
   );

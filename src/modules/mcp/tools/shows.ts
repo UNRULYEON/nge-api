@@ -19,7 +19,7 @@ export function registerShowTools(server: McpServer) {
       record("mcp.tool.list-shows", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.shows.getAll(), null, 2),
           },
         ],
@@ -39,13 +39,13 @@ export function registerShowTools(server: McpServer) {
         if (!show) {
           return {
             content: [
-              { type: "text", text: JSON.stringify({ error: "Show not found" }) },
+              { type: "text" as const, text: JSON.stringify({ error: "Show not found" }) },
             ],
             isError: true,
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(show, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(show, null, 2) }],
         };
       })
   );
@@ -63,7 +63,7 @@ export function registerShowTools(server: McpServer) {
         if (!show) {
           return {
             content: [
-              { type: "text", text: JSON.stringify({ error: "Show not found" }) },
+              { type: "text" as const, text: JSON.stringify({ error: "Show not found" }) },
             ],
             isError: true,
           };
@@ -73,7 +73,7 @@ export function registerShowTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Studio not found" }),
               },
             ],
@@ -81,7 +81,7 @@ export function registerShowTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(studio, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(studio, null, 2) }],
         };
       })
   );
@@ -99,14 +99,14 @@ export function registerShowTools(server: McpServer) {
         if (!show) {
           return {
             content: [
-              { type: "text", text: JSON.stringify({ error: "Show not found" }) },
+              { type: "text" as const, text: JSON.stringify({ error: "Show not found" }) },
             ],
             isError: true,
           };
         }
         const characters = repositories.shows.getCharacters(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(characters, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(characters, null, 2) }],
         };
       })
   );

@@ -20,7 +20,7 @@ export function registerCharacterTools(server: McpServer) {
       record("mcp.tool.list-characters", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.characters.getAll(), null, 2),
           },
         ],
@@ -41,7 +41,7 @@ export function registerCharacterTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Character not found" }),
               },
             ],
@@ -49,7 +49,7 @@ export function registerCharacterTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(character, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(character, null, 2) }],
         };
       })
   );
@@ -68,7 +68,7 @@ export function registerCharacterTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Character not found" }),
               },
             ],
@@ -77,7 +77,7 @@ export function registerCharacterTools(server: McpServer) {
         }
         const shows = repositories.characters.getShows(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(shows, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
         };
       })
   );
@@ -96,7 +96,7 @@ export function registerCharacterTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Character not found" }),
               },
             ],
@@ -105,7 +105,7 @@ export function registerCharacterTools(server: McpServer) {
         }
         const movies = repositories.characters.getMovies(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(movies, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
         };
       })
   );
@@ -124,7 +124,7 @@ export function registerCharacterTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Character not found" }),
               },
             ],
@@ -133,7 +133,7 @@ export function registerCharacterTools(server: McpServer) {
         }
         const episodes = repositories.characters.getEpisodes(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
         };
       })
   );
@@ -152,7 +152,7 @@ export function registerCharacterTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Character not found" }),
               },
             ],
@@ -162,7 +162,7 @@ export function registerCharacterTools(server: McpServer) {
         const organizations = repositories.characters.getOrganizations(id);
         return {
           content: [
-            { type: "text", text: JSON.stringify(organizations, null, 2) },
+            { type: "text" as const, text: JSON.stringify(organizations, null, 2) },
           ],
         };
       })

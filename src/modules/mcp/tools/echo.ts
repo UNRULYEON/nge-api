@@ -14,7 +14,7 @@ export function registerEchoTool(server: McpServer) {
     },
     async ({ text }) =>
       record("mcp.tool.echo", () => ({
-        content: [{ type: "text", text: `Echo: ${text}` }],
+        content: [{ type: "text" as const, text: `Echo: ${text}` }],
       }))
   );
 }

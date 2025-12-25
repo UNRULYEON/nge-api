@@ -20,7 +20,7 @@ export function registerStudioTools(server: McpServer) {
       record("mcp.tool.list-studios", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.studios.getAll(), null, 2),
           },
         ],
@@ -41,7 +41,7 @@ export function registerStudioTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Studio not found" }),
               },
             ],
@@ -49,7 +49,7 @@ export function registerStudioTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(studio, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(studio, null, 2) }],
         };
       })
   );
@@ -68,7 +68,7 @@ export function registerStudioTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Studio not found" }),
               },
             ],
@@ -77,7 +77,7 @@ export function registerStudioTools(server: McpServer) {
         }
         const shows = repositories.studios.getShows(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(shows, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
         };
       })
   );
@@ -96,7 +96,7 @@ export function registerStudioTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Studio not found" }),
               },
             ],
@@ -105,7 +105,7 @@ export function registerStudioTools(server: McpServer) {
         }
         const movies = repositories.studios.getMovies(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(movies, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
         };
       })
   );
@@ -124,7 +124,7 @@ export function registerStudioTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Studio not found" }),
               },
             ],
@@ -133,7 +133,7 @@ export function registerStudioTools(server: McpServer) {
         }
         const staff = repositories.studios.getStaff(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(staff, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(staff, null, 2) }],
         };
       })
   );

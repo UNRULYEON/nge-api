@@ -20,7 +20,7 @@ export function registerEvaUnitTools(server: McpServer) {
       record("mcp.tool.list-eva-units", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.evaUnits.getAll(), null, 2),
           },
         ],
@@ -41,7 +41,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Eva unit not found" }),
               },
             ],
@@ -49,7 +49,7 @@ export function registerEvaUnitTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(eva, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(eva, null, 2) }],
         };
       })
   );
@@ -68,7 +68,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Eva unit not found" }),
               },
             ],
@@ -80,7 +80,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Soul not found for this Eva" }),
               },
             ],
@@ -88,7 +88,7 @@ export function registerEvaUnitTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(soul, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(soul, null, 2) }],
         };
       })
   );
@@ -107,7 +107,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Eva unit not found" }),
               },
             ],
@@ -116,7 +116,7 @@ export function registerEvaUnitTools(server: McpServer) {
         }
         const pilots = repositories.evaUnits.getPilots(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(pilots, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(pilots, null, 2) }],
         };
       })
   );
@@ -135,7 +135,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Eva unit not found" }),
               },
             ],
@@ -144,7 +144,7 @@ export function registerEvaUnitTools(server: McpServer) {
         }
         const episodes = repositories.evaUnits.getEpisodes(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
         };
       })
   );
@@ -163,7 +163,7 @@ export function registerEvaUnitTools(server: McpServer) {
           return {
             content: [
               {
-                type: "text",
+                type: "text" as const,
                 text: JSON.stringify({ error: "Eva unit not found" }),
               },
             ],
@@ -172,7 +172,7 @@ export function registerEvaUnitTools(server: McpServer) {
         }
         const movies = repositories.evaUnits.getMovies(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(movies, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
         };
       })
   );

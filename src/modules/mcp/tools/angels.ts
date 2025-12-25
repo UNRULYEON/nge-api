@@ -19,7 +19,7 @@ export function registerAngelTools(server: McpServer) {
       record("mcp.tool.list-angels", () => ({
         content: [
           {
-            type: "text",
+            type: "text" as const,
             text: JSON.stringify(repositories.angels.getAll(), null, 2),
           },
         ],
@@ -39,13 +39,13 @@ export function registerAngelTools(server: McpServer) {
         if (!angel) {
           return {
             content: [
-              { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
+              { type: "text" as const, text: JSON.stringify({ error: "Angel not found" }) },
             ],
             isError: true,
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(angel, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(angel, null, 2) }],
         };
       })
   );
@@ -63,14 +63,14 @@ export function registerAngelTools(server: McpServer) {
         if (!angel) {
           return {
             content: [
-              { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
+              { type: "text" as const, text: JSON.stringify({ error: "Angel not found" }) },
             ],
             isError: true,
           };
         }
         const episodes = repositories.angels.getEpisodes(id);
         return {
-          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
+          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
         };
       })
   );
