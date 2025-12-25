@@ -1,5 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
+import { record } from "@elysiajs/opentelemetry";
 
 export function registerEchoTool(server: McpServer) {
   server.registerTool(
@@ -11,8 +12,9 @@ export function registerEchoTool(server: McpServer) {
         text: z.string().describe("The text to echo back"),
       },
     },
-    async ({ text }) => ({
-      content: [{ type: "text", text: `Echo: ${text}` }],
-    })
+    async ({ text }) =>
+      record("mcp.tool.echo", () => ({
+        content: [{ type: "text", text: `Echo: ${text}` }],
+      }))
   );
 }

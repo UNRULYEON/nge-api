@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
+import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the episode"),
@@ -15,14 +16,15 @@ export function registerEpisodeTools(server: McpServer) {
         "Get all episodes from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
-    async () => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(repositories.episodes.getAll(), null, 2),
-        },
-      ],
-    })
+    async () =>
+      record("mcp.tool.list-episodes", () => ({
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(repositories.episodes.getAll(), null, 2),
+          },
+        ],
+      }))
   );
 
   server.registerTool(
@@ -32,23 +34,24 @@ export function registerEpisodeTools(server: McpServer) {
       description: "Get a specific episode by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const episode = repositories.episodes.getById(id);
-      if (!episode) {
+    async ({ id }) =>
+      record("mcp.tool.get-episode", () => {
+        const episode = repositories.episodes.getById(id);
+        if (!episode) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Episode not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Episode not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(episode, null, 2) }],
         };
-      }
-      return {
-        content: [{ type: "text", text: JSON.stringify(episode, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -58,32 +61,33 @@ export function registerEpisodeTools(server: McpServer) {
       description: "Get the show that an episode belongs to",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const episode = repositories.episodes.getById(id);
-      if (!episode) {
+    async ({ id }) =>
+      record("mcp.tool.get-episode-show", () => {
+        const episode = repositories.episodes.getById(id);
+        if (!episode) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Episode not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const show = repositories.episodes.getShow(id);
+        if (!show) {
+          return {
+            content: [
+              { type: "text", text: JSON.stringify({ error: "Show not found" }) },
+            ],
+            isError: true,
+          };
+        }
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Episode not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(show, null, 2) }],
         };
-      }
-      const show = repositories.episodes.getShow(id);
-      if (!show) {
-        return {
-          content: [
-            { type: "text", text: JSON.stringify({ error: "Show not found" }) },
-          ],
-          isError: true,
-        };
-      }
-      return {
-        content: [{ type: "text", text: JSON.stringify(show, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -93,24 +97,25 @@ export function registerEpisodeTools(server: McpServer) {
       description: "Get all characters that appear in an episode",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const episode = repositories.episodes.getById(id);
-      if (!episode) {
+    async ({ id }) =>
+      record("mcp.tool.get-episode-characters", () => {
+        const episode = repositories.episodes.getById(id);
+        if (!episode) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Episode not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const characters = repositories.episodes.getCharacters(id);
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Episode not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(characters, null, 2) }],
         };
-      }
-      const characters = repositories.episodes.getCharacters(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(characters, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -120,24 +125,25 @@ export function registerEpisodeTools(server: McpServer) {
       description: "Get all Angels that appear in an episode",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const episode = repositories.episodes.getById(id);
-      if (!episode) {
+    async ({ id }) =>
+      record("mcp.tool.get-episode-angels", () => {
+        const episode = repositories.episodes.getById(id);
+        if (!episode) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Episode not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const angels = repositories.episodes.getAngels(id);
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Episode not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(angels, null, 2) }],
         };
-      }
-      const angels = repositories.episodes.getAngels(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(angels, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -147,25 +153,26 @@ export function registerEpisodeTools(server: McpServer) {
       description: "Get all organizations featured in an episode",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const episode = repositories.episodes.getById(id);
-      if (!episode) {
+    async ({ id }) =>
+      record("mcp.tool.get-episode-organizations", () => {
+        const episode = repositories.episodes.getById(id);
+        if (!episode) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Episode not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const organizations = repositories.episodes.getOrganizations(id);
         return {
           content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Episode not found" }),
-            },
+            { type: "text", text: JSON.stringify(organizations, null, 2) },
           ],
-          isError: true,
         };
-      }
-      const organizations = repositories.episodes.getOrganizations(id);
-      return {
-        content: [
-          { type: "text", text: JSON.stringify(organizations, null, 2) },
-        ],
-      };
-    }
+      })
   );
 }

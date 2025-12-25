@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
+import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the Eva unit"),
@@ -15,14 +16,15 @@ export function registerEvaUnitTools(server: McpServer) {
         "Get all Evangelion units from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
-    async () => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(repositories.evaUnits.getAll(), null, 2),
-        },
-      ],
-    })
+    async () =>
+      record("mcp.tool.list-eva-units", () => ({
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(repositories.evaUnits.getAll(), null, 2),
+          },
+        ],
+      }))
   );
 
   server.registerTool(
@@ -32,23 +34,24 @@ export function registerEvaUnitTools(server: McpServer) {
       description: "Get a specific Evangelion unit by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const eva = repositories.evaUnits.getById(id);
-      if (!eva) {
+    async ({ id }) =>
+      record("mcp.tool.get-eva-unit", () => {
+        const eva = repositories.evaUnits.getById(id);
+        if (!eva) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Eva unit not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Eva unit not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(eva, null, 2) }],
         };
-      }
-      return {
-        content: [{ type: "text", text: JSON.stringify(eva, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -58,35 +61,36 @@ export function registerEvaUnitTools(server: McpServer) {
       description: "Get the soul (character) contained within an Eva unit",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const eva = repositories.evaUnits.getById(id);
-      if (!eva) {
+    async ({ id }) =>
+      record("mcp.tool.get-eva-unit-soul", () => {
+        const eva = repositories.evaUnits.getById(id);
+        if (!eva) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Eva unit not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const soul = repositories.evaUnits.getSoul(id);
+        if (!soul) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Soul not found for this Eva" }),
+              },
+            ],
+            isError: true,
+          };
+        }
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Eva unit not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(soul, null, 2) }],
         };
-      }
-      const soul = repositories.evaUnits.getSoul(id);
-      if (!soul) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Soul not found for this Eva" }),
-            },
-          ],
-          isError: true,
-        };
-      }
-      return {
-        content: [{ type: "text", text: JSON.stringify(soul, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -96,24 +100,25 @@ export function registerEvaUnitTools(server: McpServer) {
       description: "Get all pilots who have piloted an Eva unit",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const eva = repositories.evaUnits.getById(id);
-      if (!eva) {
+    async ({ id }) =>
+      record("mcp.tool.get-eva-unit-pilots", () => {
+        const eva = repositories.evaUnits.getById(id);
+        if (!eva) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Eva unit not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const pilots = repositories.evaUnits.getPilots(id);
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Eva unit not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(pilots, null, 2) }],
         };
-      }
-      const pilots = repositories.evaUnits.getPilots(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(pilots, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -123,24 +128,25 @@ export function registerEvaUnitTools(server: McpServer) {
       description: "Get all episodes where an Eva unit appears",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const eva = repositories.evaUnits.getById(id);
-      if (!eva) {
+    async ({ id }) =>
+      record("mcp.tool.get-eva-unit-episodes", () => {
+        const eva = repositories.evaUnits.getById(id);
+        if (!eva) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Eva unit not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const episodes = repositories.evaUnits.getEpisodes(id);
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Eva unit not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
         };
-      }
-      const episodes = repositories.evaUnits.getEpisodes(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -150,23 +156,24 @@ export function registerEvaUnitTools(server: McpServer) {
       description: "Get all movies where an Eva unit appears",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const eva = repositories.evaUnits.getById(id);
-      if (!eva) {
+    async ({ id }) =>
+      record("mcp.tool.get-eva-unit-movies", () => {
+        const eva = repositories.evaUnits.getById(id);
+        if (!eva) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: "Eva unit not found" }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        const movies = repositories.evaUnits.getMovies(id);
         return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({ error: "Eva unit not found" }),
-            },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(movies, null, 2) }],
         };
-      }
-      const movies = repositories.evaUnits.getMovies(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(movies, null, 2) }],
-      };
-    }
+      })
   );
 }

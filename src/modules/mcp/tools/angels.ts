@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
+import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the Angel"),
@@ -14,14 +15,15 @@ export function registerAngelTools(server: McpServer) {
       description: "Get all Angels from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
-    async () => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(repositories.angels.getAll(), null, 2),
-        },
-      ],
-    })
+    async () =>
+      record("mcp.tool.list-angels", () => ({
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(repositories.angels.getAll(), null, 2),
+          },
+        ],
+      }))
   );
 
   server.registerTool(
@@ -31,20 +33,21 @@ export function registerAngelTools(server: McpServer) {
       description: "Get a specific Angel by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const angel = repositories.angels.getById(id);
-      if (!angel) {
+    async ({ id }) =>
+      record("mcp.tool.get-angel", () => {
+        const angel = repositories.angels.getById(id);
+        if (!angel) {
+          return {
+            content: [
+              { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
+            ],
+            isError: true,
+          };
+        }
         return {
-          content: [
-            { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(angel, null, 2) }],
         };
-      }
-      return {
-        content: [{ type: "text", text: JSON.stringify(angel, null, 2) }],
-      };
-    }
+      })
   );
 
   server.registerTool(
@@ -54,20 +57,21 @@ export function registerAngelTools(server: McpServer) {
       description: "Get all episodes where a specific Angel appears",
       inputSchema: idInputSchema,
     },
-    async ({ id }) => {
-      const angel = repositories.angels.getById(id);
-      if (!angel) {
+    async ({ id }) =>
+      record("mcp.tool.get-angel-episodes", () => {
+        const angel = repositories.angels.getById(id);
+        if (!angel) {
+          return {
+            content: [
+              { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
+            ],
+            isError: true,
+          };
+        }
+        const episodes = repositories.angels.getEpisodes(id);
         return {
-          content: [
-            { type: "text", text: JSON.stringify({ error: "Angel not found" }) },
-          ],
-          isError: true,
+          content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
         };
-      }
-      const episodes = repositories.angels.getEpisodes(id);
-      return {
-        content: [{ type: "text", text: JSON.stringify(episodes, null, 2) }],
-      };
-    }
+      })
   );
 }
