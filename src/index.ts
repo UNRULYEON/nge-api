@@ -18,6 +18,12 @@ import serverTiming from "@elysiajs/server-timing";
 import { opentelemetry } from "@elysiajs/opentelemetry";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { mcp } from "elysia-mcp";
+import {
+  mcpServerInfo,
+  mcpCapabilities,
+  setupMcpServer,
+} from "./modules/mcp";
 
 const app = new Elysia()
   .use(
@@ -79,6 +85,15 @@ const app = new Elysia()
   .use(shows)
   .use(staff)
   .use(studios)
+  .use(
+    mcp({
+      serverInfo: mcpServerInfo,
+      stateless: true,
+      enableJsonResponse: true,
+      capabilities: mcpCapabilities,
+      setupServer: setupMcpServer,
+    }),
+  )
   .listen(3000);
 
 console.log(

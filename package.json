@@ -11,10 +11,13 @@
     "@elysiajs/opentelemetry": "^1.4.9",
     "@elysiajs/server-timing": "^1.4.0",
     "@elysiajs/static": "^1.4.7",
+    "@modelcontextprotocol/sdk": "^1.25.1",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.67.3",
     "elysia": "latest",
-    "elysia-rate-limit": "^4.4.2"
+    "elysia-mcp": "^0.1.0",
+    "elysia-rate-limit": "^4.4.2",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "bun-types": "latest",
