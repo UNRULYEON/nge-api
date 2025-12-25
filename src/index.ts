@@ -19,11 +19,7 @@ import { opentelemetry } from "@elysiajs/opentelemetry";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { mcp } from "elysia-mcp";
-import {
-  mcpServerInfo,
-  mcpCapabilities,
-  setupMcpServer,
-} from "./modules/mcp";
+import { mcpServerInfo, mcpCapabilities, setupMcpServer } from "./modules/mcp";
 
 const app = new Elysia()
   .use(
@@ -64,14 +60,32 @@ const app = new Elysia()
             url: "https://amar.sh",
           },
         },
+        tags: [
+          {
+            name: "mcp",
+            description: `## Model Context Protocol (MCP)
+
+This API exposes an MCP server for AI assistants and LLM tools.
+
+### Endpoint
+
+\`\`\`
+https://nge-api.dev/mcp
+\`\`\`
+
+Stateless MCP endpoint with JSON responses enabled.
+`,
+          },
+        ],
       },
       path: "/",
       specPath: "/openapi.json",
       scalar: {
         favicon: "public/rei-plush-favicon.svg",
+        defaultOpenAllTags: true,
       },
       exclude: {
-        paths: ["/", "/public/*"],
+        paths: ["/", "/public/*", "/mcp", "/mcp/*"],
       },
     }),
   )
