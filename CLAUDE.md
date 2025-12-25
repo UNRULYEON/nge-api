@@ -23,7 +23,81 @@ bun install
 
 # Run tests
 bun test
+
+# Type check the codebase
+bunx tsc --noEmit
 ```
+
+## Required Checks
+
+Always run the TypeScript type checker and build after making any code changes:
+
+```bash
+# Type check
+bunx tsc --noEmit
+
+# Build
+bun build src/index.ts --outdir=dist --target=bun
+```
+
+Fix any type errors or build failures before considering the task complete.
+
+## Observability Requirements
+
+All code must be instrumented with OpenTelemetry for distributed tracing. Every significant operation should create a span for observability.
+
+### Wrapping Operations
+
+Use the `record` function from `@elysiajs/opentelemetry` to wrap any operation that should be traced:
+
+```typescript
+import { record } from "@elysiajs/opentelemetry";
+
+// Database operations
+const result = record("db.users.getById", () => {
+  return db.query("SELECT * FROM users WHERE id = ?").get(id);
+});
+
+// MCP tool handlers
+async () => record("mcp.tool.list-items", () => ({
+  content: [{ type: "text" as const, text: JSON.stringify(data) }],
+}))
+
+// Business logic
+const processed = record("service.processOrder", () => {
+  return orderService.process(order);
+});
+```
+
+### Naming Conventions
+
+Use dot-notation for span names that indicates the layer and operation:
+
+- `db.<entity>.<operation>` - Database operations (e.g., `db.characters.getAll`)
+- `mcp.tool.<tool-name>` - MCP tool handlers (e.g., `mcp.tool.list-studios`)
+- `service.<name>.<operation>` - Business logic (e.g., `service.auth.validate`)
+- `http.<method>.<path>` - HTTP operations (e.g., `http.get.users`)
+
+### What to Instrument
+
+Always add tracing to:
+
+- Database queries and mutations
+- MCP tool handlers
+- External API calls
+- Complex business logic
+- File system operations
+- Cache operations
+- Authentication/authorization checks
+
+### Benefits
+
+Proper instrumentation enables:
+
+- Performance analysis and bottleneck identification
+- Request flow visualization across services
+- Error tracking and debugging
+- SLA monitoring and alerting
 
 ## Architecture
 
@@ -520,3 +594,185 @@ describe("<Name>", () => {
 - Create a minimal app instance with only the module under test
 - Test both success and error cases (200, 404, etc.)
 - Verify response structure matches expected schema
+
+## MCP Tools
+
+The API exposes an MCP (Model Context Protocol) server via the `elysia-mcp` plugin. Tools are organized in `src/modules/mcp/tools/`.
+
+### Structure
+
+```
+src/modules/mcp/
+├── index.ts           # MCP server setup and configuration
+└── tools/
+    ├── index.ts       # Registers all tools with the server
+    ├── echo.ts        # Simple echo tool
+    ├── angels.ts      # Angel-related tools
+    ├── characters.ts  # Character-related tools
+    ├── episodes.ts    # Episode-related tools
+    ├── eva-units.ts   # Eva unit-related tools
+    ├── movies.ts      # Movie-related tools
+    ├── organizations.ts # Organization-related tools
+    ├── shows.ts       # Show-related tools
+    ├── staff.ts       # Staff-related tools
+    └── studios.ts     # Studio-related tools
+```
+
+### Adding a New Tool
+
+1. Create a new file in `src/modules/mcp/tools/<name>.ts`:
+
+```typescript
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod/v3";
+import { repositories } from "@/repositories";
+import { record } from "@elysiajs/opentelemetry";
+
+const idInputSchema = {
+  id: z.string().describe("The UUID of the <entity>"),
+};
+
+export function register<Name>Tools(server: McpServer) {
+  // List all items
+  server.registerTool(
+    "list-<name>",
+    {
+      title: "List <Name>",
+      description: "Get all <name> from the database",
+      inputSchema: {},
+    },
+    async () =>
+      record("mcp.tool.list-<name>", () => ({
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(repositories.<name>.getAll(), null, 2),
+          },
+        ],
+      }))
+  );
+
+  // Get single item by ID
+  server.registerTool(
+    "get-<name>",
+    {
+      title: "Get <Name>",
+      description: "Get a specific <name> by ID",
+      inputSchema: idInputSchema,
+    },
+    async ({ id }) =>
+      record("mcp.tool.get-<name>", () => {
+        const item = repositories.<name>.getById(id);
+        if (!item) {
+          return {
+            content: [
+              { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [{ type: "text" as const, text: JSON.stringify(item, null, 2) }],
+        };
+      })
+  );
+}
+```
+
+2. Register in `src/modules/mcp/tools/index.ts`:
+
+```typescript
+import { register<Name>Tools } from "./<name>";
+
+export function registerAllTools(server: McpServer) {
+  // ... existing registrations
+  register<Name>Tools(server);
+}
+```
+
+### Key Conventions
+
+- **OpenTelemetry tracing**: Always wrap handlers with `record("mcp.tool.<tool-name>", () => ...)` for observability
+- **Type assertion**: Use `type: "text" as const` to preserve literal types (required by MCP SDK)
+- **Input schema**: Use Zod v3 (`zod/v3`) for input validation with `.describe()` for documentation
+- **Error handling**: Return `{ isError: true }` with error message in content for failures
+- **Naming**: Tool names use kebab-case (e.g., `list-characters`, `get-character-shows`)
+- **JSON output**: Always use `JSON.stringify(data, null, 2)` for readable output
+
+### Adding Relationship Tools
+
+For tools that fetch related entities:
+
+```typescript
+server.registerTool(
+  "get-<name>-<related>",
+  {
+    title: "Get <Name> <Related>",
+    description: "Get all <related> for a <name>",
+    inputSchema: idInputSchema,
+  },
+  async ({ id }) =>
+    record("mcp.tool.get-<name>-<related>", () => {
+      const item = repositories.<name>.getById(id);
+      if (!item) {
+        return {
+          content: [
+            { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
+          ],
+          isError: true,
+        };
+      }
+      const related = repositories.<name>.get<Related>(id);
+      return {
+        content: [{ type: "text" as const, text: JSON.stringify(related, null, 2) }],
+      };
+    })
+);
+```
+
+### Updating a Tool
+
+1. Locate the tool in `src/modules/mcp/tools/<entity>.ts`
+2. Modify the tool's `title`, `description`, `inputSchema`, or handler logic
+3. Ensure the `record()` span name matches the tool name
+4. Run type check: `bunx tsc --noEmit`
+5. Run build: `bun build src/index.ts --outdir=dist --target=bun`
+
+### Removing a Tool
+
+1. Remove the `server.registerTool()` call from the tool file
+2. If removing an entire tool file:
+   - Delete `src/modules/mcp/tools/<name>.ts`
+   - Remove the import and registration from `src/modules/mcp/tools/index.ts`
+3. Run type check and build to verify no broken references
+
+### MCP Server Configuration
+
+The MCP server is configured in `src/modules/mcp/index.ts`:
+
+```typescript
+export const mcpServerInfo = {
+  name: "nge-api",
+  version: "0.0.1",
+};
+
+export const mcpCapabilities = {
+  tools: {},
+  resources: {},
+  prompts: {},
+  logging: {},
+};
+```
+
+And registered in `src/index.ts`:
+
+```typescript
+.use(
+  mcp({
+    serverInfo: mcpServerInfo,
+    stateless: true,
+    enableJsonResponse: true,
+    capabilities: mcpCapabilities,
+    setupServer: setupMcpServer,
+  }),
+)
