@@ -24,7 +24,7 @@ export const organizations = {
     return record("db.organizations.getAll", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations`
+          `SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations`,
         )
         .all() as Organization[];
     });
@@ -34,7 +34,7 @@ export const organizations = {
     return record("db.organizations.getById", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations WHERE id = ?`
+          `SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations WHERE id = ?`,
         )
         .get(id) as Organization | null;
     });
@@ -47,7 +47,7 @@ export const organizations = {
           `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
          FROM characters c
          JOIN character_organizations co ON co.character_id = c.id
-         WHERE co.organization_id = ?`
+         WHERE co.organization_id = ?`,
         )
         .all(organizationId) as CharacterRow[];
       return rows.map(parseCharacter);
@@ -62,7 +62,7 @@ export const organizations = {
          FROM episodes e
          JOIN organization_episodes oe ON oe.episode_id = e.id
          WHERE oe.organization_id = ?
-         ORDER BY e.episode_number`
+         ORDER BY e.episode_number`,
         )
         .all(organizationId) as Episode[];
     });

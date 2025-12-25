@@ -13,7 +13,7 @@ export function initializeStudios(db: Database) {
   `);
 
   const insertStudio = db.prepare(
-    "INSERT INTO studios (id, name, founded, location, website) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO studios (id, name, founded, location, website) VALUES (?, ?, ?, ?, ?)",
   );
 
   const studios = [
@@ -41,6 +41,12 @@ export function initializeStudios(db: Database) {
   ];
 
   for (const studio of studios) {
-    insertStudio.run(studio.id, studio.name, studio.founded, studio.location, studio.website);
+    insertStudio.run(
+      studio.id,
+      studio.name,
+      studio.founded,
+      studio.location,
+      studio.website,
+    );
   }
 }

@@ -1,8 +1,8 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
-import { AngelsModel } from "./model";
-import { EpisodesModel } from "../episodes/model";
 import { BaseModel } from "@/utils/base-model";
+import { EpisodesModel } from "../episodes/model";
+import { AngelsModel } from "./model";
 
 export const angels = new Elysia({
   prefix: "/angels",

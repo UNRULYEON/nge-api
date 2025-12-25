@@ -24,7 +24,7 @@ export const evaUnits = {
     return record("db.evaUnits.getAll", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, designation, type, description FROM evas ORDER BY designation`
+          `SELECT id, name, name_japanese as nameJapanese, designation, type, description FROM evas ORDER BY designation`,
         )
         .all() as Eva[];
     });
@@ -34,7 +34,7 @@ export const evaUnits = {
     return record("db.evaUnits.getById", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, designation, type, description FROM evas WHERE id = ?`
+          `SELECT id, name, name_japanese as nameJapanese, designation, type, description FROM evas WHERE id = ?`,
         )
         .get(id) as Eva | null;
     });
@@ -47,7 +47,7 @@ export const evaUnits = {
           `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
          FROM characters c
          JOIN evas e ON e.soul_id = c.id
-         WHERE e.id = ?`
+         WHERE e.id = ?`,
         )
         .get(evaId) as CharacterRow | null;
       return row ? parseCharacter(row) : null;
@@ -61,7 +61,7 @@ export const evaUnits = {
           `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
          FROM characters c
          JOIN eva_pilots ep ON ep.character_id = c.id
-         WHERE ep.eva_id = ?`
+         WHERE ep.eva_id = ?`,
         )
         .all(evaId) as CharacterRow[];
       return rows.map(parseCharacter);
@@ -76,7 +76,7 @@ export const evaUnits = {
          FROM episodes e
          JOIN eva_episodes ee ON ee.episode_id = e.id
          WHERE ee.eva_id = ?
-         ORDER BY e.episode_number`
+         ORDER BY e.episode_number`,
         )
         .all(evaId) as Episode[];
     });
@@ -90,7 +90,7 @@ export const evaUnits = {
          FROM movies m
          JOIN eva_movies em ON em.movie_id = m.id
          WHERE em.eva_id = ?
-         ORDER BY m.release_date`
+         ORDER BY m.release_date`,
         )
         .all(evaId) as Movie[];
     });

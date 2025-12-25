@@ -21,7 +21,7 @@ export const studios = {
     return record("db.studios.getShows", () => {
       return db
         .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`
+          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`,
         )
         .all(studioId) as Show[];
     });
@@ -31,7 +31,7 @@ export const studios = {
     return record("db.studios.getMovies", () => {
       return db
         .query(
-          `SELECT id, title, title_japanese as titleJapanese, release_date as releaseDate, runtime, synopsis FROM movies WHERE studio_id = ? ORDER BY release_date`
+          `SELECT id, title, title_japanese as titleJapanese, release_date as releaseDate, runtime, synopsis FROM movies WHERE studio_id = ? ORDER BY release_date`,
         )
         .all(studioId) as Movie[];
     });
@@ -44,7 +44,7 @@ export const studios = {
           `SELECT s.id, s.name, s.name_japanese as nameJapanese, s.role, s.bio
          FROM staff s
          JOIN studio_staff ss ON ss.staff_id = s.id
-         WHERE ss.studio_id = ?`
+         WHERE ss.studio_id = ?`,
         )
         .all(studioId) as Staff[];
     });

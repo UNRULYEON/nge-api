@@ -16,7 +16,7 @@ export function initializeShows(db: Database) {
   `);
 
   const insertShow = db.prepare(
-    "INSERT INTO shows (id, title, title_japanese, episodes, aired, studio_id, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO shows (id, title, title_japanese, episodes, aired, studio_id, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
 
   const shows = [
@@ -40,7 +40,7 @@ export function initializeShows(db: Database) {
       show.episodes,
       show.aired,
       show.studioId,
-      show.synopsis
+      show.synopsis,
     );
   }
 }

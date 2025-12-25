@@ -71,7 +71,9 @@ describe("Organizations", () => {
     it("returns 404 for non-existent organization", async () => {
       const nonExistentId = "019b4926-0000-0000-0000-000000000000";
       const response = await app.handle(
-        new Request(`http://localhost/organizations/${nonExistentId}/characters`),
+        new Request(
+          `http://localhost/organizations/${nonExistentId}/characters`,
+        ),
       );
 
       expect(response.status).toBe(404);

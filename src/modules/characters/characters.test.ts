@@ -145,7 +145,9 @@ describe("Characters", () => {
     it("returns 404 for non-existent character", async () => {
       const nonExistentId = "019b491a-0000-0000-0000-000000000000";
       const response = await app.handle(
-        new Request(`http://localhost/characters/${nonExistentId}/organizations`),
+        new Request(
+          `http://localhost/characters/${nonExistentId}/organizations`,
+        ),
       );
 
       expect(response.status).toBe(404);

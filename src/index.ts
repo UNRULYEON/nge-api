@@ -1,7 +1,12 @@
-import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
-import { rateLimit } from "elysia-rate-limit";
+import { opentelemetry } from "@elysiajs/opentelemetry";
+import serverTiming from "@elysiajs/server-timing";
 import { staticPlugin } from "@elysiajs/static";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { Elysia } from "elysia";
+import { mcp } from "elysia-mcp";
+import { rateLimit } from "elysia-rate-limit";
 import {
   angels,
   characters,
@@ -14,12 +19,7 @@ import {
   staff,
   studios,
 } from "./modules";
-import serverTiming from "@elysiajs/server-timing";
-import { opentelemetry } from "@elysiajs/opentelemetry";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { mcp } from "elysia-mcp";
-import { mcpServerInfo, mcpCapabilities, setupMcpServer } from "./modules/mcp";
+import { mcpCapabilities, mcpServerInfo, setupMcpServer } from "./modules/mcp";
 
 const app = new Elysia()
   .use(

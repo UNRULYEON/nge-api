@@ -1,7 +1,7 @@
+import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the character"),
@@ -24,7 +24,7 @@ export function registerCharacterTools(server: McpServer) {
             text: JSON.stringify(repositories.characters.getAll(), null, 2),
           },
         ],
-      }))
+      })),
   );
 
   server.registerTool(
@@ -49,9 +49,11 @@ export function registerCharacterTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(character, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(character, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -77,9 +79,11 @@ export function registerCharacterTools(server: McpServer) {
         }
         const shows = repositories.characters.getShows(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(shows, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -105,9 +109,11 @@ export function registerCharacterTools(server: McpServer) {
         }
         const movies = repositories.characters.getMovies(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(movies, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -133,9 +139,11 @@ export function registerCharacterTools(server: McpServer) {
         }
         const episodes = repositories.characters.getEpisodes(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -162,9 +170,12 @@ export function registerCharacterTools(server: McpServer) {
         const organizations = repositories.characters.getOrganizations(id);
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(organizations, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify(organizations, null, 2),
+            },
           ],
         };
-      })
+      }),
   );
 }

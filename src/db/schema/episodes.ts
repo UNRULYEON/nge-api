@@ -16,7 +16,7 @@ export function initializeEpisodes(db: Database) {
   `);
 
   const insertEpisode = db.prepare(
-    "INSERT INTO episodes (id, show_id, episode_number, title, title_japanese, air_date, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO episodes (id, show_id, episode_number, title, title_japanese, air_date, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
 
   const episodes = [
@@ -27,7 +27,8 @@ export function initializeEpisodes(db: Database) {
       title: "Angel Attack",
       titleJapanese: "使徒、襲来",
       airDate: "1995-10-04",
-      synopsis: "Shinji Ikari arrives in Tokyo-3 and is recruited by his estranged father Gendo to pilot Evangelion Unit-01 against the Angel Sachiel.",
+      synopsis:
+        "Shinji Ikari arrives in Tokyo-3 and is recruited by his estranged father Gendo to pilot Evangelion Unit-01 against the Angel Sachiel.",
     },
     {
       id: EP_IDS.ep2,
@@ -36,7 +37,8 @@ export function initializeEpisodes(db: Database) {
       title: "The Beast",
       titleJapanese: "見知らぬ、天井",
       airDate: "1995-10-11",
-      synopsis: "Shinji wakes up in the hospital after his first battle and struggles to come to terms with his new role as an Eva pilot.",
+      synopsis:
+        "Shinji wakes up in the hospital after his first battle and struggles to come to terms with his new role as an Eva pilot.",
     },
     {
       id: EP_IDS.ep3,
@@ -45,7 +47,8 @@ export function initializeEpisodes(db: Database) {
       title: "A Transfer",
       titleJapanese: "鳴らない、電話",
       airDate: "1995-10-18",
-      synopsis: "Shinji begins attending school in Tokyo-3 and meets his classmates Toji and Kensuke, while struggling to connect with others.",
+      synopsis:
+        "Shinji begins attending school in Tokyo-3 and meets his classmates Toji and Kensuke, while struggling to connect with others.",
     },
     {
       id: EP_IDS.ep4,
@@ -54,7 +57,8 @@ export function initializeEpisodes(db: Database) {
       title: "Hedgehog's Dilemma",
       titleJapanese: "雨、逃げ出した後",
       airDate: "1995-10-25",
-      synopsis: "After a difficult battle, Shinji runs away from NERV and wanders Tokyo-3, questioning his purpose and relationships.",
+      synopsis:
+        "After a difficult battle, Shinji runs away from NERV and wanders Tokyo-3, questioning his purpose and relationships.",
     },
     {
       id: EP_IDS.ep5,
@@ -63,7 +67,8 @@ export function initializeEpisodes(db: Database) {
       title: "Rei I",
       titleJapanese: "レイ、心のむこうに",
       airDate: "1995-11-01",
-      synopsis: "Shinji learns more about the mysterious Rei Ayanami and witnesses her cold relationship with his father during a reactivation test of Unit-00.",
+      synopsis:
+        "Shinji learns more about the mysterious Rei Ayanami and witnesses her cold relationship with his father during a reactivation test of Unit-00.",
     },
     {
       id: EP_IDS.ep6,
@@ -72,7 +77,8 @@ export function initializeEpisodes(db: Database) {
       title: "Rei II",
       titleJapanese: "決戦、第3新東京市",
       airDate: "1995-11-08",
-      synopsis: "Shinji and Rei must work together to defeat the Angel Ramiel, which is drilling through the Geofront toward NERV headquarters.",
+      synopsis:
+        "Shinji and Rei must work together to defeat the Angel Ramiel, which is drilling through the Geofront toward NERV headquarters.",
     },
     {
       id: EP_IDS.ep7,
@@ -81,7 +87,8 @@ export function initializeEpisodes(db: Database) {
       title: "A Human Work",
       titleJapanese: "人の造りしもの",
       airDate: "1995-11-15",
-      synopsis: "NERV faces political pressure when the UN-backed Jet Alone project threatens to replace the Evangelions.",
+      synopsis:
+        "NERV faces political pressure when the UN-backed Jet Alone project threatens to replace the Evangelions.",
     },
     {
       id: EP_IDS.ep8,
@@ -90,7 +97,8 @@ export function initializeEpisodes(db: Database) {
       title: "Asuka Strikes!",
       titleJapanese: "アスカ、来日",
       airDate: "1995-11-22",
-      synopsis: "The Second Child, Asuka Langley Soryu, arrives from Germany with Evangelion Unit-02 and immediately clashes with Shinji.",
+      synopsis:
+        "The Second Child, Asuka Langley Soryu, arrives from Germany with Evangelion Unit-02 and immediately clashes with Shinji.",
     },
     {
       id: EP_IDS.ep9,
@@ -99,7 +107,8 @@ export function initializeEpisodes(db: Database) {
       title: "Both of You, Dance Like You Want to Win!",
       titleJapanese: "瞬間、心、重ねて",
       airDate: "1995-11-29",
-      synopsis: "Shinji and Asuka must learn to synchronize their movements to defeat the Angel Israfel, which can split into two separate entities.",
+      synopsis:
+        "Shinji and Asuka must learn to synchronize their movements to defeat the Angel Israfel, which can split into two separate entities.",
     },
     {
       id: EP_IDS.ep10,
@@ -108,7 +117,8 @@ export function initializeEpisodes(db: Database) {
       title: "Magmadiver",
       titleJapanese: "マグマダイバー",
       airDate: "1995-12-06",
-      synopsis: "Asuka pilots Unit-02 into a volcano to capture an Angel embryo, but the mission goes awry when the Angel hatches.",
+      synopsis:
+        "Asuka pilots Unit-02 into a volcano to capture an Angel embryo, but the mission goes awry when the Angel hatches.",
     },
     {
       id: EP_IDS.ep11,
@@ -117,7 +127,8 @@ export function initializeEpisodes(db: Database) {
       title: "The Day Tokyo-3 Stood Still",
       titleJapanese: "静止した闇の中で",
       airDate: "1995-12-13",
-      synopsis: "A massive power outage cripples Tokyo-3 and NERV, leaving the pilots trapped and vulnerable when an Angel attacks.",
+      synopsis:
+        "A massive power outage cripples Tokyo-3 and NERV, leaving the pilots trapped and vulnerable when an Angel attacks.",
     },
     {
       id: EP_IDS.ep12,
@@ -126,7 +137,8 @@ export function initializeEpisodes(db: Database) {
       title: "She Said, 'Don't Make Others Suffer for Your Personal Hatred.'",
       titleJapanese: "奇跡の価値は",
       airDate: "1995-12-20",
-      synopsis: "Misato confronts her past during a mission to destroy an Angel in orbit, reflecting on her father and her motivations.",
+      synopsis:
+        "Misato confronts her past during a mission to destroy an Angel in orbit, reflecting on her father and her motivations.",
     },
     {
       id: EP_IDS.ep13,
@@ -135,7 +147,8 @@ export function initializeEpisodes(db: Database) {
       title: "Lilliputian Hitcher",
       titleJapanese: "使徒、侵入",
       airDate: "1995-12-27",
-      synopsis: "A microscopic Angel infiltrates the MAGI supercomputer system, forcing Ritsuko to confront her mother's legacy.",
+      synopsis:
+        "A microscopic Angel infiltrates the MAGI supercomputer system, forcing Ritsuko to confront her mother's legacy.",
     },
     {
       id: EP_IDS.ep14,
@@ -144,16 +157,19 @@ export function initializeEpisodes(db: Database) {
       title: "Weaving a Story",
       titleJapanese: "ゼーレ、魂の座",
       airDate: "1996-01-03",
-      synopsis: "A recap episode interspersed with new scenes showing SEELE's perspective and Rei's mysterious inner world.",
+      synopsis:
+        "A recap episode interspersed with new scenes showing SEELE's perspective and Rei's mysterious inner world.",
     },
     {
       id: EP_IDS.ep15,
       showId: NGE_SHOW,
       episodeNumber: 15,
-      title: "Those Women Longed for the Touch of Others' Lips, and Thus Invited Their Kisses.",
+      title:
+        "Those Women Longed for the Touch of Others' Lips, and Thus Invited Their Kisses.",
       titleJapanese: "嘘と沈黙",
       airDate: "1996-01-10",
-      synopsis: "Romantic tensions arise as Kaji returns to Tokyo-3, while Shinji experiences his first kiss with Asuka.",
+      synopsis:
+        "Romantic tensions arise as Kaji returns to Tokyo-3, while Shinji experiences his first kiss with Asuka.",
     },
     {
       id: EP_IDS.ep16,
@@ -162,7 +178,8 @@ export function initializeEpisodes(db: Database) {
       title: "Splitting of the Breast",
       titleJapanese: "死に至る病、そして",
       airDate: "1996-01-17",
-      synopsis: "Shinji is absorbed into the Angel Leliel and experiences a psychological journey through his own mind.",
+      synopsis:
+        "Shinji is absorbed into the Angel Leliel and experiences a psychological journey through his own mind.",
     },
     {
       id: EP_IDS.ep17,
@@ -171,7 +188,8 @@ export function initializeEpisodes(db: Database) {
       title: "Fourth Child",
       titleJapanese: "四人目の適格者",
       airDate: "1996-01-24",
-      synopsis: "NERV identifies the Fourth Child for the new Evangelion Unit-03, with the choice having profound implications.",
+      synopsis:
+        "NERV identifies the Fourth Child for the new Evangelion Unit-03, with the choice having profound implications.",
     },
     {
       id: EP_IDS.ep18,
@@ -180,7 +198,8 @@ export function initializeEpisodes(db: Database) {
       title: "Ambivalence",
       titleJapanese: "命の選択を",
       airDate: "1996-01-31",
-      synopsis: "Unit-03 is taken over by an Angel during its activation test, forcing Shinji into an impossible situation.",
+      synopsis:
+        "Unit-03 is taken over by an Angel during its activation test, forcing Shinji into an impossible situation.",
     },
     {
       id: EP_IDS.ep19,
@@ -189,7 +208,8 @@ export function initializeEpisodes(db: Database) {
       title: "Introjection",
       titleJapanese: "男の戰い",
       airDate: "1996-02-07",
-      synopsis: "After refusing to pilot, Shinji watches helplessly as Unit-01 goes berserk against the powerful Angel Zeruel.",
+      synopsis:
+        "After refusing to pilot, Shinji watches helplessly as Unit-01 goes berserk against the powerful Angel Zeruel.",
     },
     {
       id: EP_IDS.ep20,
@@ -198,7 +218,8 @@ export function initializeEpisodes(db: Database) {
       title: "Weaving a Story 2: Oral Stage",
       titleJapanese: "心のかたち 人のかたち",
       airDate: "1996-02-14",
-      synopsis: "Shinji is absorbed into Unit-01 after its awakening, and NERV attempts to recover him while exploring his memories.",
+      synopsis:
+        "Shinji is absorbed into Unit-01 after its awakening, and NERV attempts to recover him while exploring his memories.",
     },
     {
       id: EP_IDS.ep21,
@@ -207,7 +228,8 @@ export function initializeEpisodes(db: Database) {
       title: "He Was Aware That He Was Still a Child",
       titleJapanese: "ネルフ、誕生",
       airDate: "1996-02-21",
-      synopsis: "Flashbacks reveal the history of NERV, the truth about the Second Impact, and the complex relationships between key personnel.",
+      synopsis:
+        "Flashbacks reveal the history of NERV, the truth about the Second Impact, and the complex relationships between key personnel.",
     },
     {
       id: EP_IDS.ep22,
@@ -216,7 +238,8 @@ export function initializeEpisodes(db: Database) {
       title: "Don't Be.",
       titleJapanese: "せめて、人間らしく",
       airDate: "1996-02-28",
-      synopsis: "Asuka's sync rate drops as she battles the Angel Arael, which psychologically attacks her, revealing her traumatic past.",
+      synopsis:
+        "Asuka's sync rate drops as she battles the Angel Arael, which psychologically attacks her, revealing her traumatic past.",
     },
     {
       id: EP_IDS.ep23,
@@ -225,7 +248,8 @@ export function initializeEpisodes(db: Database) {
       title: "Rei III",
       titleJapanese: "涙",
       airDate: "1996-03-06",
-      synopsis: "The truth about Rei Ayanami is revealed as she sacrifices herself to destroy the Angel Armisael.",
+      synopsis:
+        "The truth about Rei Ayanami is revealed as she sacrifices herself to destroy the Angel Armisael.",
     },
     {
       id: EP_IDS.ep24,
@@ -234,7 +258,8 @@ export function initializeEpisodes(db: Database) {
       title: "The Beginning and the End, or 'Knockin' on Heaven's Door'",
       titleJapanese: "最後のシ者",
       airDate: "1996-03-13",
-      synopsis: "Kaworu Nagisa, the Fifth Child, befriends Shinji but is revealed to be the final Angel, Tabris.",
+      synopsis:
+        "Kaworu Nagisa, the Fifth Child, befriends Shinji but is revealed to be the final Angel, Tabris.",
     },
     {
       id: EP_IDS.ep25,
@@ -243,7 +268,8 @@ export function initializeEpisodes(db: Database) {
       title: "Do You Love Me?",
       titleJapanese: "終わる世界",
       airDate: "1996-03-20",
-      synopsis: "As Instrumentality begins, the characters undergo psychological introspection, questioning their existence and relationships.",
+      synopsis:
+        "As Instrumentality begins, the characters undergo psychological introspection, questioning their existence and relationships.",
     },
     {
       id: EP_IDS.ep26,
@@ -252,7 +278,8 @@ export function initializeEpisodes(db: Database) {
       title: "Take Care of Yourself.",
       titleJapanese: "世界の中心でアイを叫んだけもの",
       airDate: "1996-03-27",
-      synopsis: "The series concludes with Shinji's internal journey toward self-acceptance, culminating in a message of hope and congratulations.",
+      synopsis:
+        "The series concludes with Shinji's internal journey toward self-acceptance, culminating in a message of hope and congratulations.",
     },
   ];
 
@@ -264,7 +291,7 @@ export function initializeEpisodes(db: Database) {
       episode.title,
       episode.titleJapanese,
       episode.airDate,
-      episode.synopsis
+      episode.synopsis,
     );
   }
 }

@@ -7,7 +7,7 @@ export const staff = {
     return record("db.staff.getAll", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff`
+          `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff`,
         )
         .all() as Staff[];
     });
@@ -17,7 +17,7 @@ export const staff = {
     return record("db.staff.getById", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff WHERE id = ?`
+          `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff WHERE id = ?`,
         )
         .get(id) as Staff | null;
     });
@@ -30,7 +30,7 @@ export const staff = {
           `SELECT s.id, s.name, s.founded, s.location, s.website
          FROM studios s
          JOIN studio_staff ss ON ss.studio_id = s.id
-         WHERE ss.staff_id = ?`
+         WHERE ss.staff_id = ?`,
         )
         .all(staffId) as Studio[];
     });

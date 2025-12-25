@@ -30,9 +30,12 @@ bunx tsc --noEmit
 
 ## Required Checks
 
-Always run the TypeScript type checker and build after making any code changes:
+Always run these checks after making any code changes:
 
 ```bash
+# Format and lint (auto-fixes issues)
+bunx biome check --write
+
 # Type check
 bunx tsc --noEmit
 
@@ -40,7 +43,7 @@ bunx tsc --noEmit
 bun build src/index.ts --outdir=dist --target=bun
 ```
 
-Fix any type errors or build failures before considering the task complete.
+Fix any formatting, linting, type errors, or build failures before considering the task complete.
 
 ## Observability Requirements
 

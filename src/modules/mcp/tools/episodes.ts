@@ -1,7 +1,7 @@
+import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the episode"),
@@ -24,7 +24,7 @@ export function registerEpisodeTools(server: McpServer) {
             text: JSON.stringify(repositories.episodes.getAll(), null, 2),
           },
         ],
-      }))
+      })),
   );
 
   server.registerTool(
@@ -49,9 +49,11 @@ export function registerEpisodeTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(episode, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(episode, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -79,15 +81,20 @@ export function registerEpisodeTools(server: McpServer) {
         if (!show) {
           return {
             content: [
-              { type: "text" as const, text: JSON.stringify({ error: "Show not found" }) },
+              {
+                type: "text" as const,
+                text: JSON.stringify({ error: "Show not found" }),
+              },
             ],
             isError: true,
           };
         }
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(show, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(show, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -113,9 +120,14 @@ export function registerEpisodeTools(server: McpServer) {
         }
         const characters = repositories.episodes.getCharacters(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(characters, null, 2) }],
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify(characters, null, 2),
+            },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -141,9 +153,11 @@ export function registerEpisodeTools(server: McpServer) {
         }
         const angels = repositories.episodes.getAngels(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(angels, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(angels, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -170,9 +184,12 @@ export function registerEpisodeTools(server: McpServer) {
         const organizations = repositories.episodes.getOrganizations(id);
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(organizations, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify(organizations, null, 2),
+            },
           ],
         };
-      })
+      }),
   );
 }

@@ -16,7 +16,7 @@ export function initializeEvas(db: Database) {
   `);
 
   const insertEva = db.prepare(
-    "INSERT INTO evas (id, name, name_japanese, designation, type, soul_id, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO evas (id, name, name_japanese, designation, type, soul_id, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
 
   const evas = [
@@ -120,7 +120,7 @@ export function initializeEvas(db: Database) {
       eva.designation,
       eva.type,
       eva.soulId,
-      eva.description
+      eva.description,
     );
   }
 }

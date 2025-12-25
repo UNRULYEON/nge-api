@@ -121,7 +121,9 @@ describe("Episodes", () => {
 
     it("returns organizations for an episode", async () => {
       const response = await app.handle(
-        new Request(`http://localhost/episodes/${validEpisodeId}/organizations`),
+        new Request(
+          `http://localhost/episodes/${validEpisodeId}/organizations`,
+        ),
       );
 
       expect(response.status).toBe(200);

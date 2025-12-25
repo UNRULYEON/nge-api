@@ -1,7 +1,7 @@
+import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the Angel"),
@@ -23,7 +23,7 @@ export function registerAngelTools(server: McpServer) {
             text: JSON.stringify(repositories.angels.getAll(), null, 2),
           },
         ],
-      }))
+      })),
   );
 
   server.registerTool(
@@ -39,15 +39,20 @@ export function registerAngelTools(server: McpServer) {
         if (!angel) {
           return {
             content: [
-              { type: "text" as const, text: JSON.stringify({ error: "Angel not found" }) },
+              {
+                type: "text" as const,
+                text: JSON.stringify({ error: "Angel not found" }),
+              },
             ],
             isError: true,
           };
         }
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(angel, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(angel, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -63,15 +68,20 @@ export function registerAngelTools(server: McpServer) {
         if (!angel) {
           return {
             content: [
-              { type: "text" as const, text: JSON.stringify({ error: "Angel not found" }) },
+              {
+                type: "text" as const,
+                text: JSON.stringify({ error: "Angel not found" }),
+              },
             ],
             isError: true,
           };
         }
         const episodes = repositories.angels.getEpisodes(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
+          ],
         };
-      })
+      }),
   );
 }

@@ -13,7 +13,7 @@ export function initializeOrganizations(db: Database) {
   `);
 
   const insertOrganization = db.prepare(
-    "INSERT INTO organizations (id, name, name_japanese, type, description) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO organizations (id, name, name_japanese, type, description) VALUES (?, ?, ?, ?, ?)",
   );
 
   const organizations = [
@@ -68,6 +68,12 @@ export function initializeOrganizations(db: Database) {
   ];
 
   for (const org of organizations) {
-    insertOrganization.run(org.id, org.name, org.nameJapanese, org.type, org.description);
+    insertOrganization.run(
+      org.id,
+      org.name,
+      org.nameJapanese,
+      org.type,
+      org.description,
+    );
   }
 }

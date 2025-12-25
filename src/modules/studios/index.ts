@@ -1,10 +1,10 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
-import { StudiosModel } from "./model";
-import { ShowsModel } from "../shows/model";
-import { MoviesModel } from "../movies/model";
-import { StaffModel } from "../staff/model";
 import { BaseModel } from "@/utils/base-model";
+import { MoviesModel } from "../movies/model";
+import { ShowsModel } from "../shows/model";
+import { StaffModel } from "../staff/model";
+import { StudiosModel } from "./model";
 
 export const studios = new Elysia({
   prefix: "/studios",

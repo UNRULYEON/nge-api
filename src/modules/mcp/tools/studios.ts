@@ -1,7 +1,7 @@
+import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the studio"),
@@ -12,8 +12,7 @@ export function registerStudioTools(server: McpServer) {
     "list-studios",
     {
       title: "List Studios",
-      description:
-        "Get all studios from the Neon Genesis Evangelion franchise",
+      description: "Get all studios from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
     async () =>
@@ -24,7 +23,7 @@ export function registerStudioTools(server: McpServer) {
             text: JSON.stringify(repositories.studios.getAll(), null, 2),
           },
         ],
-      }))
+      })),
   );
 
   server.registerTool(
@@ -49,9 +48,11 @@ export function registerStudioTools(server: McpServer) {
           };
         }
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(studio, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(studio, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -77,9 +78,11 @@ export function registerStudioTools(server: McpServer) {
         }
         const shows = repositories.studios.getShows(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(shows, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -105,9 +108,11 @@ export function registerStudioTools(server: McpServer) {
         }
         const movies = repositories.studios.getMovies(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(movies, null, 2) },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -133,8 +138,10 @@ export function registerStudioTools(server: McpServer) {
         }
         const staff = repositories.studios.getStaff(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(staff, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(staff, null, 2) },
+          ],
         };
-      })
+      }),
   );
 }

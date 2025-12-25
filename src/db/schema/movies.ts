@@ -16,7 +16,7 @@ export function initializeMovies(db: Database) {
   `);
 
   const insertMovie = db.prepare(
-    "INSERT INTO movies (id, title, title_japanese, release_date, runtime, studio_id, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO movies (id, title, title_japanese, release_date, runtime, studio_id, synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
 
   const movies = [
@@ -90,7 +90,7 @@ export function initializeMovies(db: Database) {
       movie.releaseDate,
       movie.runtime,
       movie.studioId,
-      movie.synopsis
+      movie.synopsis,
     );
   }
 }

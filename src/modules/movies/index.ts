@@ -1,9 +1,9 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
-import { MoviesModel } from "./model";
+import { BaseModel } from "@/utils/base-model";
 import { CharactersModel } from "../characters/model";
 import { StudiosModel } from "../studios/model";
-import { BaseModel } from "@/utils/base-model";
+import { MoviesModel } from "./model";
 
 export const movies = new Elysia({
   prefix: "/movies",
@@ -21,7 +21,7 @@ export const movies = new Elysia({
       response: {
         200: MoviesModel.listResponse,
       },
-    }
+    },
   )
   .get(
     "/:id",
@@ -42,7 +42,7 @@ export const movies = new Elysia({
         200: MoviesModel.getResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/characters",
@@ -63,7 +63,7 @@ export const movies = new Elysia({
         200: CharactersModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/studio",
@@ -90,5 +90,5 @@ export const movies = new Elysia({
         200: StudiosModel.getResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   );

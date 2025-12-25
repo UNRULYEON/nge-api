@@ -24,7 +24,7 @@ export const shows = {
     return record("db.shows.getAll", () => {
       return db
         .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows`
+          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows`,
         )
         .all() as Show[];
     });
@@ -34,7 +34,7 @@ export const shows = {
     return record("db.shows.getById", () => {
       return db
         .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE id = ?`
+          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE id = ?`,
         )
         .get(id) as Show | null;
     });
@@ -44,7 +44,7 @@ export const shows = {
     return record("db.shows.getByStudioId", () => {
       return db
         .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`
+          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`,
         )
         .all(studioId) as Show[];
     });
@@ -54,7 +54,7 @@ export const shows = {
     return record("db.shows.getStudio", () => {
       return db
         .query(
-          `SELECT s.* FROM studios s JOIN shows sh ON sh.studio_id = s.id WHERE sh.id = ?`
+          `SELECT s.* FROM studios s JOIN shows sh ON sh.studio_id = s.id WHERE sh.id = ?`,
         )
         .get(showId) as Studio | null;
     });
@@ -67,7 +67,7 @@ export const shows = {
           `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
          FROM characters c
          JOIN character_shows cs ON cs.character_id = c.id
-         WHERE cs.show_id = ?`
+         WHERE cs.show_id = ?`,
         )
         .all(showId) as CharacterRow[];
       return rows.map(parseCharacter);

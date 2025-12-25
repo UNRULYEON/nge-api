@@ -1,10 +1,10 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
-import { EvaUnitsModel } from "./model";
+import { BaseModel } from "@/utils/base-model";
 import { CharactersModel } from "../characters/model";
 import { EpisodesModel } from "../episodes/model";
 import { MoviesModel } from "../movies/model";
-import { BaseModel } from "@/utils/base-model";
+import { EvaUnitsModel } from "./model";
 
 export const evaUnits = new Elysia({
   prefix: "/eva-units",
@@ -22,7 +22,7 @@ export const evaUnits = new Elysia({
       response: {
         200: EvaUnitsModel.listResponse,
       },
-    }
+    },
   )
   .get(
     "/:id",
@@ -43,7 +43,7 @@ export const evaUnits = new Elysia({
         200: EvaUnitsModel.getResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/pilots",
@@ -64,7 +64,7 @@ export const evaUnits = new Elysia({
         200: CharactersModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/soul",
@@ -91,7 +91,7 @@ export const evaUnits = new Elysia({
         200: CharactersModel.getResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/episodes",
@@ -112,7 +112,7 @@ export const evaUnits = new Elysia({
         200: EpisodesModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/movies",
@@ -133,5 +133,5 @@ export const evaUnits = new Elysia({
         200: MoviesModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   );

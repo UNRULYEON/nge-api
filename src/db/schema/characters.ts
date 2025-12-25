@@ -15,7 +15,7 @@ export function initializeCharacters(db: Database) {
   `);
 
   const insertCharacter = db.prepare(
-    "INSERT INTO characters (id, name, name_japanese, age, gender, occupations, bio) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO characters (id, name, name_japanese, age, gender, occupations, bio) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
 
   const characters = [
@@ -173,7 +173,7 @@ export function initializeCharacters(db: Database) {
       character.age,
       character.gender,
       JSON.stringify(character.occupations),
-      character.bio
+      character.bio,
     );
   }
 }

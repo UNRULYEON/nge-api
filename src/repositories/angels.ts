@@ -7,7 +7,7 @@ export const angels = {
     return record("db.angels.getAll", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels ORDER BY number`
+          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels ORDER BY number`,
         )
         .all() as Angel[];
     });
@@ -17,7 +17,7 @@ export const angels = {
     return record("db.angels.getById", () => {
       return db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels WHERE id = ?`
+          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels WHERE id = ?`,
         )
         .get(id) as Angel | null;
     });
@@ -31,7 +31,7 @@ export const angels = {
          FROM episodes e
          JOIN angel_episodes ae ON ae.episode_id = e.id
          WHERE ae.angel_id = ?
-         ORDER BY e.episode_number`
+         ORDER BY e.episode_number`,
         )
         .all(angelId) as Episode[];
     });

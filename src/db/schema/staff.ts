@@ -13,7 +13,7 @@ export function initializeStaff(db: Database) {
   `);
 
   const insertStaff = db.prepare(
-    "INSERT INTO staff (id, name, name_japanese, role, bio) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO staff (id, name, name_japanese, role, bio) VALUES (?, ?, ?, ?, ?)",
   );
 
   const staff = [
@@ -130,7 +130,7 @@ export function initializeStaff(db: Database) {
       member.name,
       member.nameJapanese,
       member.role,
-      member.bio
+      member.bio,
     );
   }
 }

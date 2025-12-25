@@ -138,7 +138,7 @@ export function initializeRelations(db: Database) {
 
 function seedCharacterShows(db: Database) {
   const insertCharacterShow = db.prepare(
-    "INSERT INTO character_shows (character_id, show_id) VALUES (?, ?)"
+    "INSERT INTO character_shows (character_id, show_id) VALUES (?, ?)",
   );
 
   const originalCharacters = [
@@ -165,7 +165,7 @@ function seedCharacterShows(db: Database) {
 
 function seedCharacterMovies(db: Database) {
   const insertCharacterMovie = db.prepare(
-    "INSERT INTO character_movies (character_id, movie_id) VALUES (?, ?)"
+    "INSERT INTO character_movies (character_id, movie_id) VALUES (?, ?)",
   );
 
   const originalCharacters = [
@@ -268,7 +268,7 @@ function seedCharacterMovies(db: Database) {
 
 function seedCharacterOrganizations(db: Database) {
   const insertCharacterOrg = db.prepare(
-    "INSERT INTO character_organizations (character_id, organization_id) VALUES (?, ?)"
+    "INSERT INTO character_organizations (character_id, organization_id) VALUES (?, ?)",
   );
 
   // NERV members
@@ -310,7 +310,7 @@ function seedCharacterOrganizations(db: Database) {
 
 function seedCharacterEpisodes(db: Database) {
   const insertCharacterEpisode = db.prepare(
-    "INSERT INTO character_episodes (character_id, episode_id) VALUES (?, ?)"
+    "INSERT INTO character_episodes (character_id, episode_id) VALUES (?, ?)",
   );
 
   // Shinji appears in all episodes
@@ -320,10 +320,24 @@ function seedCharacterEpisodes(db: Database) {
 
   // Rei episodes
   const reiEpisodes = [
-    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep5, EP_IDS.ep6,
-    EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep14, EP_IDS.ep16,
-    EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21, EP_IDS.ep22, EP_IDS.ep23,
-    EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep1,
+    EP_IDS.ep2,
+    EP_IDS.ep3,
+    EP_IDS.ep4,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep14,
+    EP_IDS.ep16,
+    EP_IDS.ep19,
+    EP_IDS.ep20,
+    EP_IDS.ep21,
+    EP_IDS.ep22,
+    EP_IDS.ep23,
+    EP_IDS.ep24,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of reiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.rei, epId);
@@ -342,10 +356,25 @@ function seedCharacterEpisodes(db: Database) {
 
   // Gendo episodes
   const gendoEpisodes = [
-    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep5, EP_IDS.ep6,
-    EP_IDS.ep7, EP_IDS.ep12, EP_IDS.ep13, EP_IDS.ep14, EP_IDS.ep15,
-    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21,
-    EP_IDS.ep23, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep1,
+    EP_IDS.ep2,
+    EP_IDS.ep3,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep7,
+    EP_IDS.ep12,
+    EP_IDS.ep13,
+    EP_IDS.ep14,
+    EP_IDS.ep15,
+    EP_IDS.ep17,
+    EP_IDS.ep18,
+    EP_IDS.ep19,
+    EP_IDS.ep20,
+    EP_IDS.ep21,
+    EP_IDS.ep23,
+    EP_IDS.ep24,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of gendoEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.gendo, epId);
@@ -359,10 +388,25 @@ function seedCharacterEpisodes(db: Database) {
 
   // Ritsuko episodes
   const ritsukoEpisodes = [
-    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep7,
-    EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep12, EP_IDS.ep13, EP_IDS.ep14,
-    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20, EP_IDS.ep21,
-    EP_IDS.ep23, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep1,
+    EP_IDS.ep2,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep7,
+    EP_IDS.ep10,
+    EP_IDS.ep11,
+    EP_IDS.ep12,
+    EP_IDS.ep13,
+    EP_IDS.ep14,
+    EP_IDS.ep17,
+    EP_IDS.ep18,
+    EP_IDS.ep19,
+    EP_IDS.ep20,
+    EP_IDS.ep21,
+    EP_IDS.ep23,
+    EP_IDS.ep24,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of ritsukoEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.ritsuko, epId);
@@ -370,9 +414,20 @@ function seedCharacterEpisodes(db: Database) {
 
   // Fuyutsuki episodes
   const fuyutsukiEpisodes = [
-    EP_IDS.ep1, EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep7, EP_IDS.ep12,
-    EP_IDS.ep14, EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep19, EP_IDS.ep20,
-    EP_IDS.ep21, EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep1,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep7,
+    EP_IDS.ep12,
+    EP_IDS.ep14,
+    EP_IDS.ep17,
+    EP_IDS.ep18,
+    EP_IDS.ep19,
+    EP_IDS.ep20,
+    EP_IDS.ep21,
+    EP_IDS.ep24,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of fuyutsukiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.fuyutsuki, epId);
@@ -380,8 +435,14 @@ function seedCharacterEpisodes(db: Database) {
 
   // Toji episodes
   const tojiEpisodes = [
-    EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep11,
-    EP_IDS.ep17, EP_IDS.ep18, EP_IDS.ep26,
+    EP_IDS.ep3,
+    EP_IDS.ep4,
+    EP_IDS.ep8,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep17,
+    EP_IDS.ep18,
+    EP_IDS.ep26,
   ];
   for (const epId of tojiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.toji, epId);
@@ -389,7 +450,12 @@ function seedCharacterEpisodes(db: Database) {
 
   // Kensuke episodes
   const kensukeEpisodes = [
-    EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep26,
+    EP_IDS.ep3,
+    EP_IDS.ep4,
+    EP_IDS.ep8,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep26,
   ];
   for (const epId of kensukeEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.kensuke, epId);
@@ -397,7 +463,11 @@ function seedCharacterEpisodes(db: Database) {
 
   // Hikari episodes
   const hikariEpisodes = [
-    EP_IDS.ep3, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep17, EP_IDS.ep26,
+    EP_IDS.ep3,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep17,
+    EP_IDS.ep26,
   ];
   for (const epId of hikariEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.hikari, epId);
@@ -405,8 +475,13 @@ function seedCharacterEpisodes(db: Database) {
 
   // Kaji episodes
   const kajiEpisodes = [
-    EP_IDS.ep8, EP_IDS.ep10, EP_IDS.ep12, EP_IDS.ep15, EP_IDS.ep17,
-    EP_IDS.ep18, EP_IDS.ep21,
+    EP_IDS.ep8,
+    EP_IDS.ep10,
+    EP_IDS.ep12,
+    EP_IDS.ep15,
+    EP_IDS.ep17,
+    EP_IDS.ep18,
+    EP_IDS.ep21,
   ];
   for (const epId of kajiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.kaji, epId);
@@ -414,7 +489,11 @@ function seedCharacterEpisodes(db: Database) {
 
   // Yui episodes (flashbacks)
   const yuiEpisodes = [
-    EP_IDS.ep16, EP_IDS.ep20, EP_IDS.ep21, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep16,
+    EP_IDS.ep20,
+    EP_IDS.ep21,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of yuiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.yui, epId);
@@ -422,8 +501,15 @@ function seedCharacterEpisodes(db: Database) {
 
   // Pen Pen episodes
   const penpenEpisodes = [
-    EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep8, EP_IDS.ep9,
-    EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep15, EP_IDS.ep26,
+    EP_IDS.ep2,
+    EP_IDS.ep3,
+    EP_IDS.ep4,
+    EP_IDS.ep8,
+    EP_IDS.ep9,
+    EP_IDS.ep10,
+    EP_IDS.ep11,
+    EP_IDS.ep15,
+    EP_IDS.ep26,
   ];
   for (const epId of penpenEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.penpen, epId);
@@ -432,7 +518,7 @@ function seedCharacterEpisodes(db: Database) {
 
 function seedOrganizationEpisodes(db: Database) {
   const insertOrgEpisode = db.prepare(
-    "INSERT INTO organization_episodes (organization_id, episode_id) VALUES (?, ?)"
+    "INSERT INTO organization_episodes (organization_id, episode_id) VALUES (?, ?)",
   );
 
   // NERV appears in all episodes
@@ -442,8 +528,14 @@ function seedOrganizationEpisodes(db: Database) {
 
   // SEELE episodes
   const seeleEpisodes = [
-    EP_IDS.ep7, EP_IDS.ep12, EP_IDS.ep14, EP_IDS.ep17, EP_IDS.ep21,
-    EP_IDS.ep24, EP_IDS.ep25, EP_IDS.ep26,
+    EP_IDS.ep7,
+    EP_IDS.ep12,
+    EP_IDS.ep14,
+    EP_IDS.ep17,
+    EP_IDS.ep21,
+    EP_IDS.ep24,
+    EP_IDS.ep25,
+    EP_IDS.ep26,
   ];
   for (const epId of seeleEpisodes) {
     insertOrgEpisode.run(ORG_IDS.seele, epId);
@@ -467,7 +559,7 @@ function seedOrganizationEpisodes(db: Database) {
 
 function seedAngelEpisodes(db: Database) {
   const insertAngelEpisode = db.prepare(
-    "INSERT INTO angel_episodes (angel_id, episode_id) VALUES (?, ?)"
+    "INSERT INTO angel_episodes (angel_id, episode_id) VALUES (?, ?)",
   );
 
   // Adam
@@ -529,7 +621,7 @@ function seedAngelEpisodes(db: Database) {
 
 function seedEvaPilots(db: Database) {
   const insertEvaPilot = db.prepare(
-    "INSERT INTO eva_pilots (eva_id, character_id) VALUES (?, ?)"
+    "INSERT INTO eva_pilots (eva_id, character_id) VALUES (?, ?)",
   );
 
   // Unit-00
@@ -558,13 +650,20 @@ function seedEvaPilots(db: Database) {
 
 function seedEvaEpisodes(db: Database) {
   const insertEvaEpisode = db.prepare(
-    "INSERT INTO eva_episodes (eva_id, episode_id) VALUES (?, ?)"
+    "INSERT INTO eva_episodes (eva_id, episode_id) VALUES (?, ?)",
   );
 
   // Unit-00 episodes
   const unit00Episodes = [
-    EP_IDS.ep5, EP_IDS.ep6, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep12,
-    EP_IDS.ep16, EP_IDS.ep19, EP_IDS.ep22, EP_IDS.ep23,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep12,
+    EP_IDS.ep16,
+    EP_IDS.ep19,
+    EP_IDS.ep22,
+    EP_IDS.ep23,
   ];
   for (const epId of unit00Episodes) {
     insertEvaEpisode.run(EVA_IDS.unit00, epId);
@@ -572,9 +671,20 @@ function seedEvaEpisodes(db: Database) {
 
   // Unit-01 episodes
   const unit01Episodes = [
-    EP_IDS.ep1, EP_IDS.ep2, EP_IDS.ep3, EP_IDS.ep4, EP_IDS.ep5, EP_IDS.ep6,
-    EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep12, EP_IDS.ep16, EP_IDS.ep18, EP_IDS.ep19,
-    EP_IDS.ep20, EP_IDS.ep24,
+    EP_IDS.ep1,
+    EP_IDS.ep2,
+    EP_IDS.ep3,
+    EP_IDS.ep4,
+    EP_IDS.ep5,
+    EP_IDS.ep6,
+    EP_IDS.ep9,
+    EP_IDS.ep11,
+    EP_IDS.ep12,
+    EP_IDS.ep16,
+    EP_IDS.ep18,
+    EP_IDS.ep19,
+    EP_IDS.ep20,
+    EP_IDS.ep24,
   ];
   for (const epId of unit01Episodes) {
     insertEvaEpisode.run(EVA_IDS.unit01, epId);
@@ -582,8 +692,14 @@ function seedEvaEpisodes(db: Database) {
 
   // Unit-02 episodes
   const unit02Episodes = [
-    EP_IDS.ep8, EP_IDS.ep9, EP_IDS.ep10, EP_IDS.ep11, EP_IDS.ep12,
-    EP_IDS.ep16, EP_IDS.ep19, EP_IDS.ep22,
+    EP_IDS.ep8,
+    EP_IDS.ep9,
+    EP_IDS.ep10,
+    EP_IDS.ep11,
+    EP_IDS.ep12,
+    EP_IDS.ep16,
+    EP_IDS.ep19,
+    EP_IDS.ep22,
   ];
   for (const epId of unit02Episodes) {
     insertEvaEpisode.run(EVA_IDS.unit02, epId);
@@ -599,7 +715,7 @@ function seedEvaEpisodes(db: Database) {
 
 function seedEvaMovies(db: Database) {
   const insertEvaMovie = db.prepare(
-    "INSERT INTO eva_movies (eva_id, movie_id) VALUES (?, ?)"
+    "INSERT INTO eva_movies (eva_id, movie_id) VALUES (?, ?)",
   );
 
   // Death and Rebirth / End of Evangelion
@@ -638,7 +754,7 @@ function seedEvaMovies(db: Database) {
 
 function seedStudioStaff(db: Database) {
   const insertStudioStaff = db.prepare(
-    "INSERT INTO studio_staff (studio_id, staff_id) VALUES (?, ?)"
+    "INSERT INTO studio_staff (studio_id, staff_id) VALUES (?, ?)",
   );
 
   // Gainax staff (original series)

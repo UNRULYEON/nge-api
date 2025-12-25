@@ -1,7 +1,7 @@
+import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the organization"),
@@ -24,7 +24,7 @@ export function registerOrganizationTools(server: McpServer) {
             text: JSON.stringify(repositories.organizations.getAll(), null, 2),
           },
         ],
-      }))
+      })),
   );
 
   server.registerTool(
@@ -50,10 +50,13 @@ export function registerOrganizationTools(server: McpServer) {
         }
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(organization, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify(organization, null, 2),
+            },
           ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -79,9 +82,14 @@ export function registerOrganizationTools(server: McpServer) {
         }
         const characters = repositories.organizations.getCharacters(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(characters, null, 2) }],
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify(characters, null, 2),
+            },
+          ],
         };
-      })
+      }),
   );
 
   server.registerTool(
@@ -107,8 +115,10 @@ export function registerOrganizationTools(server: McpServer) {
         }
         const episodes = repositories.organizations.getEpisodes(id);
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
+          ],
         };
-      })
+      }),
   );
 }

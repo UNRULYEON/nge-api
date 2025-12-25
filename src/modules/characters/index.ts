@@ -1,11 +1,11 @@
 import { Elysia, NotFoundError } from "elysia";
 import { repositories } from "@/repositories";
-import { CharactersModel } from "./model";
-import { ShowsModel } from "../shows/model";
-import { MoviesModel } from "../movies/model";
-import { EpisodesModel } from "../episodes/model";
-import { OrganizationsModel } from "../organizations/model";
 import { BaseModel } from "@/utils/base-model";
+import { EpisodesModel } from "../episodes/model";
+import { MoviesModel } from "../movies/model";
+import { OrganizationsModel } from "../organizations/model";
+import { ShowsModel } from "../shows/model";
+import { CharactersModel } from "./model";
 
 export const characters = new Elysia({
   prefix: "/characters",
@@ -23,7 +23,7 @@ export const characters = new Elysia({
       response: {
         200: CharactersModel.listResponse,
       },
-    }
+    },
   )
   .get(
     "/:id",
@@ -44,7 +44,7 @@ export const characters = new Elysia({
         200: CharactersModel.getResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/shows",
@@ -65,7 +65,7 @@ export const characters = new Elysia({
         200: ShowsModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/movies",
@@ -86,7 +86,7 @@ export const characters = new Elysia({
         200: MoviesModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/episodes",
@@ -107,7 +107,7 @@ export const characters = new Elysia({
         200: EpisodesModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   )
   .get(
     "/:id/organizations",
@@ -128,5 +128,5 @@ export const characters = new Elysia({
         200: OrganizationsModel.listResponse,
         404: BaseModel.notFound,
       },
-    }
+    },
   );
