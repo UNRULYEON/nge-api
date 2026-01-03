@@ -60,6 +60,9 @@ export interface Angel {
   nameJapanese: string;
   number: number;
   description: string;
+  images?: {
+    picture: string | null;
+  };
 }
 
 export interface Eva {

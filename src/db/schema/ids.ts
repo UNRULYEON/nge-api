@@ -161,6 +161,27 @@ export const CHAR_IMAGES = {
   },
 };
 
+// Angel image paths (stored in src/db/schema/assets/angels/[name]/)
+export const ANGEL_IMAGES = {
+  adam: { picture: "angels/adam/picture.png" },
+  lilith: { picture: "angels/lilith/picture.png" },
+  sachiel: { picture: "angels/sachiel/picture.png" },
+  shamshel: { picture: "angels/shamshel/picture.png" },
+  ramiel: { picture: "angels/ramiel/picture.png" },
+  gaghiel: { picture: "angels/gaghiel/picture.png" },
+  israfel: { picture: "angels/israfel/picture.png" },
+  sandalphon: { picture: "angels/sandalphon/picture.png" },
+  matarael: { picture: "angels/matarael/picture.png" },
+  sahaquiel: { picture: "angels/sahaquiel/picture.png" },
+  ireul: { picture: "angels/ireul/picture.png" },
+  leliel: { picture: "angels/leliel/picture.png" },
+  bardiel: { picture: "angels/bardiel/picture.png" },
+  zeruel: { picture: "angels/zeruel/picture.png" },
+  arael: { picture: "angels/arael/picture.png" },
+  armisael: { picture: "angels/armisael/picture.png" },
+  tabris: { picture: "angels/tabris/picture.png" },
+};
+
 export const STAFF_IDS = {
   anno: "019b4ba4-16c8-7000-aa9b-7379f799e904",
   sadamoto: "019b4ba4-16ca-7000-b03f-d97d012ed240",

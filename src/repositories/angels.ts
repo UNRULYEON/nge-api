@@ -2,24 +2,55 @@ import { record } from "@elysiajs/opentelemetry";
 import { db } from "@/db";
 import type { Angel, Episode } from "@/types/entities";
 
+const CDN_BASE_URL = "https://cdn.nge-api.dev/public";
+
+interface AngelRow {
+  id: string;
+  name: string;
+  nameJapanese: string;
+  number: number;
+  description: string;
+  pictureImage: string | null;
+}
+
+function buildImageUrl(path: string | null): string | null {
+  if (!path) return null;
+  return `${CDN_BASE_URL}/${path}`;
+}
+
+function parseAngel(row: AngelRow): Angel {
+  return {
+    id: row.id,
+    name: row.name,
+    nameJapanese: row.nameJapanese,
+    number: row.number,
+    description: row.description,
+    images: {
+      picture: buildImageUrl(row.pictureImage),
+    },
+  };
+}
+
 export const angels = {
   getAll(): Angel[] {
     return record("db.angels.getAll", () => {
-      return db
+      const rows = db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels ORDER BY number`,
+          `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels ORDER BY number`,
         )
-        .all() as Angel[];
+        .all() as AngelRow[];
+      return rows.map(parseAngel);
     });
   },
 
   getById(id: string): Angel | null {
     return record("db.angels.getById", () => {
-      return db
+      const row = db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description FROM angels WHERE id = ?`,
+          `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels WHERE id = ?`,
         )
-        .get(id) as Angel | null;
+        .get(id) as AngelRow | null;
+      return row ? parseAngel(row) : null;
     });
   },
 

@@ -469,6 +469,22 @@ function buildImageUrl(path: string | null): string | null {
 
 Image columns use the `_image` suffix (e.g., `headshot_image`) to distinguish them from other fields.
 
+### Image Conversion
+
+Always use the image conversion script to convert images to PNG format:
+
+```bash
+bun run scripts/convert-images.ts
+```
+
+This script:
+- Finds all images in `src/db/schema/assets/`
+- Backs up originals to `assets-backup/<timestamp>/`
+- Converts all images to PNG format
+- Removes the original files after conversion
+
+Supported input formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.bmp`, `.tiff`
+
 ## Entity Types
 
 Entity interfaces live in `src/types/entities.ts`:

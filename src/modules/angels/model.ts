@@ -7,6 +7,11 @@ export namespace AngelsModel {
     nameJapanese: t.String(),
     number: t.Number(),
     description: t.String(),
+    images: t.Optional(
+      t.Object({
+        picture: t.Nullable(t.String()),
+      }),
+    ),
   });
   export type angel = typeof angel.static;
 

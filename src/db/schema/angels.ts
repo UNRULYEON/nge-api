@@ -1,5 +1,5 @@
 import type Database from "bun:sqlite";
-import { ANGEL_IDS } from "./ids";
+import { ANGEL_IDS, ANGEL_IMAGES } from "./ids";
 
 export function initializeAngels(db: Database) {
   db.run(`
@@ -8,13 +8,35 @@ export function initializeAngels(db: Database) {
       name TEXT NOT NULL,
       name_japanese TEXT NOT NULL,
       number INTEGER NOT NULL,
-      description TEXT NOT NULL
+      description TEXT NOT NULL,
+      picture_image TEXT
     )
   `);
 
   const insertAngel = db.prepare(
-    "INSERT INTO angels (id, name, name_japanese, number, description) VALUES (?, ?, ?, ?, ?)",
+    "INSERT INTO angels (id, name, name_japanese, number, description, picture_image) VALUES (?, ?, ?, ?, ?, ?)",
   );
+
+  // Map angel IDs to their picture image paths
+  const pictureMap: Record<string, string> = {
+    [ANGEL_IDS.adam]: ANGEL_IMAGES.adam.picture,
+    [ANGEL_IDS.lilith]: ANGEL_IMAGES.lilith.picture,
+    [ANGEL_IDS.sachiel]: ANGEL_IMAGES.sachiel.picture,
+    [ANGEL_IDS.shamshel]: ANGEL_IMAGES.shamshel.picture,
+    [ANGEL_IDS.ramiel]: ANGEL_IMAGES.ramiel.picture,
+    [ANGEL_IDS.gaghiel]: ANGEL_IMAGES.gaghiel.picture,
+    [ANGEL_IDS.israfel]: ANGEL_IMAGES.israfel.picture,
+    [ANGEL_IDS.sandalphon]: ANGEL_IMAGES.sandalphon.picture,
+    [ANGEL_IDS.matarael]: ANGEL_IMAGES.matarael.picture,
+    [ANGEL_IDS.sahaquiel]: ANGEL_IMAGES.sahaquiel.picture,
+    [ANGEL_IDS.ireul]: ANGEL_IMAGES.ireul.picture,
+    [ANGEL_IDS.leliel]: ANGEL_IMAGES.leliel.picture,
+    [ANGEL_IDS.bardiel]: ANGEL_IMAGES.bardiel.picture,
+    [ANGEL_IDS.zeruel]: ANGEL_IMAGES.zeruel.picture,
+    [ANGEL_IDS.arael]: ANGEL_IMAGES.arael.picture,
+    [ANGEL_IDS.armisael]: ANGEL_IMAGES.armisael.picture,
+    [ANGEL_IDS.tabris]: ANGEL_IMAGES.tabris.picture,
+  };
 
   const angels = [
     {
@@ -156,12 +178,14 @@ export function initializeAngels(db: Database) {
   ];
 
   for (const angel of angels) {
+    const picture = pictureMap[angel.id] ?? null;
     insertAngel.run(
       angel.id,
       angel.name,
       angel.nameJapanese,
       angel.number,
       angel.description,
+      picture,
     );
   }
 }
