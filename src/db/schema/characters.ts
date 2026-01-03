@@ -1,34 +1,5 @@
 import type Database from "bun:sqlite";
-import { existsSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { CHAR_HEADSHOTS, CHAR_IDS } from "./ids";
-
-const CDN_MOUNT_PATH = "nge-cdn-files";
-const CDN_DATA_FOLDER = "data";
-const ASSETS_PATH = join(dirname(import.meta.path), "assets", "characters");
-
-function copyHeadshotsToCdnFolder(): void {
-  const cdnDataPath = join(CDN_MOUNT_PATH, CDN_DATA_FOLDER);
-
-  if (!existsSync(cdnDataPath)) {
-    mkdirSync(cdnDataPath, { recursive: true });
-  }
-
-  for (const filename of Object.values(CHAR_HEADSHOTS)) {
-    const sourcePath = join(ASSETS_PATH, filename);
-    const destPath = join(cdnDataPath, filename);
-
-    // Skip if already exists in CDN
-    if (existsSync(destPath)) {
-      continue;
-    }
-
-    const sourceFile = Bun.file(sourcePath);
-    if (sourceFile.size) {
-      Bun.write(destPath, sourceFile);
-    }
-  }
-}
+import { CHAR_IDS, CHAR_IMAGES } from "./ids";
 
 export function initializeCharacters(db: Database) {
   db.run(`
@@ -44,16 +15,28 @@ export function initializeCharacters(db: Database) {
     )
   `);
 
-  // Copy headshots from repo assets to CDN volume
-  copyHeadshotsToCdnFolder();
-
   const insertCharacter = db.prepare(
     "INSERT INTO characters (id, name, name_japanese, age, gender, occupations, bio, headshot_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
   );
 
-  // Map character IDs to their headshot filenames
+  // Map character IDs to their headshot image paths
   const headshotMap: Record<string, string> = {
-    [CHAR_IDS.shinji]: CHAR_HEADSHOTS.shinji,
+    [CHAR_IDS.shinji]: CHAR_IMAGES.shinji.headshot,
+    [CHAR_IDS.rei]: CHAR_IMAGES.rei.headshot,
+    [CHAR_IDS.asuka]: CHAR_IMAGES.asuka.headshot,
+    [CHAR_IDS.misato]: CHAR_IMAGES.misato.headshot,
+    [CHAR_IDS.gendo]: CHAR_IMAGES.gendo.headshot,
+    [CHAR_IDS.kaworu]: CHAR_IMAGES.kaworu.headshot,
+    [CHAR_IDS.ritsuko]: CHAR_IMAGES.ritsuko.headshot,
+    [CHAR_IDS.fuyutsuki]: CHAR_IMAGES.fuyutsuki.headshot,
+    [CHAR_IDS.toji]: CHAR_IMAGES.toji.headshot,
+    [CHAR_IDS.kensuke]: CHAR_IMAGES.kensuke.headshot,
+    [CHAR_IDS.hikari]: CHAR_IMAGES.hikari.headshot,
+    [CHAR_IDS.kaji]: CHAR_IMAGES.kaji.headshot,
+    [CHAR_IDS.yui]: CHAR_IMAGES.yui.headshot,
+    [CHAR_IDS.kyoko]: CHAR_IMAGES.kyoko.headshot,
+    [CHAR_IDS.penpen]: CHAR_IMAGES.penpen.headshot,
+    [CHAR_IDS.mari]: CHAR_IMAGES.mari.headshot,
   };
 
   const characters = [

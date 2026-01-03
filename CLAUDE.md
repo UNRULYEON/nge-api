@@ -386,83 +386,84 @@ Available junction tables:
 
 ## Entity Assets
 
-Images and other assets for entities are stored in the repository and copied to a CDN volume at runtime.
+Images and other assets for entities are stored in the repository and uploaded to an S3-backed CDN via an admin portal. The file paths in the repo mirror the CDN URL structure.
+
+### CDN Configuration
+
+- **CDN Base URL**: `https://cdn.nge-api.dev/public`
+- **Bucket name**: `public`
+- Files are uploaded to S3 via an admin portal, not at runtime
 
 ### Structure
 
+Assets use a hierarchical folder structure that maps directly to CDN URLs:
+
 ```
 src/db/schema/assets/
-└── characters/          # Character headshots
-    └── <uuid>.jpeg      # Image file with UUIDv7 filename
+└── characters/
+    └── shinji-ikari/       # Entity name (kebab-case)
+        └── headshot.jpeg   # Category/filename
 ```
+
+The folder structure follows the pattern: `[entity]/[entity-name]/[category]/filename.jpeg`
 
 ### Adding an Image Asset
 
-1. **Generate a UUIDv7 filename**:
-   ```bash
-   bun run src/utils/generate-uuid.ts
-   # Output: 019b84d3-66a9-7000-98af-254d79aaf56e
+1. **Create the folder structure** using kebab-case entity names:
+   ```
+   src/db/schema/assets/characters/rei-ayanami/
    ```
 
-2. **Save the image** with the UUID filename:
+2. **Save the image** with a descriptive filename:
    ```
-   src/db/schema/assets/characters/019b84d3-66a9-7000-98af-254d79aaf56e.jpeg
+   src/db/schema/assets/characters/rei-ayanami/headshot.jpeg
    ```
 
-3. **Register the filename** in `src/db/schema/ids.ts`:
+3. **Register the path** in `src/db/schema/ids.ts`:
    ```typescript
-   export const CHAR_HEADSHOTS = {
-     shinji: "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg",
-     // Add new entries here
+   export const CHAR_IMAGES = {
+     shinji: {
+       headshot: "characters/shinji-ikari/headshot.jpeg",
+     },
+     rei: {
+       headshot: "characters/rei-ayanami/headshot.jpeg",
+     },
    };
    ```
 
 4. **Link to entity** in the schema file (e.g., `characters.ts`):
    ```typescript
    const headshotMap: Record<string, string> = {
-     [CHAR_IDS.shinji]: CHAR_HEADSHOTS.shinji,
-     // Add new mappings here
+     [CHAR_IDS.shinji]: CHAR_IMAGES.shinji.headshot,
+     [CHAR_IDS.rei]: CHAR_IMAGES.rei.headshot,
    };
    ```
 
-### CDN Volume
-
-At runtime, assets are copied from the repo to a Docker volume mount:
-
-- **Mount path**: `nge-cdn-files/data/`
-- **Copy behavior**: Files are only copied if they don't already exist in the destination
-- **Filename preservation**: The UUIDv7 filename is preserved (no renaming)
-
-The copy logic lives in the entity's schema file (e.g., `characters.ts`):
-
-```typescript
-function copyHeadshotsToCdn(): void {
-  const cdnDataPath = join(CDN_MOUNT_PATH, CDN_DATA_FOLDER);
-
-  for (const filename of Object.values(CHAR_HEADSHOTS)) {
-    const destPath = join(cdnDataPath, filename);
-    if (existsSync(destPath)) continue;  // Skip if exists
-
-    const sourcePath = join(ASSETS_PATH, filename);
-    Bun.write(destPath, Bun.file(sourcePath));
-  }
-}
-```
+5. **Upload to S3** via the admin portal (the path becomes the S3 key)
 
 ### API Response
 
-Images are grouped in an `images` object in API responses:
+The API returns full CDN URLs in the `images` object:
 
 ```json
 {
   "name": "Shinji Ikari",
   "images": {
-    "headshot": "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg"
+    "headshot": "https://cdn.nge-api.dev/public/characters/shinji-ikari/headshot.jpeg"
   }
 }
 ```
 
-The CDN service serves these files, so clients construct the full URL using the CDN base URL + filename.
+The repository layer prepends the CDN base URL to stored paths:
+
+```typescript
+const CDN_BASE_URL = "https://cdn.nge-api.dev/public";
+
+function buildImageUrl(path: string | null): string | null {
+  if (!path) return null;
+  return `${CDN_BASE_URL}/${path}`;
+}
+```
 
 ### Database Column Naming
 

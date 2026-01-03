@@ -108,9 +108,57 @@ export const EVA_IDS = {
   mark06: "019b4966-ecc6-7008-88f9-f9d49f7ed190",
 };
 
-// Headshot filenames (stored in src/db/schema/assets/characters/)
-export const CHAR_HEADSHOTS = {
-  shinji: "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg",
+// Character image paths (stored in src/db/schema/assets/characters/[name]/)
+// Format: [entity]/[entity-name]/[category]/filename.png
+export const CHAR_IMAGES = {
+  shinji: {
+    headshot: "characters/shinji-ikari/headshot.png",
+  },
+  rei: {
+    headshot: "characters/rei-ayanami/headshot.png",
+  },
+  asuka: {
+    headshot: "characters/asuka-langley-soryu/headshot.png",
+  },
+  misato: {
+    headshot: "characters/misato-katsuragi/headshot.png",
+  },
+  gendo: {
+    headshot: "characters/gendo-ikari/headshot.png",
+  },
+  kaworu: {
+    headshot: "characters/kaworu-nagisa/headshot.png",
+  },
+  ritsuko: {
+    headshot: "characters/ritsuko-akagi/headshot.png",
+  },
+  fuyutsuki: {
+    headshot: "characters/kozo-fuyutsuki/headshot.png",
+  },
+  toji: {
+    headshot: "characters/toji-suzuhara/headshot.png",
+  },
+  kensuke: {
+    headshot: "characters/kensuke-aida/headshot.png",
+  },
+  hikari: {
+    headshot: "characters/hikari-horaki/headshot.png",
+  },
+  kaji: {
+    headshot: "characters/ryoji-kaji/headshot.png",
+  },
+  yui: {
+    headshot: "characters/yui-ikari/headshot.png",
+  },
+  kyoko: {
+    headshot: "characters/kyoko-zeppelin-soryu/headshot.png",
+  },
+  penpen: {
+    headshot: "characters/pen-pen/headshot.png",
+  },
+  mari: {
+    headshot: "characters/mari-makinami-illustrious/headshot.png",
+  },
 };
 
 export const STAFF_IDS = {

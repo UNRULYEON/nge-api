@@ -43,5 +43,5 @@ yarn-error.log*
 package-lock.json
 **/*.bun
 
-# CDN volume mount
-/nge-cdn-files
+# Image backup folder (created by scripts/convert-images.ts)
+/assets-backup

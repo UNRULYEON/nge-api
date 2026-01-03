@@ -8,6 +8,8 @@ import type {
   Show,
 } from "@/types/entities";
 
+const CDN_BASE_URL = "https://cdn.nge-api.dev/public";
+
 interface CharacterRow {
   id: string;
   name: string;
@@ -17,6 +19,11 @@ interface CharacterRow {
   occupations: string;
   bio: string;
   headshotImage: string | null;
+}
+
+function buildImageUrl(path: string | null): string | null {
+  if (!path) return null;
+  return `${CDN_BASE_URL}/${path}`;
 }
 
 function parseCharacter(row: CharacterRow): Character {
@@ -29,7 +36,7 @@ function parseCharacter(row: CharacterRow): Character {
     occupations: JSON.parse(row.occupations),
     bio: row.bio,
     images: {
-      headshot: row.headshotImage,
+      headshot: buildImageUrl(row.headshotImage),
     },
   };
 }
