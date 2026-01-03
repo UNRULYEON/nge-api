@@ -42,3 +42,6 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# CDN volume mount
+/nge-cdn-files

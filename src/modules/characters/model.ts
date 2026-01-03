@@ -9,6 +9,11 @@ export namespace CharactersModel {
     gender: t.String(),
     occupations: t.Array(t.String()),
     bio: t.String(),
+    images: t.Optional(
+      t.Object({
+        headshot: t.Nullable(t.String()),
+      }),
+    ),
   });
   export type character = typeof character.static;
 

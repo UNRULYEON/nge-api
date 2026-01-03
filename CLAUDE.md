@@ -384,6 +384,90 @@ Available junction tables:
 3. Import and call in `src/db/schema/index.ts` (respect dependency order)
 4. Add junction tables to `relations.ts` if relationships exist
 
+## Entity Assets
+
+Images and other assets for entities are stored in the repository and copied to a CDN volume at runtime.
+
+### Structure
+
+```
+src/db/schema/assets/
+└── characters/          # Character headshots
+    └── <uuid>.jpeg      # Image file with UUIDv7 filename
+```
+
+### Adding an Image Asset
+
+1. **Generate a UUIDv7 filename**:
+   ```bash
+   bun run src/utils/generate-uuid.ts
+   # Output: 019b84d3-66a9-7000-98af-254d79aaf56e
+   ```
+
+2. **Save the image** with the UUID filename:
+   ```
+   src/db/schema/assets/characters/019b84d3-66a9-7000-98af-254d79aaf56e.jpeg
+   ```
+
+3. **Register the filename** in `src/db/schema/ids.ts`:
+   ```typescript
+   export const CHAR_HEADSHOTS = {
+     shinji: "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg",
+     // Add new entries here
+   };
+   ```
+
+4. **Link to entity** in the schema file (e.g., `characters.ts`):
+   ```typescript
+   const headshotMap: Record<string, string> = {
+     [CHAR_IDS.shinji]: CHAR_HEADSHOTS.shinji,
+     // Add new mappings here
+   };
+   ```
+
+### CDN Volume
+
+At runtime, assets are copied from the repo to a Docker volume mount:
+
+- **Mount path**: `nge-cdn-files/data/`
+- **Copy behavior**: Files are only copied if they don't already exist in the destination
+- **Filename preservation**: The UUIDv7 filename is preserved (no renaming)
+
+The copy logic lives in the entity's schema file (e.g., `characters.ts`):
+
+```typescript
+function copyHeadshotsToCdn(): void {
+  const cdnDataPath = join(CDN_MOUNT_PATH, CDN_DATA_FOLDER);
+
+  for (const filename of Object.values(CHAR_HEADSHOTS)) {
+    const destPath = join(cdnDataPath, filename);
+    if (existsSync(destPath)) continue;  // Skip if exists
+
+    const sourcePath = join(ASSETS_PATH, filename);
+    Bun.write(destPath, Bun.file(sourcePath));
+  }
+}
+```
+
+### API Response
+
+Images are grouped in an `images` object in API responses:
+
+```json
+{
+  "name": "Shinji Ikari",
+  "images": {
+    "headshot": "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg"
+  }
+}
+```
+
+The CDN service serves these files, so clients construct the full URL using the CDN base URL + filename.
+
+### Database Column Naming
+
+Image columns use the `_image` suffix (e.g., `headshot_image`) to distinguish them from other fields.
+
 ## Entity Types
 
 Entity interfaces live in `src/types/entities.ts`:

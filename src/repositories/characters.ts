@@ -16,12 +16,21 @@ interface CharacterRow {
   gender: string;
   occupations: string;
   bio: string;
+  headshotImage: string | null;
 }
 
 function parseCharacter(row: CharacterRow): Character {
   return {
-    ...row,
+    id: row.id,
+    name: row.name,
+    nameJapanese: row.nameJapanese,
+    age: row.age,
+    gender: row.gender,
     occupations: JSON.parse(row.occupations),
+    bio: row.bio,
+    images: {
+      headshot: row.headshotImage,
+    },
   };
 }
 
@@ -30,7 +39,7 @@ export const characters = {
     return record("db.characters.getAll", () => {
       const rows = db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio FROM characters`,
+          `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio, headshot_image as headshotImage FROM characters`,
         )
         .all() as CharacterRow[];
       return rows.map(parseCharacter);
@@ -41,7 +50,7 @@ export const characters = {
     return record("db.characters.getById", () => {
       const row = db
         .query(
-          `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio FROM characters WHERE id = ?`,
+          `SELECT id, name, name_japanese as nameJapanese, age, gender, occupations, bio, headshot_image as headshotImage FROM characters WHERE id = ?`,
         )
         .get(id) as CharacterRow | null;
       return row ? parseCharacter(row) : null;

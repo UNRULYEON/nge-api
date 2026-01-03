@@ -108,6 +108,11 @@ export const EVA_IDS = {
   mark06: "019b4966-ecc6-7008-88f9-f9d49f7ed190",
 };
 
+// Headshot filenames (stored in src/db/schema/assets/characters/)
+export const CHAR_HEADSHOTS = {
+  shinji: "019b84d3-66a9-7000-98af-254d79aaf56e.jpeg",
+};
+
 export const STAFF_IDS = {
   anno: "019b4ba4-16c8-7000-aa9b-7379f799e904",
   sadamoto: "019b4ba4-16ca-7000-b03f-d97d012ed240",

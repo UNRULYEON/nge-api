@@ -32,6 +32,9 @@ export interface Character {
   gender: string;
   occupations: string[];
   bio: string;
+  images?: {
+    headshot: string | null;
+  };
 }
 
 export interface Organization {

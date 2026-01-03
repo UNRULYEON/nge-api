@@ -1,5 +1,34 @@
 import type Database from "bun:sqlite";
-import { CHAR_IDS } from "./ids";
+import { existsSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { CHAR_HEADSHOTS, CHAR_IDS } from "./ids";
+
+const CDN_MOUNT_PATH = "nge-cdn-files";
+const CDN_DATA_FOLDER = "data";
+const ASSETS_PATH = join(dirname(import.meta.path), "assets", "characters");
+
+function copyHeadshotsToCdnFolder(): void {
+  const cdnDataPath = join(CDN_MOUNT_PATH, CDN_DATA_FOLDER);
+
+  if (!existsSync(cdnDataPath)) {
+    mkdirSync(cdnDataPath, { recursive: true });
+  }
+
+  for (const filename of Object.values(CHAR_HEADSHOTS)) {
+    const sourcePath = join(ASSETS_PATH, filename);
+    const destPath = join(cdnDataPath, filename);
+
+    // Skip if already exists in CDN
+    if (existsSync(destPath)) {
+      continue;
+    }
+
+    const sourceFile = Bun.file(sourcePath);
+    if (sourceFile.size) {
+      Bun.write(destPath, sourceFile);
+    }
+  }
+}
 
 export function initializeCharacters(db: Database) {
   db.run(`
@@ -10,13 +39,22 @@ export function initializeCharacters(db: Database) {
       age INTEGER,
       gender TEXT NOT NULL,
       occupations TEXT NOT NULL,
-      bio TEXT NOT NULL
+      bio TEXT NOT NULL,
+      headshot_image TEXT
     )
   `);
 
+  // Copy headshots from repo assets to CDN volume
+  copyHeadshotsToCdnFolder();
+
   const insertCharacter = db.prepare(
-    "INSERT INTO characters (id, name, name_japanese, age, gender, occupations, bio) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO characters (id, name, name_japanese, age, gender, occupations, bio, headshot_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
   );
+
+  // Map character IDs to their headshot filenames
+  const headshotMap: Record<string, string> = {
+    [CHAR_IDS.shinji]: CHAR_HEADSHOTS.shinji,
+  };
 
   const characters = [
     {
@@ -166,6 +204,7 @@ export function initializeCharacters(db: Database) {
   ];
 
   for (const character of characters) {
+    const headshot = headshotMap[character.id] ?? null;
     insertCharacter.run(
       character.id,
       character.name,
@@ -174,6 +213,7 @@ export function initializeCharacters(db: Database) {
       character.gender,
       JSON.stringify(character.occupations),
       character.bio,
+      headshot,
     );
   }
 }
