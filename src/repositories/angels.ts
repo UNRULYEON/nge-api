@@ -1,8 +1,7 @@
 import { record } from "@elysiajs/opentelemetry";
 import { db } from "@/db";
 import type { Angel, Episode } from "@/types/entities";
-
-const CDN_BASE_URL = "https://cdn.nge-api.dev/public";
+import { buildImageUrl } from "@/utils/image-url";
 
 interface AngelRow {
   id: string;
@@ -11,11 +10,6 @@ interface AngelRow {
   number: number;
   description: string;
   pictureImage: string | null;
-}
-
-function buildImageUrl(path: string | null): string | null {
-  if (!path) return null;
-  return `${CDN_BASE_URL}/${path}`;
 }
 
 function parseAngel(row: AngelRow): Angel {

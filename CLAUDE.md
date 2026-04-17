@@ -386,47 +386,46 @@ Available junction tables:
 
 ## Entity Assets
 
-Images and other assets for entities are stored in the repository and uploaded to an S3-backed CDN via an admin portal. The file paths in the repo mirror the CDN URL structure.
+Images and other assets for entities live in the repository and are served directly by the API via Elysia's `staticPlugin` at `/public/*`. Committing a file is all that's needed to publish it — there is no external CDN or upload step.
 
-### CDN Configuration
+### URL Configuration
 
-- **CDN Base URL**: `https://cdn.nge-api.dev/public`
-- **Bucket name**: `public`
-- Files are uploaded to S3 via an admin portal, not at runtime
+- Files are served from the `public/` directory at the URL path `/public/<path>`.
+- The repository layer prepends an API base URL (from the `API_BASE_URL` env var, defaulting to `http://localhost:3000`) to build absolute URLs in responses.
 
 ### Structure
 
-Assets use a hierarchical folder structure that maps directly to CDN URLs:
+Assets use a hierarchical folder structure that mirrors the URL path:
 
 ```
-src/db/schema/assets/
+public/
 └── characters/
     └── shinji-ikari/       # Entity name (kebab-case)
-        └── headshot.jpeg   # Category/filename
+        └── headshot.png    # Category/filename
 ```
 
-The folder structure follows the pattern: `[entity]/[entity-name]/[category]/filename.jpeg`
+The folder structure follows the pattern: `[entity]/[entity-name]/[category]/filename.png`.
 
 ### Adding an Image Asset
 
 1. **Create the folder structure** using kebab-case entity names:
    ```
-   src/db/schema/assets/characters/rei-ayanami/
+   public/characters/rei-ayanami/
    ```
 
 2. **Save the image** with a descriptive filename:
    ```
-   src/db/schema/assets/characters/rei-ayanami/headshot.jpeg
+   public/characters/rei-ayanami/headshot.png
    ```
 
-3. **Register the path** in `src/db/schema/ids.ts`:
+3. **Register the path** in `src/db/schema/ids.ts` (store the path relative to `public/`):
    ```typescript
    export const CHAR_IMAGES = {
      shinji: {
-       headshot: "characters/shinji-ikari/headshot.jpeg",
+       headshot: "characters/shinji-ikari/headshot.png",
      },
      rei: {
-       headshot: "characters/rei-ayanami/headshot.jpeg",
+       headshot: "characters/rei-ayanami/headshot.png",
      },
    };
    ```
@@ -439,31 +438,30 @@ The folder structure follows the pattern: `[entity]/[entity-name]/[category]/fil
    };
    ```
 
-5. **Upload to S3** via the admin portal (the path becomes the S3 key)
-
 ### API Response
 
-The API returns full CDN URLs in the `images` object:
+The API returns absolute URLs rooted at the configured API base:
 
 ```json
 {
   "name": "Shinji Ikari",
   "images": {
-    "headshot": "https://cdn.nge-api.dev/public/characters/shinji-ikari/headshot.jpeg"
+    "headshot": "http://localhost:3000/public/characters/shinji-ikari/headshot.png"
   }
 }
 ```
 
-The repository layer prepends the CDN base URL to stored paths:
+URL building is centralized in `src/utils/image-url.ts`:
 
 ```typescript
-const CDN_BASE_URL = "https://cdn.nge-api.dev/public";
-
-function buildImageUrl(path: string | null): string | null {
+export function buildImageUrl(path: string | null): string | null {
   if (!path) return null;
-  return `${CDN_BASE_URL}/${path}`;
+  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
+  return `${base}/public/${path}`;
 }
 ```
+
+Repositories import this helper — do not re-implement URL building locally.
 
 ### Database Column Naming
 
@@ -478,7 +476,7 @@ bun run scripts/convert-images.ts
 ```
 
 This script:
-- Finds all images in `src/db/schema/assets/`
+- Finds all images under `public/` (skipping the favicon)
 - Backs up originals to `assets-backup/<timestamp>/`
 - Converts all images to PNG format
 - Removes the original files after conversion

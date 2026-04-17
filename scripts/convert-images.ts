@@ -2,7 +2,8 @@
 /**
  * Image Conversion Script
  *
- * Converts all images in src/db/schema/assets/ to PNG format.
+ * Converts all images under public/ to PNG format. The SVG favicon is skipped
+ * because .svg is not in the handled extensions list.
  * Backs up original images to assets-backup/<timestamp>/ in the project root,
  * preserving the original folder structure.
  *
@@ -13,7 +14,7 @@ import { existsSync, mkdirSync, readdirSync, statSync } from "node:fs";
 import { basename, dirname, extname, join, relative } from "node:path";
 import { $ } from "bun";
 
-const ASSETS_PATH = "src/db/schema/assets";
+const ASSETS_PATH = "public";
 const BACKUP_BASE = "assets-backup";
 const IMAGE_EXTENSIONS = [
   ".jpg",
