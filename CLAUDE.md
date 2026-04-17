@@ -391,7 +391,7 @@ Images and other assets for entities live in the repository and are served direc
 ### URL Configuration
 
 - Files are served from the `public/` directory at the URL path `/public/<path>`.
-- The repository layer prepends an API base URL (from the `API_BASE_URL` env var, defaulting to `http://localhost:3000`) to build absolute URLs in responses.
+- The repository layer prepends an API base URL to build absolute URLs in responses. Resolution order: `API_BASE_URL` (explicit override) → `https://${RAILWAY_PUBLIC_DOMAIN}` (auto-set by Railway in prod) → `http://localhost:3000` (local dev default).
 
 ### Structure
 
@@ -451,17 +451,7 @@ The API returns absolute URLs rooted at the configured API base:
 }
 ```
 
-URL building is centralized in `src/utils/image-url.ts`:
-
-```typescript
-export function buildImageUrl(path: string | null): string | null {
-  if (!path) return null;
-  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
-  return `${base}/public/${path}`;
-}
-```
-
-Repositories import this helper — do not re-implement URL building locally.
+URL building is centralized in `src/utils/image-url.ts`. The resolver prefers `API_BASE_URL`, then falls back to `https://${RAILWAY_PUBLIC_DOMAIN}` (populated by Railway automatically), then `http://localhost:3000`. Repositories import `buildImageUrl` from this helper — do not re-implement URL building locally.
 
 ### Database Column Naming
 
