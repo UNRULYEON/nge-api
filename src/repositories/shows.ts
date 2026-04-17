@@ -1,4 +1,3 @@
-import { record } from "@elysiajs/opentelemetry";
 import { db } from "@/db";
 import type { Character, Show, Studio } from "@/types/entities";
 
@@ -21,56 +20,46 @@ function parseCharacter(row: CharacterRow): Character {
 
 export const shows = {
   getAll(): Show[] {
-    return record("db.shows.getAll", () => {
-      return db
-        .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows`,
-        )
-        .all() as Show[];
-    });
+    return db
+      .query(
+        `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows`,
+      )
+      .all() as Show[];
   },
 
   getById(id: string): Show | null {
-    return record("db.shows.getById", () => {
-      return db
-        .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE id = ?`,
-        )
-        .get(id) as Show | null;
-    });
+    return db
+      .query(
+        `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE id = ?`,
+      )
+      .get(id) as Show | null;
   },
 
   getByStudioId(studioId: string): Show[] {
-    return record("db.shows.getByStudioId", () => {
-      return db
-        .query(
-          `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`,
-        )
-        .all(studioId) as Show[];
-    });
+    return db
+      .query(
+        `SELECT id, title, title_japanese as titleJapanese, episodes, aired, synopsis FROM shows WHERE studio_id = ?`,
+      )
+      .all(studioId) as Show[];
   },
 
   getStudio(showId: string): Studio | null {
-    return record("db.shows.getStudio", () => {
-      return db
-        .query(
-          `SELECT s.* FROM studios s JOIN shows sh ON sh.studio_id = s.id WHERE sh.id = ?`,
-        )
-        .get(showId) as Studio | null;
-    });
+    return db
+      .query(
+        `SELECT s.* FROM studios s JOIN shows sh ON sh.studio_id = s.id WHERE sh.id = ?`,
+      )
+      .get(showId) as Studio | null;
   },
 
   getCharacters(showId: string): Character[] {
-    return record("db.shows.getCharacters", () => {
-      const rows = db
-        .query(
-          `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
+    const rows = db
+      .query(
+        `SELECT c.id, c.name, c.name_japanese as nameJapanese, c.age, c.gender, c.occupations, c.bio
          FROM characters c
          JOIN character_shows cs ON cs.character_id = c.id
          WHERE cs.show_id = ?`,
-        )
-        .all(showId) as CharacterRow[];
-      return rows.map(parseCharacter);
-    });
+      )
+      .all(showId) as CharacterRow[];
+    return rows.map(parseCharacter);
   },
 };

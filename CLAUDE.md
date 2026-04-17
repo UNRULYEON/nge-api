@@ -45,63 +45,6 @@ bun build src/index.ts --outdir=dist --target=bun
 
 Fix any formatting, linting, type errors, or build failures before considering the task complete.
 
-## Observability Requirements
-
-All code must be instrumented with OpenTelemetry for distributed tracing. Every significant operation should create a span for observability.
-
-### Wrapping Operations
-
-Use the `record` function from `@elysiajs/opentelemetry` to wrap any operation that should be traced:
-
-```typescript
-import { record } from "@elysiajs/opentelemetry";
-
-// Database operations
-const result = record("db.users.getById", () => {
-  return db.query("SELECT * FROM users WHERE id = ?").get(id);
-});
-
-// MCP tool handlers
-async () => record("mcp.tool.list-items", () => ({
-  content: [{ type: "text" as const, text: JSON.stringify(data) }],
-}))
-
-// Business logic
-const processed = record("service.processOrder", () => {
-  return orderService.process(order);
-});
-```
-
-### Naming Conventions
-
-Use dot-notation for span names that indicates the layer and operation:
-
-- `db.<entity>.<operation>` - Database operations (e.g., `db.characters.getAll`)
-- `mcp.tool.<tool-name>` - MCP tool handlers (e.g., `mcp.tool.list-studios`)
-- `service.<name>.<operation>` - Business logic (e.g., `service.auth.validate`)
-- `http.<method>.<path>` - HTTP operations (e.g., `http.get.users`)
-
-### What to Instrument
-
-Always add tracing to:
-
-- Database queries and mutations
-- MCP tool handlers
-- External API calls
-- Complex business logic
-- File system operations
-- Cache operations
-- Authentication/authorization checks
-
-### Benefits
-
-Proper instrumentation enables:
-
-- Performance analysis and bottleneck identification
-- Request flow visualization across services
-- Error tracking and debugging
-- SLA monitoring and alerting
-
 ## Architecture
 
 - **Runtime**: Bun (not Node.js)
@@ -110,12 +53,10 @@ Proper instrumentation enables:
 - **Documentation**: Scalar (OpenAPI) at `/` with spec at `/openapi.json`
 - **Static files**: Served from `/public` directory
 - **Path aliases**: `@/*` maps to `src/*`
-- **Observability**: OpenTelemetry for distributed tracing
 
 ### Entry Point
 
 `src/index.ts` - Creates the Elysia app instance with plugins:
-- `opentelemetry()` - Distributed tracing with OpenTelemetry
 - `serverTiming()` - Adds Server-Timing headers for performance monitoring
 - `rateLimit()` - Rate limiting (1000 requests max)
 - `staticPlugin()` - Serves static files from /public
@@ -500,20 +441,15 @@ Database operations are abstracted through repositories in `src/repositories/`. 
 ```typescript
 // src/repositories/<name>.ts
 import { db } from "@/db";
-import { record } from "@/utils/otel";
 import type { <Name> } from "@/types/entities";
 
 export const <name> = {
   getAll(): <Name>[] {
-    return record("<name>.getAll", () => {
-      return db.query("SELECT * FROM <table>").all() as <Name>[];
-    });
+    return db.query("SELECT * FROM <table>").all() as <Name>[];
   },
 
   getById(id: string): <Name> | null {
-    return record("<name>.getById", () => {
-      return db.query("SELECT * FROM <table> WHERE id = ?").get(id) as <Name> | null;
-    });
+    return db.query("SELECT * FROM <table> WHERE id = ?").get(id) as <Name> | null;
   },
 };
 ```
@@ -524,13 +460,11 @@ For entities with relationships, add methods to query related data:
 
 ```typescript
 getShows(id: string): Show[] {
-  return record("<name>.getShows", () => {
-    return db.query(`
-      SELECT s.* FROM shows s
-      JOIN <name>_shows ns ON s.id = ns.show_id
-      WHERE ns.<name>_id = ?
-    `).all(id) as Show[];
-  });
+  return db.query(`
+    SELECT s.* FROM shows s
+    JOIN <name>_shows ns ON s.id = ns.show_id
+    WHERE ns.<name>_id = ?
+  `).all(id) as Show[];
 },
 ```
 
@@ -574,30 +508,6 @@ const items = repositories.<name>.getAll();
 const item = repositories.<name>.getById(id);
 const shows = repositories.<name>.getShows(id);
 ```
-
-## OpenTelemetry
-
-The API uses OpenTelemetry for distributed tracing.
-
-### Configuration
-
-Environment variables:
-- `OTEL_EXPORTER_OTLP_ENDPOINT` - OTLP endpoint URL
-- `SIGNOZ_INGESTION_KEY` - SigNoz ingestion key (optional)
-
-### Tracing Database Operations
-
-Use the `record` utility to wrap database operations:
-
-```typescript
-import { record } from "@/utils/otel";
-
-const result = record("operation.name", () => {
-  return db.query("SELECT * FROM table").all();
-});
-```
-
-This creates spans for each operation, enabling performance analysis.
 
 ## UUID Generation
 
@@ -718,7 +628,6 @@ src/modules/mcp/
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
-import { record } from "@elysiajs/opentelemetry";
 
 const idInputSchema = {
   id: z.string().describe("The UUID of the <entity>"),
@@ -733,15 +642,14 @@ export function register<Name>Tools(server: McpServer) {
       description: "Get all <name> from the database",
       inputSchema: {},
     },
-    async () =>
-      record("mcp.tool.list-<name>", () => ({
-        content: [
-          {
-            type: "text" as const,
-            text: JSON.stringify(repositories.<name>.getAll(), null, 2),
-          },
-        ],
-      }))
+    async () => ({
+      content: [
+        {
+          type: "text" as const,
+          text: JSON.stringify(repositories.<name>.getAll(), null, 2),
+        },
+      ],
+    }),
   );
 
   // Get single item by ID
@@ -752,21 +660,20 @@ export function register<Name>Tools(server: McpServer) {
       description: "Get a specific <name> by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-<name>", () => {
-        const item = repositories.<name>.getById(id);
-        if (!item) {
-          return {
-            content: [
-              { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
-            ],
-            isError: true,
-          };
-        }
+    async ({ id }) => {
+      const item = repositories.<name>.getById(id);
+      if (!item) {
         return {
-          content: [{ type: "text" as const, text: JSON.stringify(item, null, 2) }],
+          content: [
+            { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
+          ],
+          isError: true,
         };
-      })
+      }
+      return {
+        content: [{ type: "text" as const, text: JSON.stringify(item, null, 2) }],
+      };
+    },
   );
 }
 ```
@@ -784,7 +691,6 @@ export function registerAllTools(server: McpServer) {
 
 ### Key Conventions
 
-- **OpenTelemetry tracing**: Always wrap handlers with `record("mcp.tool.<tool-name>", () => ...)` for observability
 - **Type assertion**: Use `type: "text" as const` to preserve literal types (required by MCP SDK)
 - **Input schema**: Use Zod v3 (`zod/v3`) for input validation with `.describe()` for documentation
 - **Error handling**: Return `{ isError: true }` with error message in content for failures
@@ -803,22 +709,21 @@ server.registerTool(
     description: "Get all <related> for a <name>",
     inputSchema: idInputSchema,
   },
-  async ({ id }) =>
-    record("mcp.tool.get-<name>-<related>", () => {
-      const item = repositories.<name>.getById(id);
-      if (!item) {
-        return {
-          content: [
-            { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
-          ],
-          isError: true,
-        };
-      }
-      const related = repositories.<name>.get<Related>(id);
+  async ({ id }) => {
+    const item = repositories.<name>.getById(id);
+    if (!item) {
       return {
-        content: [{ type: "text" as const, text: JSON.stringify(related, null, 2) }],
+        content: [
+          { type: "text" as const, text: JSON.stringify({ error: "<Name> not found" }) },
+        ],
+        isError: true,
       };
-    })
+    }
+    const related = repositories.<name>.get<Related>(id);
+    return {
+      content: [{ type: "text" as const, text: JSON.stringify(related, null, 2) }],
+    };
+  },
 );
 ```
 
@@ -826,9 +731,8 @@ server.registerTool(
 
 1. Locate the tool in `src/modules/mcp/tools/<entity>.ts`
 2. Modify the tool's `title`, `description`, `inputSchema`, or handler logic
-3. Ensure the `record()` span name matches the tool name
-4. Run type check: `bunx tsc --noEmit`
-5. Run build: `bun build src/index.ts --outdir=dist --target=bun`
+3. Run type check: `bunx tsc --noEmit`
+4. Run build: `bun build src/index.ts --outdir=dist --target=bun`
 
 ### Removing a Tool
 

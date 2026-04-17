@@ -1,4 +1,3 @@
-import { record } from "@elysiajs/opentelemetry";
 import { db } from "@/db";
 import type { Angel, Episode } from "@/types/entities";
 import { buildImageUrl } from "@/utils/image-url";
@@ -27,38 +26,32 @@ function parseAngel(row: AngelRow): Angel {
 
 export const angels = {
   getAll(): Angel[] {
-    return record("db.angels.getAll", () => {
-      const rows = db
-        .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels ORDER BY number`,
-        )
-        .all() as AngelRow[];
-      return rows.map(parseAngel);
-    });
+    const rows = db
+      .query(
+        `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels ORDER BY number`,
+      )
+      .all() as AngelRow[];
+    return rows.map(parseAngel);
   },
 
   getById(id: string): Angel | null {
-    return record("db.angels.getById", () => {
-      const row = db
-        .query(
-          `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels WHERE id = ?`,
-        )
-        .get(id) as AngelRow | null;
-      return row ? parseAngel(row) : null;
-    });
+    const row = db
+      .query(
+        `SELECT id, name, name_japanese as nameJapanese, number, description, picture_image as pictureImage FROM angels WHERE id = ?`,
+      )
+      .get(id) as AngelRow | null;
+    return row ? parseAngel(row) : null;
   },
 
   getEpisodes(angelId: string): Episode[] {
-    return record("db.angels.getEpisodes", () => {
-      return db
-        .query(
-          `SELECT e.id, e.episode_number as episodeNumber, e.title, e.title_japanese as titleJapanese, e.air_date as airDate, e.synopsis
+    return db
+      .query(
+        `SELECT e.id, e.episode_number as episodeNumber, e.title, e.title_japanese as titleJapanese, e.air_date as airDate, e.synopsis
          FROM episodes e
          JOIN angel_episodes ae ON ae.episode_id = e.id
          WHERE ae.angel_id = ?
          ORDER BY e.episode_number`,
-        )
-        .all(angelId) as Episode[];
-    });
+      )
+      .all(angelId) as Episode[];
   },
 };

@@ -1,4 +1,3 @@
-import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
@@ -15,15 +14,14 @@ export function registerStudioTools(server: McpServer) {
       description: "Get all studios from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
-    async () =>
-      record("mcp.tool.list-studios", () => ({
-        content: [
-          {
-            type: "text" as const,
-            text: JSON.stringify(repositories.studios.getAll(), null, 2),
-          },
-        ],
-      })),
+    async () => ({
+      content: [
+        {
+          type: "text" as const,
+          text: JSON.stringify(repositories.studios.getAll(), null, 2),
+        },
+      ],
+    }),
   );
 
   server.registerTool(
@@ -33,26 +31,25 @@ export function registerStudioTools(server: McpServer) {
       description: "Get a specific studio by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-studio", () => {
-        const studio = repositories.studios.getById(id);
-        if (!studio) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Studio not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
+    async ({ id }) => {
+      const studio = repositories.studios.getById(id);
+      if (!studio) {
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(studio, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify({ error: "Studio not found" }),
+            },
           ],
+          isError: true,
         };
-      }),
+      }
+      return {
+        content: [
+          { type: "text" as const, text: JSON.stringify(studio, null, 2) },
+        ],
+      };
+    },
   );
 
   server.registerTool(
@@ -62,27 +59,26 @@ export function registerStudioTools(server: McpServer) {
       description: "Get all shows produced by a studio",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-studio-shows", () => {
-        const studio = repositories.studios.getById(id);
-        if (!studio) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Studio not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
-        const shows = repositories.studios.getShows(id);
+    async ({ id }) => {
+      const studio = repositories.studios.getById(id);
+      if (!studio) {
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(shows, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify({ error: "Studio not found" }),
+            },
           ],
+          isError: true,
         };
-      }),
+      }
+      const shows = repositories.studios.getShows(id);
+      return {
+        content: [
+          { type: "text" as const, text: JSON.stringify(shows, null, 2) },
+        ],
+      };
+    },
   );
 
   server.registerTool(
@@ -92,27 +88,26 @@ export function registerStudioTools(server: McpServer) {
       description: "Get all movies produced by a studio",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-studio-movies", () => {
-        const studio = repositories.studios.getById(id);
-        if (!studio) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Studio not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
-        const movies = repositories.studios.getMovies(id);
+    async ({ id }) => {
+      const studio = repositories.studios.getById(id);
+      if (!studio) {
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(movies, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify({ error: "Studio not found" }),
+            },
           ],
+          isError: true,
         };
-      }),
+      }
+      const movies = repositories.studios.getMovies(id);
+      return {
+        content: [
+          { type: "text" as const, text: JSON.stringify(movies, null, 2) },
+        ],
+      };
+    },
   );
 
   server.registerTool(
@@ -122,26 +117,25 @@ export function registerStudioTools(server: McpServer) {
       description: "Get all staff members who have worked at a studio",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-studio-staff", () => {
-        const studio = repositories.studios.getById(id);
-        if (!studio) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Studio not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
-        const staff = repositories.studios.getStaff(id);
+    async ({ id }) => {
+      const studio = repositories.studios.getById(id);
+      if (!studio) {
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(staff, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify({ error: "Studio not found" }),
+            },
           ],
+          isError: true,
         };
-      }),
+      }
+      const staff = repositories.studios.getStaff(id);
+      return {
+        content: [
+          { type: "text" as const, text: JSON.stringify(staff, null, 2) },
+        ],
+      };
+    },
   );
 }

@@ -1,9 +1,6 @@
 import { openapi } from "@elysiajs/openapi";
-import { opentelemetry } from "@elysiajs/opentelemetry";
 import serverTiming from "@elysiajs/server-timing";
 import { staticPlugin } from "@elysiajs/static";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import { Elysia } from "elysia";
 import { mcp } from "elysia-mcp";
 import { rateLimit } from "elysia-rate-limit";
@@ -26,21 +23,6 @@ const app = new Elysia()
   .onRequest(({ request }) => {
     setRequestContext(request);
   })
-  .use(
-    opentelemetry({
-      serviceName: "nge-api",
-      spanProcessors: [
-        new BatchSpanProcessor(
-          new OTLPTraceExporter({
-            url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
-            headers: {
-              "signoz-ingestion-key": process.env.SIGNOZ_INGESTION_KEY,
-            },
-          }),
-        ),
-      ],
-    }),
-  )
   .headers({
     "X-Powered-By": "your-mom",
   })

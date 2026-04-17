@@ -1,4 +1,3 @@
-import { record } from "@elysiajs/opentelemetry";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod/v3";
 import { repositories } from "@/repositories";
@@ -16,15 +15,14 @@ export function registerStaffTools(server: McpServer) {
         "Get all staff members from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
-    async () =>
-      record("mcp.tool.list-staff", () => ({
-        content: [
-          {
-            type: "text" as const,
-            text: JSON.stringify(repositories.staff.getAll(), null, 2),
-          },
-        ],
-      })),
+    async () => ({
+      content: [
+        {
+          type: "text" as const,
+          text: JSON.stringify(repositories.staff.getAll(), null, 2),
+        },
+      ],
+    }),
   );
 
   server.registerTool(
@@ -34,29 +32,28 @@ export function registerStaffTools(server: McpServer) {
       description: "Get a specific staff member by ID",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-staff", () => {
-        const staffMember = repositories.staff.getById(id);
-        if (!staffMember) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Staff member not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
+    async ({ id }) => {
+      const staffMember = repositories.staff.getById(id);
+      if (!staffMember) {
         return {
           content: [
             {
               type: "text" as const,
-              text: JSON.stringify(staffMember, null, 2),
+              text: JSON.stringify({ error: "Staff member not found" }),
             },
           ],
+          isError: true,
         };
-      }),
+      }
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(staffMember, null, 2),
+          },
+        ],
+      };
+    },
   );
 
   server.registerTool(
@@ -66,26 +63,25 @@ export function registerStaffTools(server: McpServer) {
       description: "Get all studios a staff member has worked at",
       inputSchema: idInputSchema,
     },
-    async ({ id }) =>
-      record("mcp.tool.get-staff-studios", () => {
-        const staffMember = repositories.staff.getById(id);
-        if (!staffMember) {
-          return {
-            content: [
-              {
-                type: "text" as const,
-                text: JSON.stringify({ error: "Staff member not found" }),
-              },
-            ],
-            isError: true,
-          };
-        }
-        const studios = repositories.staff.getStudios(id);
+    async ({ id }) => {
+      const staffMember = repositories.staff.getById(id);
+      if (!staffMember) {
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(studios, null, 2) },
+            {
+              type: "text" as const,
+              text: JSON.stringify({ error: "Staff member not found" }),
+            },
           ],
+          isError: true,
         };
-      }),
+      }
+      const studios = repositories.staff.getStudios(id);
+      return {
+        content: [
+          { type: "text" as const, text: JSON.stringify(studios, null, 2) },
+        ],
+      };
+    },
   );
 }

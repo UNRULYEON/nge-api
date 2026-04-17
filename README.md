@@ -70,20 +70,12 @@ The API will be available at http://localhost:3000
 | `bun run start` | Start production server |
 | `bun test` | Run tests |
 
-### Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | OpenTelemetry OTLP endpoint URL |
-| `SIGNOZ_INGESTION_KEY` | SigNoz ingestion key for tracing |
-
 ## Tech Stack
 
 - [Bun](https://bun.sh/) - Runtime
 - [Elysia](https://elysiajs.com/) - Web framework
 - [Scalar](https://scalar.com/) - API documentation
 - SQLite - In-memory database
-- OpenTelemetry - Distributed tracing
 
 ## License
 
