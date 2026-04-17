@@ -20,8 +20,12 @@ import {
   studios,
 } from "./modules";
 import { mcpCapabilities, mcpServerInfo, setupMcpServer } from "./modules/mcp";
+import { setRequestContext } from "./utils/request-context";
 
 const app = new Elysia()
+  .onRequest(({ request }) => {
+    setRequestContext(request);
+  })
   .use(
     opentelemetry({
       serviceName: "nge-api",
