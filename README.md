@@ -8,6 +8,24 @@ Interactive API documentation is available at the root URL. The OpenAPI spec can
 
 **Live API**: https://nge-api.dev
 
+## MCP Server
+
+The API exposes a [Model Context Protocol](https://modelcontextprotocol.io/) server for AI assistants and LLM tools.
+
+**Endpoint**: `https://nge-api.dev/mcp` (stateless, JSON responses enabled)
+
+Configure your MCP client (e.g. Claude Desktop, Cursor) with:
+
+```json
+{
+  "mcpServers": {
+    "nge-api": {
+      "url": "https://nge-api.dev/mcp"
+    }
+  }
+}
+```
+
 ## Available Resources
 
 - **Characters** - Pilots, NERV personnel, and other characters
