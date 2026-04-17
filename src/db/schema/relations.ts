@@ -328,7 +328,9 @@ function seedCharacterEpisodes(db: Database) {
     EP_IDS.ep5,
     EP_IDS.ep6,
     EP_IDS.ep9,
+    EP_IDS.ep10,
     EP_IDS.ep11,
+    EP_IDS.ep12,
     EP_IDS.ep14,
     EP_IDS.ep16,
     EP_IDS.ep19,
@@ -488,6 +490,12 @@ function seedCharacterEpisodes(db: Database) {
     insertCharacterEpisode.run(CHAR_IDS.yui, epId);
   }
 
+  // Kyoko episodes (flashbacks)
+  const kyokoEpisodes = [EP_IDS.ep22, EP_IDS.ep25, EP_IDS.ep26];
+  for (const epId of kyokoEpisodes) {
+    insertCharacterEpisode.run(CHAR_IDS.kyoko, epId);
+  }
+
   // Pen Pen episodes
   const penpenEpisodes = [
     EP_IDS.ep2,
@@ -645,6 +653,7 @@ function seedEvaEpisodes(db: Database) {
     EP_IDS.ep5,
     EP_IDS.ep6,
     EP_IDS.ep9,
+    EP_IDS.ep10,
     EP_IDS.ep11,
     EP_IDS.ep12,
     EP_IDS.ep16,
