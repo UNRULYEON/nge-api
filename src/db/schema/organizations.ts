@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { ORG_IDS } from "./ids";
 
 export function initializeOrganizations(db: Database) {
@@ -68,12 +69,6 @@ export function initializeOrganizations(db: Database) {
   ];
 
   for (const org of organizations) {
-    insertOrganization.run(
-      org.id,
-      org.name,
-      org.nameJapanese,
-      org.type,
-      org.description,
-    );
+    insertOrganization.run(org.id, org.name, org.nameJapanese, org.type, org.description);
   }
 }

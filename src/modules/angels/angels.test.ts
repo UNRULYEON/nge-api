@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { angels } from ".";
 
 const app = new Elysia().use(angels);
@@ -39,9 +40,7 @@ describe("Angels", () => {
     const validAngelId = "019b4942-6ba6-7002-8642-12737a5ad140"; // Sachiel
 
     it("returns an angel by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/angels/${validAngelId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/angels/${validAngelId}`));
 
       expect(response.status).toBe(200);
 
@@ -55,9 +54,7 @@ describe("Angels", () => {
 
     it("returns 404 for non-existent angel", async () => {
       const nonExistentId = "019b4942-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/angels/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/angels/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

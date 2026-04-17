@@ -10,21 +10,13 @@
  * Usage: bun run scripts/convert-images.ts
  */
 
+import { $ } from "bun";
 import { existsSync, mkdirSync, readdirSync, statSync } from "node:fs";
 import { basename, dirname, extname, join, relative } from "node:path";
-import { $ } from "bun";
 
 const ASSETS_PATH = "public";
 const BACKUP_BASE = "assets-backup";
-const IMAGE_EXTENSIONS = [
-  ".jpg",
-  ".jpeg",
-  ".png",
-  ".gif",
-  ".webp",
-  ".bmp",
-  ".tiff",
-];
+const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".tiff"];
 
 interface ImageFile {
   sourcePath: string;
@@ -65,10 +57,7 @@ function findImages(dir: string, images: ImageFile[] = []): ImageFile[] {
   return images;
 }
 
-async function backupImage(
-  image: ImageFile,
-  backupPath: string,
-): Promise<void> {
+async function backupImage(image: ImageFile, backupPath: string): Promise<void> {
   const destPath = join(backupPath, image.relativePath);
   const destDir = dirname(destPath);
 

@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -11,8 +13,7 @@ export function registerEvaUnitTools(server: McpServer) {
     "list-eva-units",
     {
       title: "List Eva Units",
-      description:
-        "Get all Evangelion units from the Neon Genesis Evangelion franchise",
+      description: "Get all Evangelion units from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
     async () => ({
@@ -46,9 +47,7 @@ export function registerEvaUnitTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(eva, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(eva, null, 2) }],
       };
     },
   );
@@ -86,9 +85,7 @@ export function registerEvaUnitTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(soul, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(soul, null, 2) }],
       };
     },
   );
@@ -115,9 +112,7 @@ export function registerEvaUnitTools(server: McpServer) {
       }
       const pilots = repositories.evaUnits.getPilots(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(pilots, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(pilots, null, 2) }],
       };
     },
   );
@@ -144,9 +139,7 @@ export function registerEvaUnitTools(server: McpServer) {
       }
       const episodes = repositories.evaUnits.getEpisodes(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
       };
     },
   );
@@ -173,9 +166,7 @@ export function registerEvaUnitTools(server: McpServer) {
       }
       const movies = repositories.evaUnits.getMovies(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(movies, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
       };
     },
   );

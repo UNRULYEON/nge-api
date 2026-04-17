@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { MOVIE_IDS, STUDIO_IDS } from "./ids";
 
 export function initializeMovies(db: Database) {

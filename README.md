@@ -64,11 +64,16 @@ The API will be available at http://localhost:3000
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start development server with hot reload |
-| `bun run start` | Start production server |
-| `bun test` | Run tests |
+| Command                | Description                              |
+| ---------------------- | ---------------------------------------- |
+| `bun run dev`          | Start development server with hot reload |
+| `bun run start`        | Start production server                  |
+| `bun test`             | Run tests                                |
+| `bun run typecheck`    | Type-check the codebase                  |
+| `bun run lint`         | Lint with oxlint                         |
+| `bun run lint:fix`     | Lint and auto-fix with oxlint            |
+| `bun run format`       | Format with oxfmt                        |
+| `bun run format:check` | Check formatting with oxfmt              |
 
 ## Tech Stack
 

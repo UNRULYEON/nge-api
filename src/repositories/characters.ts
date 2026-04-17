@@ -1,11 +1,6 @@
+import type { Character, Episode, Movie, Organization, Show } from "@/types/entities";
+
 import { db } from "@/db";
-import type {
-  Character,
-  Episode,
-  Movie,
-  Organization,
-  Show,
-} from "@/types/entities";
 import { buildImageUrl } from "@/utils/image-url";
 
 interface CharacterRow {

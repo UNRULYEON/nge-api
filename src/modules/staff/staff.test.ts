@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { staff } from ".";
 
 const app = new Elysia().use(staff);
@@ -28,9 +29,7 @@ describe("Staff", () => {
     const validStaffId = "019b4ba4-16c8-7000-aa9b-7379f799e904"; // Anno
 
     it("returns a staff member by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/staff/${validStaffId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/staff/${validStaffId}`));
 
       expect(response.status).toBe(200);
 
@@ -42,9 +41,7 @@ describe("Staff", () => {
 
     it("returns 404 for non-existent staff member", async () => {
       const nonExistentId = "019b4ba4-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/staff/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/staff/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

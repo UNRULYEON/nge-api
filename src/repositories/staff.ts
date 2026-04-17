@@ -1,20 +1,17 @@
-import { db } from "@/db";
 import type { Staff, Studio } from "@/types/entities";
+
+import { db } from "@/db";
 
 export const staff = {
   getAll(): Staff[] {
     return db
-      .query(
-        `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff`,
-      )
+      .query(`SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff`)
       .all() as Staff[];
   },
 
   getById(id: string): Staff | null {
     return db
-      .query(
-        `SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff WHERE id = ?`,
-      )
+      .query(`SELECT id, name, name_japanese as nameJapanese, role, bio FROM staff WHERE id = ?`)
       .get(id) as Staff | null;
   },
 

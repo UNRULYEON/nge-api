@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { evaUnits } from ".";
 
 const app = new Elysia().use(evaUnits);
@@ -7,9 +8,7 @@ const app = new Elysia().use(evaUnits);
 describe("Eva Units", () => {
   describe("GET /eva-units", () => {
     it("returns a list of all EVA units", async () => {
-      const response = await app.handle(
-        new Request("http://localhost/eva-units"),
-      );
+      const response = await app.handle(new Request("http://localhost/eva-units"));
 
       expect(response.status).toBe(200);
 
@@ -45,9 +44,7 @@ describe("Eva Units", () => {
 
     it("returns 404 for non-existent EVA unit", async () => {
       const nonExistentId = "019b4966-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/eva-units/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/eva-units/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

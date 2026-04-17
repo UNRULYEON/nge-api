@@ -45,3 +45,6 @@ package-lock.json
 
 # Image backup folder (created by scripts/convert-images.ts)
 /assets-backup
+
+# Claude Code worktrees and local state
+.claude

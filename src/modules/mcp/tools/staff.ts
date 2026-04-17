@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -11,8 +13,7 @@ export function registerStaffTools(server: McpServer) {
     "list-staff",
     {
       title: "List Staff",
-      description:
-        "Get all staff members from the Neon Genesis Evangelion franchise",
+      description: "Get all staff members from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
     async () => ({
@@ -78,9 +79,7 @@ export function registerStaffTools(server: McpServer) {
       }
       const studios = repositories.staff.getStudios(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(studios, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(studios, null, 2) }],
       };
     },
   );

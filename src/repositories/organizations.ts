@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import type { Character, Episode, Organization } from "@/types/entities";
+
+import { db } from "@/db";
 
 interface CharacterRow {
   id: string;
@@ -21,9 +22,7 @@ function parseCharacter(row: CharacterRow): Character {
 export const organizations = {
   getAll(): Organization[] {
     return db
-      .query(
-        `SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations`,
-      )
+      .query(`SELECT id, name, name_japanese as nameJapanese, type, description FROM organizations`)
       .all() as Organization[];
   },
 

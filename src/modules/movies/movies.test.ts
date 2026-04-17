@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { movies } from ".";
 
 const app = new Elysia().use(movies);
@@ -29,9 +30,7 @@ describe("Movies", () => {
     const validMovieId = "019b490e-2485-7000-a616-d1c5309aa567"; // Death and Rebirth
 
     it("returns a movie by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/movies/${validMovieId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/movies/${validMovieId}`));
 
       expect(response.status).toBe(200);
 
@@ -42,9 +41,7 @@ describe("Movies", () => {
 
     it("returns 404 for non-existent movie", async () => {
       const nonExistentId = "019b490e-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/movies/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/movies/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

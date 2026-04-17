@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import type { Movie, Show, Staff, Studio } from "@/types/entities";
+
+import { db } from "@/db";
 
 export const studios = {
   getAll(): Studio[] {
@@ -7,9 +8,7 @@ export const studios = {
   },
 
   getById(id: string): Studio | null {
-    return db
-      .query("SELECT * FROM studios WHERE id = ?")
-      .get(id) as Studio | null;
+    return db.query("SELECT * FROM studios WHERE id = ?").get(id) as Studio | null;
   },
 
   getShows(studioId: string): Show[] {

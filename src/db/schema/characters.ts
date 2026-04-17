@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { CHAR_IDS, CHAR_IMAGES } from "./ids";
 
 export function initializeCharacters(db: Database) {

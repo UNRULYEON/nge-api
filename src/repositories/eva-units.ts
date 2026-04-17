@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import type { Character, Episode, Eva, Movie } from "@/types/entities";
+
+import { db } from "@/db";
 
 interface CharacterRow {
   id: string;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { episodes } from ".";
 
 const app = new Elysia().use(episodes);
@@ -7,9 +8,7 @@ const app = new Elysia().use(episodes);
 describe("Episodes", () => {
   describe("GET /episodes", () => {
     it("returns a list of all episodes", async () => {
-      const response = await app.handle(
-        new Request("http://localhost/episodes"),
-      );
+      const response = await app.handle(new Request("http://localhost/episodes"));
 
       expect(response.status).toBe(200);
 
@@ -27,14 +26,10 @@ describe("Episodes", () => {
     });
 
     it("returns episodes sorted by episode number", async () => {
-      const response = await app.handle(
-        new Request("http://localhost/episodes"),
-      );
+      const response = await app.handle(new Request("http://localhost/episodes"));
 
       const data = await response.json();
-      const numbers = data.map(
-        (episode: { episodeNumber: number }) => episode.episodeNumber,
-      );
+      const numbers = data.map((episode: { episodeNumber: number }) => episode.episodeNumber);
 
       for (let i = 1; i < numbers.length; i++) {
         expect(numbers[i]).toBeGreaterThanOrEqual(numbers[i - 1]);
@@ -46,9 +41,7 @@ describe("Episodes", () => {
     const validEpisodeId = "019b492f-8465-7000-bb58-88b18b1c1c8c"; // Episode 1
 
     it("returns an episode by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/episodes/${validEpisodeId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/episodes/${validEpisodeId}`));
 
       expect(response.status).toBe(200);
 
@@ -60,9 +53,7 @@ describe("Episodes", () => {
 
     it("returns 404 for non-existent episode", async () => {
       const nonExistentId = "019b492f-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/episodes/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/episodes/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });
@@ -121,9 +112,7 @@ describe("Episodes", () => {
 
     it("returns organizations for an episode", async () => {
       const response = await app.handle(
-        new Request(
-          `http://localhost/episodes/${validEpisodeId}/organizations`,
-        ),
+        new Request(`http://localhost/episodes/${validEpisodeId}/organizations`),
       );
 
       expect(response.status).toBe(200);

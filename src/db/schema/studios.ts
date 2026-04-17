@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { STUDIO_IDS } from "./ids";
 
 export function initializeStudios(db: Database) {
@@ -41,12 +42,6 @@ export function initializeStudios(db: Database) {
   ];
 
   for (const studio of studios) {
-    insertStudio.run(
-      studio.id,
-      studio.name,
-      studio.founded,
-      studio.location,
-      studio.website,
-    );
+    insertStudio.run(studio.id, studio.name, studio.founded, studio.location, studio.website);
   }
 }

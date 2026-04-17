@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { STAFF_IDS } from "./ids";
 
 export function initializeStaff(db: Database) {
@@ -125,12 +126,6 @@ export function initializeStaff(db: Database) {
   ];
 
   for (const member of staff) {
-    insertStaff.run(
-      member.id,
-      member.name,
-      member.nameJapanese,
-      member.role,
-      member.bio,
-    );
+    insertStaff.run(member.id, member.name, member.nameJapanese, member.role, member.bio);
   }
 }

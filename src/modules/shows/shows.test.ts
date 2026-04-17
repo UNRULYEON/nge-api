@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { shows } from ".";
 
 const app = new Elysia().use(shows);
@@ -29,9 +30,7 @@ describe("Shows", () => {
     const validShowId = "019b490e-2484-7000-a31d-63a21df12ff4"; // NGE
 
     it("returns a show by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/shows/${validShowId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/shows/${validShowId}`));
 
       expect(response.status).toBe(200);
 
@@ -44,9 +43,7 @@ describe("Shows", () => {
 
     it("returns 404 for non-existent show", async () => {
       const nonExistentId = "019b490e-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/shows/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/shows/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

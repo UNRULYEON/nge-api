@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import type { Angel, Episode } from "@/types/entities";
+
+import { db } from "@/db";
 import { buildImageUrl } from "@/utils/image-url";
 
 interface AngelRow {

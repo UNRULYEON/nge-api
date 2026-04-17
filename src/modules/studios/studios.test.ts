@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { studios } from ".";
 
 const app = new Elysia().use(studios);
@@ -7,9 +8,7 @@ const app = new Elysia().use(studios);
 describe("Studios", () => {
   describe("GET /studios", () => {
     it("returns a list of all studios", async () => {
-      const response = await app.handle(
-        new Request("http://localhost/studios"),
-      );
+      const response = await app.handle(new Request("http://localhost/studios"));
 
       expect(response.status).toBe(200);
 
@@ -29,9 +28,7 @@ describe("Studios", () => {
     const validStudioId = "019b48ba-eac5-7000-85c0-3ef877607b73"; // Gainax
 
     it("returns a studio by ID", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/studios/${validStudioId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/studios/${validStudioId}`));
 
       expect(response.status).toBe(200);
 
@@ -43,9 +40,7 @@ describe("Studios", () => {
 
     it("returns 404 for non-existent studio", async () => {
       const nonExistentId = "019b48ba-0000-0000-0000-000000000000";
-      const response = await app.handle(
-        new Request(`http://localhost/studios/${nonExistentId}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/studios/${nonExistentId}`));
 
       expect(response.status).toBe(404);
     });

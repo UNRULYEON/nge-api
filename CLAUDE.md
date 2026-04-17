@@ -33,11 +33,14 @@ bunx tsc --noEmit
 Always run these checks after making any code changes:
 
 ```bash
-# Format and lint (auto-fixes issues)
-bunx biome check --write
+# Format (auto-fix)
+bun run format
+
+# Lint (auto-fix)
+bun run lint:fix
 
 # Type check
-bunx tsc --noEmit
+bun run typecheck
 
 # Build
 bun build src/index.ts --outdir=dist --target=bun
@@ -57,6 +60,7 @@ Fix any formatting, linting, type errors, or build failures before considering t
 ### Entry Point
 
 `src/index.ts` - Creates the Elysia app instance with plugins:
+
 - `serverTiming()` - Adds Server-Timing headers for performance monitoring
 - `rateLimit()` - Rate limiting (1000 requests max)
 - `staticPlugin()` - Serves static files from /public
@@ -67,9 +71,7 @@ Fix any formatting, linting, type errors, or build failures before considering t
 Elysia uses method chaining for route definitions:
 
 ```typescript
-app
-  .get("/path", () => response)
-  .post("/path", ({ body }) => response)
+app.get("/path", () => response).post("/path", ({ body }) => response);
 ```
 
 Use `.group()` for route prefixing and `.decorate()` for dependency injection.
@@ -81,6 +83,7 @@ Follow the characters or studios endpoint pattern when creating new endpoints:
 ### File Structure
 
 Each endpoint module lives in `src/modules/<name>/` with:
+
 - `index.ts` - Route definitions
 - `model.ts` - Request/response schemas using Elysia's `t` validator
 - `<name>.test.ts` - Unit tests for the module
@@ -186,6 +189,7 @@ For entities with relationships, add sub-resource endpoints:
 ### Registration
 
 1. Export from `src/modules/index.ts`:
+
    ```typescript
    export { <name> } from "./<name>";
    ```
@@ -214,10 +218,10 @@ Common response types are defined in `src/utils/base-model.ts`:
 import { BaseModel } from "@/utils/base-model";
 
 // Available types:
-BaseModel.ok           // "OK"
-BaseModel.badRequest   // "BAD_REQUEST"
-BaseModel.notFound     // "NOT_FOUND"
-BaseModel.internalServerError  // "INTERNAL_SERVER_ERROR"
+BaseModel.ok; // "OK"
+BaseModel.badRequest; // "BAD_REQUEST"
+BaseModel.notFound; // "NOT_FOUND"
+BaseModel.internalServerError; // "INTERNAL_SERVER_ERROR"
 ```
 
 Use these in route response schemas for consistent error handling.
@@ -312,6 +316,7 @@ db.run(`
 ```
 
 Available junction tables:
+
 - `character_shows` - Characters appearing in shows
 - `character_movies` - Characters appearing in movies
 - `character_organizations` - Characters belonging to organizations
@@ -350,16 +355,19 @@ The folder structure follows the pattern: `[entity]/[entity-name]/[category]/fil
 ### Adding an Image Asset
 
 1. **Create the folder structure** using kebab-case entity names:
+
    ```
    public/characters/rei-ayanami/
    ```
 
 2. **Save the image** with a descriptive filename:
+
    ```
    public/characters/rei-ayanami/headshot.png
    ```
 
 3. **Register the path** in `src/db/schema/ids.ts` (store the path relative to `public/`):
+
    ```typescript
    export const CHAR_IMAGES = {
      shinji: {
@@ -407,6 +415,7 @@ bun run scripts/convert-images.ts
 ```
 
 This script:
+
 - Finds all images under `public/` (skipping the favicon)
 - Backs up originals to `assets-backup/<timestamp>/`
 - Converts all images to PNG format
@@ -772,3 +781,4 @@ And registered in `src/index.ts`:
     setupServer: setupMcpServer,
   }),
 )
+```

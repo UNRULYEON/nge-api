@@ -1,4 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { registerAngelTools } from "./angels";
 import { registerCharacterTools } from "./characters";
 import { registerEchoTool } from "./echo";

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { health } from ".";
 
 const app = new Elysia().use(health);

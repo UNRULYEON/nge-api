@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
+
 import { organizations } from ".";
 
 const app = new Elysia().use(organizations);
@@ -7,9 +8,7 @@ const app = new Elysia().use(organizations);
 describe("Organizations", () => {
   describe("GET /organizations", () => {
     it("returns a list of all organizations", async () => {
-      const response = await app.handle(
-        new Request("http://localhost/organizations"),
-      );
+      const response = await app.handle(new Request("http://localhost/organizations"));
 
       expect(response.status).toBe(200);
 
@@ -57,9 +56,7 @@ describe("Organizations", () => {
 
     it("returns characters for an organization", async () => {
       const response = await app.handle(
-        new Request(
-          `http://localhost/organizations/${validOrganizationId}/characters`,
-        ),
+        new Request(`http://localhost/organizations/${validOrganizationId}/characters`),
       );
 
       expect(response.status).toBe(200);
@@ -71,9 +68,7 @@ describe("Organizations", () => {
     it("returns 404 for non-existent organization", async () => {
       const nonExistentId = "019b4926-0000-0000-0000-000000000000";
       const response = await app.handle(
-        new Request(
-          `http://localhost/organizations/${nonExistentId}/characters`,
-        ),
+        new Request(`http://localhost/organizations/${nonExistentId}/characters`),
       );
 
       expect(response.status).toBe(404);
@@ -85,9 +80,7 @@ describe("Organizations", () => {
 
     it("returns episodes for an organization", async () => {
       const response = await app.handle(
-        new Request(
-          `http://localhost/organizations/${validOrganizationId}/episodes`,
-        ),
+        new Request(`http://localhost/organizations/${validOrganizationId}/episodes`),
       );
 
       expect(response.status).toBe(200);

@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { NGE_SHOW, STUDIO_IDS } from "./ids";
 
 export function initializeShows(db: Database) {

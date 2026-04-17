@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { CHAR_IDS, EVA_IDS } from "./ids";
 
 export function initializeEvas(db: Database) {

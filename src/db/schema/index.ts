@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { initializeAngels } from "./angels";
 import { initializeCharacters } from "./characters";
 import { initializeEpisodes } from "./episodes";

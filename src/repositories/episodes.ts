@@ -1,11 +1,6 @@
+import type { Angel, Character, Episode, Organization, Show } from "@/types/entities";
+
 import { db } from "@/db";
-import type {
-  Angel,
-  Character,
-  Episode,
-  Organization,
-  Show,
-} from "@/types/entities";
 
 interface CharacterRow {
   id: string;

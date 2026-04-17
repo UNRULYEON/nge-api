@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -45,9 +47,7 @@ export function registerStudioTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(studio, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(studio, null, 2) }],
       };
     },
   );
@@ -74,9 +74,7 @@ export function registerStudioTools(server: McpServer) {
       }
       const shows = repositories.studios.getShows(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(shows, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
       };
     },
   );
@@ -103,9 +101,7 @@ export function registerStudioTools(server: McpServer) {
       }
       const movies = repositories.studios.getMovies(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(movies, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
       };
     },
   );
@@ -132,9 +128,7 @@ export function registerStudioTools(server: McpServer) {
       }
       const staff = repositories.studios.getStaff(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(staff, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(staff, null, 2) }],
       };
     },
   );

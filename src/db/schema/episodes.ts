@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { EP_IDS, NGE_SHOW } from "./ids";
 
 export function initializeEpisodes(db: Database) {
@@ -164,8 +165,7 @@ export function initializeEpisodes(db: Database) {
       id: EP_IDS.ep15,
       showId: NGE_SHOW,
       episodeNumber: 15,
-      title:
-        "Those Women Longed for the Touch of Others' Lips, and Thus Invited Their Kisses.",
+      title: "Those Women Longed for the Touch of Others' Lips, and Thus Invited Their Kisses.",
       titleJapanese: "嘘と沈黙",
       airDate: "1996-01-10",
       synopsis:

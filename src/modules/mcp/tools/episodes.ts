@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -11,8 +13,7 @@ export function registerEpisodeTools(server: McpServer) {
     "list-episodes",
     {
       title: "List Episodes",
-      description:
-        "Get all episodes from the Neon Genesis Evangelion franchise",
+      description: "Get all episodes from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
     async () => ({
@@ -46,9 +47,7 @@ export function registerEpisodeTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(episode, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(episode, null, 2) }],
       };
     },
   );
@@ -86,9 +85,7 @@ export function registerEpisodeTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(show, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(show, null, 2) }],
       };
     },
   );
@@ -147,9 +144,7 @@ export function registerEpisodeTools(server: McpServer) {
       }
       const angels = repositories.episodes.getAngels(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(angels, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(angels, null, 2) }],
       };
     },
   );

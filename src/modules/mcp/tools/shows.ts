@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -45,9 +47,7 @@ export function registerShowTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(show, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(show, null, 2) }],
       };
     },
   );
@@ -85,9 +85,7 @@ export function registerShowTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(studio, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(studio, null, 2) }],
       };
     },
   );

@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -45,9 +47,7 @@ export function registerAngelTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(angel, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(angel, null, 2) }],
       };
     },
   );
@@ -74,9 +74,7 @@ export function registerAngelTools(server: McpServer) {
       }
       const episodes = repositories.angels.getEpisodes(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
       };
     },
   );

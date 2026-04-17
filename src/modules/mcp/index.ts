@@ -1,4 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { registerAllTools } from "./tools";
 
 export const mcpServerInfo = {

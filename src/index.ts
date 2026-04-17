@@ -4,6 +4,7 @@ import { staticPlugin } from "@elysiajs/static";
 import { Elysia } from "elysia";
 import { mcp } from "elysia-mcp";
 import { rateLimit } from "elysia-rate-limit";
+
 import {
   angels,
   characters,
@@ -96,6 +97,4 @@ Stateless MCP endpoint with JSON responses enabled.
   )
   .listen(3000);
 
-console.log(
-  `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`,
-);
+console.log(`🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`);

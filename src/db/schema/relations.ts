@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import {
   ALL_EPISODES,
   ANGEL_IDS,
@@ -462,13 +463,7 @@ function seedCharacterEpisodes(db: Database) {
   }
 
   // Hikari episodes
-  const hikariEpisodes = [
-    EP_IDS.ep3,
-    EP_IDS.ep9,
-    EP_IDS.ep11,
-    EP_IDS.ep17,
-    EP_IDS.ep26,
-  ];
+  const hikariEpisodes = [EP_IDS.ep3, EP_IDS.ep9, EP_IDS.ep11, EP_IDS.ep17, EP_IDS.ep26];
   for (const epId of hikariEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.hikari, epId);
   }
@@ -488,13 +483,7 @@ function seedCharacterEpisodes(db: Database) {
   }
 
   // Yui episodes (flashbacks)
-  const yuiEpisodes = [
-    EP_IDS.ep16,
-    EP_IDS.ep20,
-    EP_IDS.ep21,
-    EP_IDS.ep25,
-    EP_IDS.ep26,
-  ];
+  const yuiEpisodes = [EP_IDS.ep16, EP_IDS.ep20, EP_IDS.ep21, EP_IDS.ep25, EP_IDS.ep26];
   for (const epId of yuiEpisodes) {
     insertCharacterEpisode.run(CHAR_IDS.yui, epId);
   }
@@ -620,9 +609,7 @@ function seedAngelEpisodes(db: Database) {
 }
 
 function seedEvaPilots(db: Database) {
-  const insertEvaPilot = db.prepare(
-    "INSERT INTO eva_pilots (eva_id, character_id) VALUES (?, ?)",
-  );
+  const insertEvaPilot = db.prepare("INSERT INTO eva_pilots (eva_id, character_id) VALUES (?, ?)");
 
   // Unit-00
   insertEvaPilot.run(EVA_IDS.unit00, CHAR_IDS.rei);
@@ -714,9 +701,7 @@ function seedEvaEpisodes(db: Database) {
 }
 
 function seedEvaMovies(db: Database) {
-  const insertEvaMovie = db.prepare(
-    "INSERT INTO eva_movies (eva_id, movie_id) VALUES (?, ?)",
-  );
+  const insertEvaMovie = db.prepare("INSERT INTO eva_movies (eva_id, movie_id) VALUES (?, ?)");
 
   // Death and Rebirth / End of Evangelion
   const classicMovies = [MOVIE_IDS.deathAndRebirth, MOVIE_IDS.endOfEva];

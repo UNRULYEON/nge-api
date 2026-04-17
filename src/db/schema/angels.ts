@@ -1,4 +1,5 @@
 import type Database from "bun:sqlite";
+
 import { ANGEL_IDS, ANGEL_IMAGES } from "./ids";
 
 export function initializeAngels(db: Database) {

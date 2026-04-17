@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import type { Character, Movie, Studio } from "@/types/entities";
+
+import { db } from "@/db";
 
 interface CharacterRow {
   id: string;
@@ -45,9 +46,7 @@ export const movies = {
 
   getStudio(movieId: string): Studio | null {
     return db
-      .query(
-        `SELECT s.* FROM studios s JOIN movies m ON m.studio_id = s.id WHERE m.id = ?`,
-      )
+      .query(`SELECT s.* FROM studios s JOIN movies m ON m.studio_id = s.id WHERE m.id = ?`)
       .get(movieId) as Studio | null;
   },
 

@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
 import { z } from "zod/v3";
+
 import { repositories } from "@/repositories";
 
 const idInputSchema = {
@@ -11,8 +13,7 @@ export function registerCharacterTools(server: McpServer) {
     "list-characters",
     {
       title: "List Characters",
-      description:
-        "Get all characters from the Neon Genesis Evangelion franchise",
+      description: "Get all characters from the Neon Genesis Evangelion franchise",
       inputSchema: {},
     },
     async () => ({
@@ -46,9 +47,7 @@ export function registerCharacterTools(server: McpServer) {
         };
       }
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(character, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(character, null, 2) }],
       };
     },
   );
@@ -75,9 +74,7 @@ export function registerCharacterTools(server: McpServer) {
       }
       const shows = repositories.characters.getShows(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(shows, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(shows, null, 2) }],
       };
     },
   );
@@ -104,9 +101,7 @@ export function registerCharacterTools(server: McpServer) {
       }
       const movies = repositories.characters.getMovies(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(movies, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(movies, null, 2) }],
       };
     },
   );
@@ -133,9 +128,7 @@ export function registerCharacterTools(server: McpServer) {
       }
       const episodes = repositories.characters.getEpisodes(id);
       return {
-        content: [
-          { type: "text" as const, text: JSON.stringify(episodes, null, 2) },
-        ],
+        content: [{ type: "text" as const, text: JSON.stringify(episodes, null, 2) }],
       };
     },
   );

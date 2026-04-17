@@ -1,6 +1,8 @@
 import { Elysia, NotFoundError } from "elysia";
+
 import { repositories } from "@/repositories";
 import { BaseModel } from "@/utils/base-model";
+
 import { EpisodesModel } from "../episodes/model";
 import { MoviesModel } from "../movies/model";
 import { OrganizationsModel } from "../organizations/model";
