@@ -89,7 +89,7 @@ export function initializeEpisodes(db: Database) {
       titleJapanese: "人の造りしもの",
       airDate: "1995-11-15",
       synopsis:
-        "NERV faces political pressure when the UN-backed Jet Alone project threatens to replace the Evangelions.",
+        "NERV faces political pressure when Japan Heavy Chemical Industries' Jet Alone project, a nuclear-powered robot, threatens to replace the Evangelions.",
     },
     {
       id: EP_IDS.ep8,
