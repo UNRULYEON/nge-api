@@ -14,7 +14,6 @@
 
 # production
 /build
-/dist
 
 # misc
 .DS_Store
@@ -26,7 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -42,9 +40,3 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
-
-# Image backup folder (created by scripts/convert-images.ts)
-/assets-backup
-
-# Claude Code worktrees and local state
-.claude

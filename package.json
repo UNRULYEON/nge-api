@@ -1,32 +1,15 @@
 {
   "name": "nge-api",
-  "version": "0.0.1",
-  "module": "src/index.js",
+  "version": "1.0.50",
   "scripts": {
-    "test": "bun test",
-    "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts",
-    "typecheck": "tsc --noEmit",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
-    "format": "oxfmt --write .",
-    "format:check": "oxfmt --check ."
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "@elysiajs/openapi": "^1.4.12",
-    "@elysiajs/server-timing": "^1.4.0",
-    "@elysiajs/static": "^1.4.7",
-    "@modelcontextprotocol/sdk": "^1.25.1",
-    "elysia": "latest",
-    "elysia-mcp": "^0.1.0",
-    "elysia-rate-limit": "^4.4.2",
-    "zod": "^4.2.1"
+    "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest",
-    "oxfmt": "^0.43.0",
-    "oxlint": "^1.58.0",
-    "oxlint-tsgolint": "^0.19.0",
-    "tsx": "^4.21.0"
-  }
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
 }

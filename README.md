@@ -1,87 +1,15 @@
-# NGE API
+# Elysia with Bun runtime
 
-A REST API for Neon Genesis Evangelion data.
-
-## API Documentation
-
-Interactive API documentation is available at the root URL. The OpenAPI spec can be found at `/openapi.json`.
-
-**Live API**: https://nge-api.dev
-
-## MCP Server
-
-The API exposes a [Model Context Protocol](https://modelcontextprotocol.io/) server for AI assistants and LLM tools.
-
-**Endpoint**: `https://nge-api.dev/mcp` (stateless, JSON responses enabled)
-
-Configure your MCP client (e.g. Claude Desktop, Cursor) with:
-
-```json
-{
-  "mcpServers": {
-    "nge-api": {
-      "url": "https://nge-api.dev/mcp"
-    }
-  }
-}
-```
-
-## Available Resources
-
-- **Characters** - Pilots, NERV personnel, and other characters
-- **Episodes** - All 26 episodes of the original series
-- **Movies** - Death & Rebirth, End of Evangelion, and the Rebuild films
-- **Eva Units** - Evangelion units and their specifications
-- **Angels** - The 17 Angels
-- **Organizations** - NERV, SEELE, WILLE, and others
-- **Staff** - Directors, writers, and key production staff
-- **Studios** - Gainax, Khara, and production studios
-- **Shows** - TV series and other productions
-
-## Running Locally
-
-### Prerequisites
-
-- [Bun](https://bun.sh/) v1.0 or higher
-
-### Installation
-
+## Getting Started
+To get started with this template, simply paste this command into your terminal:
 ```bash
-git clone git@github.com:UNRULYEON/nge-api.git
-cd nge-api
-bun install
+bun create elysia ./elysia-example
 ```
 
-### Development
-
-Start the development server with hot reload:
-
+## Development
+To start the development server run:
 ```bash
 bun run dev
 ```
 
-The API will be available at http://localhost:3000
-
-### Available Scripts
-
-| Command                | Description                              |
-| ---------------------- | ---------------------------------------- |
-| `bun run dev`          | Start development server with hot reload |
-| `bun run start`        | Start production server                  |
-| `bun test`             | Run tests                                |
-| `bun run typecheck`    | Type-check the codebase                  |
-| `bun run lint`         | Lint with oxlint                         |
-| `bun run lint:fix`     | Lint and auto-fix with oxlint            |
-| `bun run format`       | Format with oxfmt                        |
-| `bun run format:check` | Check formatting with oxfmt              |
-
-## Tech Stack
-
-- [Bun](https://bun.sh/) - Runtime
-- [Elysia](https://elysiajs.com/) - Web framework
-- [Scalar](https://scalar.com/) - API documentation
-- SQLite - In-memory database
-
-## License
-
-[MIT](./LICENSE)
+Open http://localhost:3000/ with your browser to see the result.
