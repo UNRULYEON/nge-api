@@ -3,11 +3,11 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
 import { repository } from "@/modules/shows/shows.repository";
-import { shows as showsFixtures } from "@/test/fixtures/shows";
+import { data } from "@/db/data";
 
 beforeAll(() => {
   db.delete(schema.shows).run();
-  db.insert(schema.shows).values(showsFixtures).run();
+  db.insert(schema.shows).values(data.shows).run();
 });
 
 afterAll(() => {
@@ -17,13 +17,13 @@ afterAll(() => {
 describe("shows repository", () => {
   describe("all", () => {
     it("returns all shows in the table", () => {
-      expect(repository.all()).toEqual(showsFixtures);
+      expect(repository.all()).toEqual(data.shows);
     });
   });
 
   describe("byId", () => {
     it("returns a show by id", () => {
-      expect(repository.byId({ id: showsFixtures[0].id })).toStrictEqual(showsFixtures[0]);
+      expect(repository.byId({ id: data.shows[0].id })).toStrictEqual(data.shows[0]);
     });
 
     it("returns null when not found", () => {

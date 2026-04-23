@@ -5,11 +5,11 @@ import { Elysia } from "elysia";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
 import { shows } from "@/modules/shows/shows.routes";
-import { shows as showsFixtures } from "@/test/fixtures/shows";
+import { data } from "@/db/data";
 
 beforeAll(() => {
   db.delete(schema.shows).run();
-  db.insert(schema.shows).values(showsFixtures).run();
+  db.insert(schema.shows).values(data.shows).run();
 });
 
 afterAll(() => {
@@ -23,23 +23,23 @@ describe("shows routes", () => {
     it("returns a list of shows", async () => {
       const response = await app.handle(new Request("http://localhost/shows"));
 
-      const data = await response.json();
+      const res = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data).toEqual(showsFixtures);
+      expect(res).toStrictEqual(data.shows);
     });
   });
 
   describe("GET /shows/:id", () => {
     it("returns a show by id", async () => {
       const response = await app.handle(
-        new Request(`http://localhost/shows/${showsFixtures[0].id}`),
+        new Request(`http://localhost/shows/${data.shows[0].id}`),
       );
 
-      const data = await response.json();
+      const res = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data).toEqual(showsFixtures[0]);
+      expect(res).toStrictEqual(data.shows[0]);
     });
 
     it("returns 404 if show not found", async () => {

@@ -19,7 +19,8 @@ export const v1 = new Elysia({
   .use(staticPlugin())
   .use(plugins.openapi)
   .use(modules.health)
-  .use(modules.shows);
+  .use(modules.shows)
+  .use(modules.studios)
 
 const app = new Elysia().use(v1).listen(3000);
 
