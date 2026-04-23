@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 
 import { db } from "@/db";
-import { schema } from "@/db/migrations/schema";
+import { schema } from "@/db/schema";
 import { repository } from "@/modules/shows/shows.repository";
 import { shows as showsFixtures } from "@/test/fixtures/shows";
 
@@ -26,8 +26,8 @@ describe("shows repository", () => {
       expect(repository.byId({ id: showsFixtures[0].id })).toStrictEqual(showsFixtures[0]);
     });
 
-    it("returns undefined when not found", () => {
-      expect(repository.byId({ id: "non-existing-id" })).toBeUndefined();
+    it("returns null when not found", () => {
+      expect(repository.byId({ id: "non-existing-id" })).toBeNull();
     });
   });
 });

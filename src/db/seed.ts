@@ -1,14 +1,14 @@
 import { db } from "@/db";
-import { shows } from "@/db/migrations/schema/shows";
+import { schema } from "@/db/schema";
 
 import { uuids } from "./uuids";
 
 export const seed = async () => {
   await db
-    .insert(shows)
+    .insert(schema.shows)
     .values([
       {
-        id: uuids.shows,
+        id: uuids.SHOWS.nge,
         title: "Neon Genesis Evangelion",
         episodes: 26,
         aired: "1995-10-04 to 1996-03-27",

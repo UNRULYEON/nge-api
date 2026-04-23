@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
 
 import { db } from "@/db";
-import { schema } from "@/db/migrations/schema";
+import { schema } from "@/db/schema";
 import { shows } from "@/modules/shows/shows.routes";
 import { shows as showsFixtures } from "@/test/fixtures/shows";
 

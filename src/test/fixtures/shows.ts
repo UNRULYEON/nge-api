@@ -1,4 +1,4 @@
-import type { schema } from "@/db/migrations/schema";
+import type { schema } from "@/db/schema";
 
 type Show = typeof schema.shows.$inferSelect;
 
