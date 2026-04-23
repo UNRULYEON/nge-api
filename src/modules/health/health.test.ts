@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 
 import { Elysia } from "elysia";
 
-import { health } from "./health.routes";
+import { health } from "@/modules/health/health.routes";
 
 const app = new Elysia().use(health);
 

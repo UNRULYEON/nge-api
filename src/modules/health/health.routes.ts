@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 
-import { HealthSchema } from "./health.schema";
+import { HealthSchema } from "@/modules/health/health.schema";
 
 export const health = new Elysia({
   prefix: "/health",

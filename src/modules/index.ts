@@ -1,4 +1,4 @@
-import { health } from "./health/health.routes";
+import { health } from "@/modules/health/health.routes";
 
 export const modules = {
   health,
