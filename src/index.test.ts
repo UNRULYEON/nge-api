@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 
 import { Elysia } from "elysia";
 
-import { v1 } from "@/index";
+const { v1 } = await import("@/index");
 
 const app = new Elysia().use(v1.get("/test", () => "ok"));
 

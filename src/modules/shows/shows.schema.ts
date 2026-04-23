@@ -1,7 +1,7 @@
 import { t, type UnwrapSchema } from "elysia";
 
 export namespace ShowsModel {
-  export const show = t.Object({
+  export const showType = t.Object({
     id: t.String({ format: "uuid" }),
     title: t.String(),
     episodes: t.Number(),
@@ -9,7 +9,8 @@ export namespace ShowsModel {
     synopsis: t.String(),
   });
 
-  export const list = t.Array(show);
+  export const list = t.Array(showType);
+  export const show = t.Nullable(showType);
 }
 
 export type ShowsModel = {

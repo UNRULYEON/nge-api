@@ -20,4 +20,14 @@ describe("shows repository", () => {
       expect(repository.all()).toEqual(showsFixtures);
     });
   });
+
+  describe("byId", () => {
+    it("returns a show by id", () => {
+      expect(repository.byId({ id: showsFixtures[0].id })).toStrictEqual(showsFixtures[0]);
+    });
+
+    it("returns undefined when not found", () => {
+      expect(repository.byId({ id: "non-existing-id" })).toBeUndefined();
+    });
+  });
 });

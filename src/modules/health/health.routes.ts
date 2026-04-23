@@ -1,15 +1,15 @@
 import { Elysia } from "elysia";
 
-import { HealthSchema } from "@/modules/health/health.schema";
+import { BaseModel } from "@/shared/responses";
 
 export const health = new Elysia({
   prefix: "/health",
   tags: ["health"],
-}).get("/", () => "OK", {
+}).get("/", (): BaseModel.ok => "OK", {
   detail: {
     description: "Check the health status of the API.",
   },
   response: {
-    200: HealthSchema.response,
+    200: BaseModel.ok,
   },
 });
