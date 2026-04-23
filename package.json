@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "module": "src/index.js",
   "scripts": {
-    "test": "bun test",
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",

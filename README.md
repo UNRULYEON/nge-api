@@ -31,6 +31,7 @@ The API will be available at http://localhost:3000
 | `bun run dev`        | Start development server with hot reload |
 | `bun run start`      | Start production server                  |
 | `bun test`           | Run tests                                |
+| `bun test:coverage`  | Run tests with coverage report           |
 | `bun run typecheck`  | Type-check the codebase                  |
 | `bun run lint`       | Lint with oxlint                         |
 | `bun run lint:fix`   | Lint and auto-fix with oxlint            |

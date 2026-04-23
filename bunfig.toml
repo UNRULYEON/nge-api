@@ -1,0 +1,2 @@
+[test]
+coveragePathIgnorePatterns = ["**/*.schema.ts"]
