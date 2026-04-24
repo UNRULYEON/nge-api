@@ -2,25 +2,25 @@ import { Elysia } from "elysia";
 
 import { BaseModel } from "@/shared/responses";
 
-import { repository } from "./studios.repository";
-import { StudiosModel } from "./studios.schema";
+import { repositories } from "@/repository";
+import { schemas } from "@/schemas";
 
 export const studios = new Elysia({
   prefix: "/studios",
   tags: ["studios"],
 })
-  .get("/", () => repository.all(), {
+  .get("/", () => repositories.studios.all(), {
     detail: {
       description: "Get a list of all studios.",
     },
     response: {
-      200: StudiosModel.list,
+      200: schemas.studios.list,
     },
   })
   .get(
     "/:id",
     ({ params, status }) => {
-      const show = repository.byId({ id: params.id });
+      const show = repositories.studios.byId({ id: params.id });
 
       if (!show) return status(404, "NOT_FOUND");
 
@@ -31,7 +31,7 @@ export const studios = new Elysia({
         description: "Get a studio by ID.",
       },
       response: {
-        200: StudiosModel.studio,
+        200: schemas.studios.studio,
         404: BaseModel.notFound,
       },
     },

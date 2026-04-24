@@ -12,7 +12,3 @@ export namespace StudiosModel {
   export const list = t.Array(studioType);
   export const studio = t.Nullable(studioType);
 }
-
-export type StudiosModel = {
-  [k in keyof typeof StudiosModel]: UnwrapSchema<(typeof StudiosModel)[k]>;
-};

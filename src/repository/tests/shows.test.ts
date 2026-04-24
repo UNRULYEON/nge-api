@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 
 import { db } from "@/db";
 import { schema } from "@/db/schema";
-import { repository } from "@/modules/shows/shows.repository";
+import { repositories } from "@/repository";
 import { data } from "@/db/data";
 
 beforeAll(() => {
@@ -17,17 +17,17 @@ afterAll(() => {
 describe("shows repository", () => {
   describe("all", () => {
     it("returns all shows in the table", () => {
-      expect(repository.all()).toEqual(data.shows);
+      expect(repositories.shows.all()).toEqual(data.shows);
     });
   });
 
   describe("byId", () => {
     it("returns a show by id", () => {
-      expect(repository.byId({ id: data.shows[0].id })).toStrictEqual(data.shows[0]);
+      expect(repositories.shows.byId({ id: data.shows[0].id })).toStrictEqual(data.shows[0]);
     });
 
     it("returns null when not found", () => {
-      expect(repository.byId({ id: "non-existing-id" })).toBeNull();
+      expect(repositories.shows.byId({ id: "non-existing-id" })).toBeNull();
     });
   });
 });

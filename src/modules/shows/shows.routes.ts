@@ -2,25 +2,26 @@ import { Elysia } from "elysia";
 
 import { BaseModel } from "@/shared/responses";
 
-import { repository } from "./shows.repository";
-import { ShowsModel } from "./shows.schema";
+import { repositories } from "@/repository";
+import { ShowsModel } from "@/modules/shows/shows.schema";
+import { schemas } from "@/schemas";
 
 export const shows = new Elysia({
   prefix: "/shows",
   tags: ["shows"],
 })
-  .get("/", () => repository.all(), {
+  .get("/", () => repositories.shows.all(), {
     detail: {
       description: "Get a list of all shows.",
     },
     response: {
-      200: ShowsModel.list,
+      200: schemas.shows.list,
     },
   })
   .get(
     "/:id",
     ({ params, status }) => {
-      const show = repository.byId({ id: params.id });
+      const show = repositories.shows.byId({ id: params.id });
 
       if (!show) return status(404, "NOT_FOUND");
 
@@ -31,8 +32,32 @@ export const shows = new Elysia({
         description: "Get a show by ID.",
       },
       response: {
-        200: ShowsModel.show,
+        200: schemas.shows.show,
         404: BaseModel.notFound,
       },
     },
-  );
+  )
+  .get(
+    "/:id/studio",
+    ({ params, status }) => {
+      const show = repositories.shows.byId({ id: params.id });
+
+      if (!show) return status(404, "NOT_FOUND");
+      if (!show.studio_id) return status(404, "NOT_FOUND");
+
+      const studio = repositories.studios.byId({ id: show.studio_id });
+
+      if (!studio) return status(404, "NOT_FOUND");
+
+      return studio;
+    },
+    {
+      detail: {
+        description: "Get the studio of a show by the show's ID.",
+      },
+      response: {
+        200: schemas.studios.studio,
+        404: BaseModel.notFound,
+      },
+    },
+  )

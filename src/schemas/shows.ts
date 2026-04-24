@@ -13,7 +13,3 @@ export namespace ShowsModel {
   export const list = t.Array(showType);
   export const show = t.Nullable(showType);
 }
-
-export type ShowsModel = {
-  [k in keyof typeof ShowsModel]: UnwrapSchema<(typeof ShowsModel)[k]>;
-};
