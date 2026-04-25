@@ -30,4 +30,18 @@ describe("shows repository", () => {
       expect(repositories.shows.byId({ id: "non-existing-id" })).toBeNull();
     });
   });
+
+  describe("byStudioId", () => {
+    it("returns shows by studio id", () => {
+      expect(repositories.shows.byStudioId({ studio_id: data.shows[0].studio_id! })).toStrictEqual(
+        data.shows.filter((show) => show.studio_id === data.shows[0].studio_id),
+      );
+    });
+
+    it("returns an empty array when no shows are found for the studio id", () => {
+      expect(repositories.shows.byStudioId({ studio_id: "non-existing-studio-id" })).toStrictEqual(
+        [],
+      );
+    });
+  });
 });

@@ -42,10 +42,8 @@ describe("episodes repository", () => {
       expect(repositories.episodes.byShowId({ show_id: showId })).toStrictEqual(expected);
     });
 
-    it("returns an empty array when no episodes found for the show id", () => {
-      expect(repositories.episodes.byShowId({ show_id: "non-existing-show-id" })).toStrictEqual(
-        [],
-      );
+    it("returns an empty array when no episodes are found for the show id", () => {
+      expect(repositories.episodes.byShowId({ show_id: "non-existing-show-id" })).toStrictEqual([]);
     });
   });
 });

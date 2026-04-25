@@ -19,11 +19,11 @@ export const studios = new Elysia({
   .get(
     "/:id",
     ({ params, status }) => {
-      const show = repositories.studios.byId({ id: params.id });
+      const studio = repositories.studios.byId({ id: params.id });
 
-      if (!show) return status(404, "NOT_FOUND");
+      if (!studio) return status(404, "NOT_FOUND");
 
-      return show;
+      return studio;
     },
     {
       detail: {
@@ -31,6 +31,27 @@ export const studios = new Elysia({
       },
       response: {
         200: schemas.studios.studio,
+        404: BaseModel.notFound,
+      },
+    },
+  )
+  .get(
+    "/:id/shows",
+    ({ params, status }) => {
+      const studio = repositories.studios.byId({ id: params.id });
+
+      if (!studio) return status(404, "NOT_FOUND");
+
+      const shows = repositories.shows.byStudioId({ studio_id: studio.id });
+
+      return shows;
+    },
+    {
+      detail: {
+        description: "Get the shows of a studio by the studio's ID.",
+      },
+      response: {
+        200: schemas.shows.list,
         404: BaseModel.notFound,
       },
     },

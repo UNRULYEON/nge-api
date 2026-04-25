@@ -7,4 +7,6 @@ export const shows = {
   all: () => db.select().from(schema.shows).all(),
   byId: ({ id }: { id: string }) =>
     db.select().from(schema.shows).where(eq(schema.shows.id, id)).get() ?? null,
+  byStudioId: ({ studio_id }: { studio_id: string }) =>
+    db.select().from(schema.shows).where(eq(schema.shows.studio_id, studio_id)).all(),
 };
