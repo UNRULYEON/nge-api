@@ -55,4 +55,25 @@ export const studios = new Elysia({
         404: BaseModel.notFound,
       },
     },
-  );
+  )
+  .get(
+    "/:id/movies",
+    ({ params, status }) => {
+      const studio = repositories.studios.byId({ id: params.id });
+
+      if (!studio) return status(404, "NOT_FOUND");
+
+      const movies = repositories.movies.byStudioId({ studio_id: studio.id });
+
+      return movies;
+    },
+    {
+      detail: {
+        description: "Get the movies of a studio by the studio's ID.",
+      },
+      response: {
+        200: schemas.movies.list,
+        404: BaseModel.notFound,
+      },
+    },
+  )
