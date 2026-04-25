@@ -14,8 +14,13 @@ const episodes = async () => {
   await db.insert(schema.episodes).values(data.episodes).onConflictDoNothing();
 };
 
+const movies = async () => {
+  await db.insert(schema.movies).values(data.movies).onConflictDoNothing();
+};
+
 export const seed = async () => {
   await studios();
   await shows();
   await episodes();
+  await movies();
 };

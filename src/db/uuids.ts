@@ -2,13 +2,13 @@ const SHOWS = {
   nge: "019db81f-170d-7000-8a57-fc028caf6046",
 };
 
-export const STUDIO_IDS = {
+const STUDIO_IDS = {
   gainax: "019b48ba-eac5-7000-85c0-3ef877607b73",
   khara: "019b48ba-eac5-7001-832b-cc5d8b463318",
   tatsunoko: "019b48ba-eac5-7002-8e4f-b99f9f2765be",
 };
 
-export const EP_IDS = {
+const EP_IDS = {
   ep1: "019dc186-beca-7000-ad27-ce270c397022",
   ep2: "019dc186-becd-7000-aaa9-8f7e5531f4cb",
   ep3: "019dc186-becd-7001-b194-98c0e5a928c7",
@@ -37,8 +37,18 @@ export const EP_IDS = {
   ep26: "019dc186-becd-7018-8ac4-61df65d6f22f",
 };
 
+const MOVIE_IDS = {
+  deathAndRebirth: "019dc2f3-139e-7000-807e-b34b99e50d47",
+  endOfEva: "019dc2f3-139e-7001-99d4-1cab99bb33ed",
+  rebuild1: "019dc2f3-139e-7002-95e1-ece9bfefa2ba",
+  rebuild2: "019dc2f3-139e-7003-bbac-85326d4d8c41",
+  rebuild3: "019dc2f3-139e-7004-add3-20bc90ebaf69",
+  rebuild4: "019dc2f3-139e-7005-b3af-2c316a935c8f",
+};
+
 export const uuids = {
   SHOWS,
   STUDIO_IDS,
   EP_IDS,
+  MOVIE_IDS,
 };

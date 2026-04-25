@@ -1,4 +1,4 @@
-import type { Show, Studio, Episode } from "@/types";
+import type { Show, Studio, Episode, Movie } from "@/types";
 
 import { uuids } from "./uuids";
 
@@ -301,8 +301,72 @@ const episodes: Episode[] = [
   },
 ];
 
+const movies: Movie[] = [
+  {
+    id: uuids.MOVIE_IDS.deathAndRebirth,
+    title: "Evangelion: Death and Rebirth",
+    title_japanese: "新世紀エヴァンゲリオン劇場版 DEATH & REBIRTH シト新生",
+    release_date: "1997-03-15",
+    runtime: 101,
+    studio_id: uuids.STUDIO_IDS.gainax,
+    synopsis:
+      "A recap of the first 24 episodes of the TV series, followed by a new ending that was later expanded into The End of Evangelion.",
+  },
+  {
+    id: uuids.MOVIE_IDS.endOfEva,
+    title: "The End of Evangelion",
+    title_japanese: "新世紀エヴァンゲリオン劇場版 Air/まごころを、君に",
+    release_date: "1997-07-19",
+    runtime: 87,
+    studio_id: uuids.STUDIO_IDS.gainax,
+    synopsis:
+      "Concurrent theatrical ending to the TV series, taking place during episodes 25 and 26. SEELE launches an attack on NERV headquarters, leading to a climactic confrontation.",
+  },
+  {
+    id: uuids.MOVIE_IDS.rebuild1,
+    title: "Evangelion: 1.0 You Are (Not) Alone",
+    title_japanese: "ヱヴァンゲリヲン新劇場版:序",
+    release_date: "2007-09-01",
+    runtime: 98,
+    studio_id: uuids.STUDIO_IDS.khara,
+    synopsis:
+      "The first film in the Rebuild of Evangelion tetralogy. A retelling of the beginning of the original series, covering the first six episodes with updated animation and some new scenes.",
+  },
+  {
+    id: uuids.MOVIE_IDS.rebuild2,
+    title: "Evangelion: 2.0 You Can (Not) Advance",
+    title_japanese: "ヱヴァンゲリヲン新劇場版:破",
+    release_date: "2009-06-27",
+    runtime: 108,
+    studio_id: uuids.STUDIO_IDS.khara,
+    synopsis:
+      "The second Rebuild film introduces new characters and diverges significantly from the original series. Features the activation of Unit-03 and the battle against Zeruel.",
+  },
+  {
+    id: uuids.MOVIE_IDS.rebuild3,
+    title: "Evangelion: 3.0 You Can (Not) Redo",
+    title_japanese: "ヱヴァンゲリヲン新劇場版:Q",
+    release_date: "2012-11-17",
+    runtime: 96,
+    studio_id: uuids.STUDIO_IDS.khara,
+    synopsis:
+      "Set 14 years after the events of the second film, Shinji awakens to find the world drastically changed. WILLE, an organization led by former NERV members, now fights against NERV.",
+  },
+  {
+    id: uuids.MOVIE_IDS.rebuild4,
+    title: "Evangelion: 3.0+1.0 Thrice Upon a Time",
+    title_japanese: "シン・エヴァンゲリオン劇場版:||",
+    release_date: "2021-03-08",
+    runtime: 155,
+    studio_id: uuids.STUDIO_IDS.khara,
+    synopsis:
+      "The final film in the Rebuild of Evangelion series. Shinji, Asuka, and Rei find refuge in a village while WILLE prepares for a final confrontation with NERV and Gendo Ikari.",
+  },
+]
+
 export const data = {
   shows,
   studios,
   episodes,
+  movies
 };
