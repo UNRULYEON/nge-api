@@ -32,4 +32,20 @@ describe("episodes repository", () => {
       expect(repositories.episodes.byId({ id: "non-existing-id" })).toBeNull();
     });
   });
+
+  describe("byShowId", () => {
+    it("returns episodes by show id", () => {
+      const showId = data.episodes[0].show_id;
+
+      const expected = data.episodes.filter((episode) => episode.show_id === showId);
+
+      expect(repositories.episodes.byShowId({ show_id: showId })).toStrictEqual(expected);
+    });
+
+    it("returns an empty array when no episodes found for the show id", () => {
+      expect(repositories.episodes.byShowId({ show_id: "non-existing-show-id" })).toStrictEqual(
+        [],
+      );
+    });
+  });
 });

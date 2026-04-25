@@ -46,4 +46,42 @@ describe("shows routes", () => {
       expect(response.status).toBe(404);
     });
   });
+
+  describe("GET /shows/:id/studio", () => {
+    it("returns a show by id", async () => {
+      const response = await app.handle(new Request(`http://localhost/shows/${data.shows[0].id}/studio`));
+
+      const res = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(res).toStrictEqual(data.studios[0]);
+    });
+
+    it("returns 404 if show not found", async () => {
+      const response = await app.handle(new Request(`http://localhost/shows/non-existing-id/studio`));
+
+      expect(response.status).toBe(404);
+    });
+  });
+
+  describe("GET /shows/:id/episodes", () => {
+    it("returns episodes by show id", async () => {
+      const showId = data.shows[0].id;
+
+      const response = await app.handle(new Request(`http://localhost/shows/${showId}/episodes`));
+
+      const res = await response.json();
+
+      const expected = data.episodes.filter((episode) => episode.show_id === showId);
+
+      expect(response.status).toBe(200);
+      expect(res).toStrictEqual(expected);
+    });
+
+    it("returns 404 if show not found", async () => {
+      const response = await app.handle(new Request(`http://localhost/shows/non-existing-id/episodes`));
+
+      expect(response.status).toBe(404);
+    });
+  });
 });
