@@ -1,6 +1,6 @@
 import { t, type UnwrapSchema } from "elysia";
 
-export namespace ShowsModel {
+export namespace Shows {
   export const showType = t.Object({
     id: t.String(),
     title: t.String(),

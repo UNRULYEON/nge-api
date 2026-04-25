@@ -1,3 +1,9 @@
 [test]
 preload = ["./src/test/setup.ts"]
-coveragePathIgnorePatterns = ["**/*.schema.ts", "**/schema*/*.ts", "**/db/**", "**/plugins/**", "**/test/**"]
+coveragePathIgnorePatterns = [
+  "**/*.schema.ts",
+  "**/schema*/*.ts",
+  "**/db/**",
+  "**/plugins/**",
+  "**/test/**",
+]

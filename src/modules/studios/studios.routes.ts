@@ -1,9 +1,8 @@
 import { Elysia } from "elysia";
 
-import { BaseModel } from "@/shared/responses";
-
 import { repositories } from "@/repository";
 import { schemas } from "@/schemas";
+import { BaseModel } from "@/shared/responses";
 
 export const studios = new Elysia({
   prefix: "/studios",

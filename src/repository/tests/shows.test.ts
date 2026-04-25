@@ -1,9 +1,9 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 
 import { db } from "@/db";
+import { data } from "@/db/data";
 import { schema } from "@/db/schema";
 import { repositories } from "@/repository";
-import { data } from "@/db/data";
 
 beforeAll(() => {
   db.delete(schema.shows).run();

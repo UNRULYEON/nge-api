@@ -3,9 +3,9 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
 
 import { db } from "@/db";
+import { data } from "@/db/data";
 import { schema } from "@/db/schema";
 import { shows } from "@/modules/shows/shows.routes";
-import { data } from "@/db/data";
 
 beforeAll(() => {
   db.delete(schema.shows).run();
@@ -32,9 +32,7 @@ describe("shows routes", () => {
 
   describe("GET /shows/:id", () => {
     it("returns a show by id", async () => {
-      const response = await app.handle(
-        new Request(`http://localhost/shows/${data.shows[0].id}`),
-      );
+      const response = await app.handle(new Request(`http://localhost/shows/${data.shows[0].id}`));
 
       const res = await response.json();
 

@@ -3,9 +3,9 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { Elysia } from "elysia";
 
 import { db } from "@/db";
+import { data } from "@/db/data";
 import { schema } from "@/db/schema";
 import { studios } from "@/modules/studios/studios.routes";
-import { data } from "@/db/data";
 
 beforeAll(() => {
   db.delete(schema.studios).run();

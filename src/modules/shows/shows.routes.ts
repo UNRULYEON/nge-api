@@ -1,10 +1,8 @@
 import { Elysia } from "elysia";
 
-import { BaseModel } from "@/shared/responses";
-
 import { repositories } from "@/repository";
-import { ShowsModel } from "@/modules/shows/shows.schema";
 import { schemas } from "@/schemas";
+import { BaseModel } from "@/shared/responses";
 
 export const shows = new Elysia({
   prefix: "/shows",
@@ -60,4 +58,4 @@ export const shows = new Elysia({
         404: BaseModel.notFound,
       },
     },
-  )
+  );

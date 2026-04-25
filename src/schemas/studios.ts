@@ -1,6 +1,6 @@
 import { t, type UnwrapSchema } from "elysia";
 
-export namespace StudiosModel {
+export namespace Studios {
   export const studioType = t.Object({
     id: t.String(),
     name: t.String(),
