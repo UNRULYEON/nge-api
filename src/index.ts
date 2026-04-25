@@ -20,8 +20,9 @@ export const v1 = new Elysia({
   .use(plugins.openapi)
   .use(modules.health)
   .use(modules.studios)
+  .use(modules.movies)
   .use(modules.shows)
-  .use(modules.episodes);
+  .use(modules.episodes)
 
 const app = new Elysia().use(v1).listen(3000);
 
