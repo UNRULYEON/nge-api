@@ -362,11 +362,11 @@ const movies: Movie[] = [
     synopsis:
       "The final film in the Rebuild of Evangelion series. Shinji, Asuka, and Rei find refuge in a village while WILLE prepares for a final confrontation with NERV and Gendo Ikari.",
   },
-]
+];
 
 export const data = {
   shows,
   studios,
   episodes,
-  movies
+  movies,
 };

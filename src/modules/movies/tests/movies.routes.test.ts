@@ -32,7 +32,9 @@ describe("movies routes", () => {
 
   describe("GET /movies/:id", () => {
     it("returns a show by id", async () => {
-      const response = await app.handle(new Request(`http://localhost/movies/${data.movies[0].id}`));
+      const response = await app.handle(
+        new Request(`http://localhost/movies/${data.movies[0].id}`),
+      );
 
       const res = await response.json();
 

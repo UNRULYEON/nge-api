@@ -6,4 +6,4 @@ export type Studio = typeof schema.studios.$inferSelect;
 
 export type Episode = typeof schema.episodes.$inferSelect;
 
-export type Movie = typeof schema.movies.$inferSelect
+export type Movie = typeof schema.movies.$inferSelect;

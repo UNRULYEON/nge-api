@@ -33,9 +33,9 @@ describe("movies repository", () => {
 
   describe("byStudioId", () => {
     it("returns movies by studio id", () => {
-      expect(repositories.movies.byStudioId({ studio_id: data.movies[0].studio_id! })).toStrictEqual(
-        data.movies.filter((show) => show.studio_id === data.movies[0].studio_id),
-      );
+      expect(
+        repositories.movies.byStudioId({ studio_id: data.movies[0].studio_id! }),
+      ).toStrictEqual(data.movies.filter((show) => show.studio_id === data.movies[0].studio_id));
     });
 
     it("returns an empty array when no movies are found for the studio id", () => {

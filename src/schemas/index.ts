@@ -1,7 +1,7 @@
 import { Episodes } from "./episodes";
+import { Movies } from "./movies";
 import { Shows } from "./shows";
 import { Studios } from "./studios";
-import { Movies } from "./movies";
 
 export const schemas = {
   studios: Studios,

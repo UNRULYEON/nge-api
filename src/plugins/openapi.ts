@@ -16,10 +16,10 @@ export const openapi = openapiPlugin({
   path: "/",
   specPath: "/openapi.json",
   scalar: {
-    favicon: "public/rei-plush-favicon.svg",
+    favicon: "/public/favicon.svg",
     defaultOpenAllTags: false,
   },
   exclude: {
-    paths: ["/", "/v1/public/*"],
+    paths: ["/", "/public/*"],
   },
 });

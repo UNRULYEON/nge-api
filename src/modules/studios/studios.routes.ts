@@ -76,4 +76,4 @@ export const studios = new Elysia({
         404: BaseModel.notFound,
       },
     },
-  )
+  );

@@ -1,7 +1,7 @@
 import { episodes } from "./episodes";
+import { movies } from "./movies";
 import { shows } from "./shows";
 import { studios } from "./studios";
-import { movies } from "./movies";
 
 export const repositories = {
   shows,

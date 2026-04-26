@@ -34,4 +34,4 @@ export const movies = new Elysia({
         404: BaseModel.notFound,
       },
     },
-  )
+  );
