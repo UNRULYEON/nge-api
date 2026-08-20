@@ -1,0 +1,11 @@
+.git
+.github
+.cursor
+.zed
+node_modules
+coverage
+dist
+server
+*.md
+.oxlintrc.json
+.oxfmtrc.json

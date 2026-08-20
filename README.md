@@ -60,8 +60,10 @@ Missing resources return `404` with body `NOT_FOUND`.
 | Command               | Description                              |
 | --------------------- | ---------------------------------------- |
 | `bun run dev`         | Start development server with hot reload |
-| `bun run start`       | Start production server                  |
-| `bun run build`       | Bundle the app into `dist/`              |
+| `bun run start`       | Start from source (`src/index.ts`)       |
+| `bun run start:prod`  | Start the compiled `./server` binary     |
+| `bun run build`       | Compile a standalone `./server` binary   |
+| `bun run smoke`       | Hit health, studios, favicon, OpenAPI    |
 | `bun run db:generate` | Generate SQL migrations                  |
 | `bun test`            | Run tests                                |
 | `bun test:coverage`   | Run tests with coverage report           |

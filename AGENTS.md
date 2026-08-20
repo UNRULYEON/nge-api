@@ -27,4 +27,4 @@ Authenticate with a Cursor Cloud secret named `RAILWAY_API_TOKEN` (create an acc
 
 Pass the IDs above explicitly to MCP tools (`list_deployments`, `get_logs`, and so on) rather than relying on a linked CLI directory.
 
-Build and start are defined in `railpack.json`. Use the default Bun install image and start with `bun run start` (`bun run src/index.ts`) so runtime still has `src/db/migrations` and `public/`. Do not slim the deploy image to a pre-bundled `dist/index.js`: Railpack's install layer does not include `src`, and Drizzle reads migrations from disk.
+Build and start compile a standalone Bun binary (`bun run build` → `./server`). Drizzle SQL is embedded with `--asset src/db/migrations` and resolved from `import.meta.dir` (`src/paths.ts`). The favicon is imported with `with { type: "file" }` so it is bundled into the binary. `Dockerfile` follows the [Elysia production guide](https://elysiajs.com/patterns/deploy) (compile in `oven/bun`, run on distroless). `railpack.json` / `railway.json` start `./server` if Railway uses Railpack instead of the Dockerfile. Listen on `process.env.PORT ?? 3000` at `0.0.0.0`.

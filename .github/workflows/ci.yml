@@ -40,5 +40,8 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Smoke-test compiled binary
+        run: bun run smoke
+
       - name: Test
         run: bun test
