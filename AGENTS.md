@@ -27,4 +27,4 @@ Authenticate with a Cursor Cloud secret named `RAILWAY_API_TOKEN` (create an acc
 
 Pass the IDs above explicitly to MCP tools (`list_deployments`, `get_logs`, and so on) rather than relying on a linked CLI directory.
 
-Build and start are defined in `railpack.json`: install dependencies, `bun build src/index.ts --outdir=dist --target=bun`, then `bun run dist/index.js`. The bundle step must take the `install` step as input (not `build`) so `dist/index.js` is actually present in the deploy image.
+Build and start are defined in `railpack.json`. Use the default Bun install image and start with `bun run start` (`bun run src/index.ts`) so runtime still has `src/db/migrations` and `public/`. Do not slim the deploy image to a pre-bundled `dist/index.js`: Railpack's install layer does not include `src`, and Drizzle reads migrations from disk.

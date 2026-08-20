@@ -1,28 +1,6 @@
 {
   "$schema": "https://schema.railpack.com",
-  "steps": {
-    "bundle": {
-      "inputs": [{ "step": "install" }],
-      "commands": ["bun build src/index.ts --outdir=dist --target=bun"]
-    }
-  },
   "deploy": {
-    "inputs": [
-      {
-        "step": "packages:mise",
-        "include": [
-          "/mise/shims",
-          "/mise/installs",
-          "/usr/local/bin/mise",
-          "/etc/mise/config.toml",
-          "/root/.local/state/mise"
-        ]
-      },
-      {
-        "step": "bundle",
-        "include": ["dist"]
-      }
-    ],
-    "startCommand": "bun run dist/index.js"
+    "startCommand": "bun run start"
   }
 }
