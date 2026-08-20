@@ -11,8 +11,10 @@ export const studioSchema = z.object({
 export const showSchema = z.object({
   id: z.string(),
   title: z.string(),
+  title_japanese: z.string(),
   episodes: z.number(),
-  aired: z.string(),
+  aired_from: z.string(),
+  aired_to: z.string(),
   synopsis: z.string(),
   studio_id: z.string().nullable(),
 });

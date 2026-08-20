@@ -21,6 +21,9 @@ const v1 = new Elysia({
   .use(modules.mcp);
 
 export const base = new Elysia()
+  .use(plugins.cors)
+  .use(plugins.errors)
+  .use(plugins.cache)
   .headers({
     "x-powered-by": "your-mom",
   })
