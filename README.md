@@ -30,6 +30,7 @@ The API will be available at http://localhost:3000
 | --------------------- | ---------------------------------------- |
 | `bun run dev`         | Start development server with hot reload |
 | `bun run start`       | Start production server                  |
+| `bun run build`       | Bundle the app into `dist/`              |
 | `bun run db:generate` | Generate SQL migrations                  |
 | `bun test`            | Run tests                                |
 | `bun test:coverage`   | Run tests with coverage report           |

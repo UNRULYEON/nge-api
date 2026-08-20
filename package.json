@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir=dist --target=bun",
     "db:generate": "bunx drizzle-kit generate",
     "generate:uuid": "bun scripts/generate-uuid.ts",
     "test": "bun test",
