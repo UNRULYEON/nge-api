@@ -1,4 +1,4 @@
-import { t, type UnwrapSchema } from "elysia";
+import { t } from "elysia";
 
 export namespace Episodes {
   export const episodeType = t.Object({

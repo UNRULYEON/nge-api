@@ -1,4 +1,4 @@
-import { t, type UnwrapSchema } from "elysia";
+import { t } from "elysia";
 
 export namespace Studios {
   export const studioType = t.Object({
