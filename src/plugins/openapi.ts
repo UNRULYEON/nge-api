@@ -20,6 +20,6 @@ export const openapi = openapiPlugin({
     defaultOpenAllTags: false,
   },
   exclude: {
-    paths: ["/", "/public/*"],
+    paths: ["/", "/llms.txt", "/public/*"],
   },
 });

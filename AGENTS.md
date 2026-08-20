@@ -8,7 +8,7 @@ Standard commands live in `README.md` and `package.json` `scripts`; use those ra
 
 - The dev server runs with `bun run dev` and listens on `http://localhost:3000`. Start it as a long-lived process in its own terminal.
 - On every startup the app runs `migrate()` then `seed()` against a fresh in-memory DB (see `src/index.ts` and `src/db/client.ts`), so **all data resets on each restart** and there is nothing to persist between runs.
-- The OpenAPI/Scalar docs are served at the root path `/` (not `/openapi`); the raw spec is at `/openapi.json`. Health is at `/health`. All data routes are versioned under `/v1` (e.g. `/v1/studios`, `/v1/shows`, `/v1/movies`, `/v1/shows/:id/episodes`, `/v1/studios/:id/movies`). Agents can also use Streamable HTTP MCP at `/v1/mcp` (`src/modules/mcp`). Production healthchecks use `/health` via `railway.json`.
+- The OpenAPI/Scalar docs are served at the root path `/` (not `/openapi`); the raw spec is at `/openapi.json`. Agents requesting `/` with `Accept: text/markdown` or a known AI User-Agent get `src/modules/docs/llms.md` instead (also at `/llms.txt`). Health is at `/health`. All data routes are versioned under `/v1` (e.g. `/v1/studios`, `/v1/shows`, `/v1/movies`, `/v1/shows/:id/episodes`, `/v1/studios/:id/movies`). Agents can also use Streamable HTTP MCP at `/v1/mcp` (`src/modules/mcp`). Production healthchecks use `/health` via `railway.json`.
 - `bun run typecheck` uses TypeScript 7 (`tsc`); lint is `oxlint` and formatting is `oxfmt` (`bun run format` to check, `bun run format:fix` to apply).
 - Tests use `bun test` and preload `src/test/setup.ts`, which runs migrate + seed against the in-memory DB before the suite.
 

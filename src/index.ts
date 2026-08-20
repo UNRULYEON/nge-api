@@ -25,6 +25,7 @@ export const base = new Elysia()
     "x-powered-by": "your-mom",
   })
   .get("/public/favicon.svg", () => Bun.file(favicon))
+  .use(modules.docs)
   .use(plugins.openapi)
   .use(modules.health)
   .use(v1);
