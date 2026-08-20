@@ -199,6 +199,10 @@ describe("mcp routes", () => {
       );
 
       expect(response.status).toBe(403);
+      expect(await response.json()).toMatchObject({
+        jsonrpc: "2.0",
+        error: { message: "Invalid Origin: evil.example" },
+      });
     });
   });
 });
