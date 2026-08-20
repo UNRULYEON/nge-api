@@ -8,11 +8,14 @@ import { schema } from "@/db/schema";
 import { shows } from "@/modules/shows/shows.routes";
 
 beforeAll(() => {
+  db.delete(schema.episodes).run();
   db.delete(schema.shows).run();
   db.insert(schema.shows).values(data.shows).run();
+  db.insert(schema.episodes).values(data.episodes).run();
 });
 
 afterAll(() => {
+  db.delete(schema.episodes).run();
   db.delete(schema.shows).run();
 });
 
