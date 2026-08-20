@@ -17,7 +17,8 @@ const v1 = new Elysia({
   .use(modules.studios)
   .use(modules.movies)
   .use(modules.shows)
-  .use(modules.episodes);
+  .use(modules.episodes)
+  .use(modules.mcp);
 
 export const base = new Elysia()
   .headers({
