@@ -2,7 +2,7 @@ import type { Show, Studio, Episode, Movie } from "@/types";
 
 import { uuids } from "./uuids";
 
-const shows: Show[] = [
+const shows: [Show, ...Show[]] = [
   {
     id: uuids.SHOWS.nge,
     title: "Neon Genesis Evangelion",
@@ -14,7 +14,7 @@ const shows: Show[] = [
   },
 ];
 
-const studios: Studio[] = [
+const studios: [Studio, ...Studio[]] = [
   {
     id: uuids.STUDIO_IDS.gainax,
     name: "Gainax",
@@ -38,7 +38,7 @@ const studios: Studio[] = [
   },
 ];
 
-const episodes: Episode[] = [
+const episodes: [Episode, ...Episode[]] = [
   {
     id: uuids.EP_IDS.ep1,
     episode_number: 1,
@@ -301,7 +301,7 @@ const episodes: Episode[] = [
   },
 ];
 
-const movies: Movie[] = [
+const movies: [Movie, ...Movie[]] = [
   {
     id: uuids.MOVIE_IDS.deathAndRebirth,
     title: "Evangelion: Death and Rebirth",

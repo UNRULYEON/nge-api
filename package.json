@@ -1,7 +1,8 @@
 {
   "name": "nge-api",
   "version": "0.0.1",
-  "module": "src/index.js",
+  "type": "module",
+  "module": "src/index.ts",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",

@@ -6,7 +6,7 @@ An API for Neon Genesis Evangelion.
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) v1.0 or higher
+- [Bun](https://bun.sh/) v1.4 or higher
 
 ### Installation
 
