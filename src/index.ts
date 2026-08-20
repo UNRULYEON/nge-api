@@ -13,7 +13,6 @@ const v1 = new Elysia({
   prefix: "/v1",
   normalize: true,
 })
-  .use(modules.health)
   .use(modules.studios)
   .use(modules.movies)
   .use(modules.shows)
@@ -25,6 +24,7 @@ export const base = new Elysia()
   })
   .use(staticPlugin())
   .use(plugins.openapi)
+  .use(modules.health)
   .use(v1);
 
 export const app = base.listen(3000);
