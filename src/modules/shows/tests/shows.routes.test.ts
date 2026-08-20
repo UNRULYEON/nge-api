@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { data } from "@/db/data";
 import { schema } from "@/db/schema";
 import { shows } from "@/modules/shows/shows.routes";
+import { missingId, page } from "@/test/list";
 
 beforeAll(() => {
   db.delete(schema.episodes).run();
@@ -23,13 +24,22 @@ const app = new Elysia().use(shows);
 
 describe("shows routes", () => {
   describe("GET /shows", () => {
-    it("returns a list of shows", async () => {
+    it("returns a paginated list of shows", async () => {
       const response = await app.handle(new Request("http://localhost/shows"));
 
       const res = await response.json();
 
       expect(response.status).toBe(200);
-      expect(res).toStrictEqual(data.shows);
+      expect(res).toStrictEqual(page(data.shows));
+    });
+
+    it("applies limit and offset", async () => {
+      const response = await app.handle(new Request("http://localhost/shows?limit=1&offset=0"));
+
+      const res = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(res).toStrictEqual(page(data.shows.slice(0, 1), data.shows.length, 1, 0));
     });
   });
 
@@ -44,9 +54,10 @@ describe("shows routes", () => {
     });
 
     it("returns 404 if show not found", async () => {
-      const response = await app.handle(new Request(`http://localhost/shows/non-existing-id`));
+      const response = await app.handle(new Request(`http://localhost/shows/${missingId}`));
 
       expect(response.status).toBe(404);
+      expect(await response.json()).toEqual({ error: "NOT_FOUND" });
     });
   });
 
@@ -61,15 +72,16 @@ describe("shows routes", () => {
       const expected = data.episodes.filter((episode) => episode.show_id === showId);
 
       expect(response.status).toBe(200);
-      expect(res).toStrictEqual(expected);
+      expect(res).toStrictEqual(page(expected));
     });
 
     it("returns 404 if show not found", async () => {
       const response = await app.handle(
-        new Request(`http://localhost/shows/non-existing-id/episodes`),
+        new Request(`http://localhost/shows/${missingId}/episodes`),
       );
 
       expect(response.status).toBe(404);
+      expect(await response.json()).toEqual({ error: "NOT_FOUND" });
     });
   });
 });

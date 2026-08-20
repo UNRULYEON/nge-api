@@ -44,4 +44,15 @@ describe("shows repository", () => {
       );
     });
   });
+
+  describe("list", () => {
+    it("returns paginated shows", () => {
+      expect(
+        repositories.shows.list({ limit: 50, offset: 0, sort: "aired_from", order: "asc" }),
+      ).toEqual({
+        data: data.shows,
+        total: data.shows.length,
+      });
+    });
+  });
 });

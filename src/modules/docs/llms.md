@@ -58,7 +58,9 @@ Machine-readable OpenAPI spec: `https://nge-api.dev/openapi.json`
 | `GET`  | `/v1/movies`             | List movies           |
 | `GET`  | `/v1/movies/:id`         | Get a movie           |
 
-Missing REST resources return `404` with body `NOT_FOUND`.
+List endpoints return `{ "data": [], "meta": { "total", "limit", "offset" } }`. Query: `limit` (1–100, default 50), `offset`, `sort`, `order`.
+
+Invalid IDs or query parameters return `400` with `{ "error": "BAD_REQUEST" }`. Missing REST resources return `404` with `{ "error": "NOT_FOUND" }`.
 
 ```bash
 curl https://nge-api.dev/v1/shows
