@@ -68,6 +68,26 @@ try {
     throw new Error(`OpenAPI check failed: ${spec.status}`);
   }
 
+  const llms = await fetch(`${baseUrl}/llms.txt`, { signal: AbortSignal.timeout(3000) });
+  if (!llms.ok) {
+    throw new Error(`llms.txt check failed: ${llms.status}`);
+  }
+  const llmsBody = await llms.text();
+  if (!llmsBody.includes("/v1/mcp") || !llmsBody.includes("/v1/shows")) {
+    throw new Error(`llms.txt did not include API instructions: ${llmsBody.slice(0, 200)}`);
+  }
+
+  const agentHome = await fetch(`${baseUrl}/`, {
+    headers: { Accept: "text/markdown" },
+    signal: AbortSignal.timeout(3000),
+  });
+  if (!agentHome.ok) {
+    throw new Error(`Agent / check failed: ${agentHome.status}`);
+  }
+  if (!(agentHome.headers.get("content-type") ?? "").includes("text/markdown")) {
+    throw new Error(`Agent / did not negotiate markdown: ${agentHome.headers.get("content-type")}`);
+  }
+
   const mcp = await fetch(`${baseUrl}/v1/mcp`, {
     method: "POST",
     headers: {
@@ -87,7 +107,7 @@ try {
   }
 
   console.log(
-    `smoke: ok (health, ${studioList.data.length} studios, favicon, openapi, mcp) on ${baseUrl}`,
+    `smoke: ok (health, ${studioList.data.length} studios, favicon, openapi, llms, mcp) on ${baseUrl}`,
   );
 } finally {
   await shutdown();
