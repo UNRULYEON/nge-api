@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "railway": {
+      "command": "railway",
+      "args": ["mcp"]
+    }
+  }
+}
