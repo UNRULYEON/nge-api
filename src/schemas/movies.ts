@@ -12,5 +12,5 @@ export namespace Movies {
   });
 
   export const list = t.Array(movieType);
-  export const movie = t.Nullable(movieType);
+  export const movie = movieType;
 }

@@ -10,5 +10,5 @@ export namespace Studios {
   });
 
   export const list = t.Array(studioType);
-  export const studio = t.Nullable(studioType);
+  export const studio = studioType;
 }
