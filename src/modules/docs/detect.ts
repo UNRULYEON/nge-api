@@ -68,30 +68,40 @@ const parseAccept = (header: string): AcceptPart[] => {
   return parts;
 };
 
-const bestQuality = (parts: AcceptPart[], types: ReadonlySet<string>): number | undefined => {
+const bestPart = (parts: AcceptPart[], types: ReadonlySet<string>): AcceptPart | undefined => {
   let best: AcceptPart | undefined;
 
   for (const part of parts) {
-    if (!types.has(part.type)) continue;
+    if (!types.has(part.type) || part.q <= 0) continue;
     if (best == null || part.q > best.q || (part.q === best.q && part.index < best.index)) {
       best = part;
     }
   }
 
-  return best?.q;
+  return best;
 };
+
+const beats = (winner: AcceptPart, other: AcceptPart | undefined): boolean =>
+  other == null || winner.q > other.q || (winner.q === other.q && winner.index < other.index);
 
 export const prefersMarkdown = (accept: string | null): boolean => {
   if (accept == null || accept.trim() === "") return false;
 
   const parts = parseAccept(accept);
-  const markdown = bestQuality(parts, MARKDOWN_TYPES);
-  if (markdown == null || markdown <= 0) return false;
+  const markdown = bestPart(parts, MARKDOWN_TYPES);
+  if (markdown == null) return false;
 
-  const html = bestQuality(parts, HTML_TYPES);
-  if (html == null) return true;
+  return beats(markdown, bestPart(parts, HTML_TYPES));
+};
 
-  return markdown >= html;
+export const prefersHtml = (accept: string | null): boolean => {
+  if (accept == null || accept.trim() === "") return false;
+
+  const parts = parseAccept(accept);
+  const html = bestPart(parts, HTML_TYPES);
+  if (html == null) return false;
+
+  return beats(html, bestPart(parts, MARKDOWN_TYPES));
 };
 
 export const isAgentUserAgent = (userAgent: string | null): boolean => {
@@ -104,7 +114,14 @@ export const isAgentUserAgent = (userAgent: string | null): boolean => {
 export const hasSignatureAgent = (signatureAgent: string | null): boolean =>
   signatureAgent != null && signatureAgent.trim() !== "";
 
-export const wantsAgentMarkdown = (request: Request): boolean =>
-  prefersMarkdown(request.headers.get("accept")) ||
-  isAgentUserAgent(request.headers.get("user-agent")) ||
-  hasSignatureAgent(request.headers.get("signature-agent"));
+/** Accept wins. User-Agent / Signature-Agent are only used when Accept is unspecified. */
+export const wantsAgentMarkdown = (request: Request): boolean => {
+  const accept = request.headers.get("accept");
+  if (prefersMarkdown(accept)) return true;
+  if (prefersHtml(accept)) return false;
+
+  return (
+    isAgentUserAgent(request.headers.get("user-agent")) ||
+    hasSignatureAgent(request.headers.get("signature-agent"))
+  );
+};

@@ -3,6 +3,7 @@ import { describe, expect, it } from "bun:test";
 import {
   hasSignatureAgent,
   isAgentUserAgent,
+  prefersHtml,
   prefersMarkdown,
   wantsAgentMarkdown,
 } from "@/modules/docs/detect";
@@ -41,6 +42,31 @@ describe("prefersMarkdown", () => {
   it("is false when html is preferred over markdown", () => {
     expect(prefersMarkdown("text/html, text/markdown;q=0.1")).toBe(false);
     expect(prefersMarkdown("text/markdown;q=0")).toBe(false);
+    expect(prefersMarkdown("text/html, text/markdown")).toBe(false);
+  });
+});
+
+describe("prefersHtml", () => {
+  it("is false when Accept is missing, empty, or */*", () => {
+    expect(prefersHtml(null)).toBe(false);
+    expect(prefersHtml("")).toBe(false);
+    expect(prefersHtml("*/*")).toBe(false);
+  });
+
+  it("is true for browser Accept lists", () => {
+    expect(
+      prefersHtml("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,*/*;q=0.8"),
+    ).toBe(true);
+    expect(prefersHtml("text/html")).toBe(true);
+  });
+
+  it("is true when html is listed before markdown at the same q", () => {
+    expect(prefersHtml("text/html, text/markdown")).toBe(true);
+  });
+
+  it("is false when markdown is preferred", () => {
+    expect(prefersHtml("text/markdown, text/html, */*")).toBe(false);
+    expect(prefersHtml("text/markdown;q=1.0, text/html;q=0.7")).toBe(false);
   });
 });
 
@@ -80,16 +106,41 @@ describe("hasSignatureAgent", () => {
 });
 
 describe("wantsAgentMarkdown", () => {
-  it("detects Accept, User-Agent, and Signature-Agent independently", () => {
-    expect(wantsAgentMarkdown(new Request("http://localhost/"))).toBe(false);
+  it("serves markdown when Accept prefers it, regardless of User-Agent", () => {
     expect(
       wantsAgentMarkdown(
         new Request("http://localhost/", { headers: { Accept: "text/markdown" } }),
       ),
     ).toBe(true);
+  });
+
+  it("serves HTML when Accept prefers it, even for known agents", () => {
+    expect(wantsAgentMarkdown(new Request("http://localhost/"))).toBe(false);
+    expect(
+      wantsAgentMarkdown(
+        new Request("http://localhost/", {
+          headers: { Accept: "text/html", "User-Agent": "Claude-Code/1.0" },
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      wantsAgentMarkdown(
+        new Request("http://localhost/", {
+          headers: { Accept: "text/html", "Signature-Agent": "https://chatgpt.com" },
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("falls back to User-Agent and Signature-Agent when Accept is unspecified", () => {
     expect(
       wantsAgentMarkdown(
         new Request("http://localhost/", { headers: { "User-Agent": "Claude-Code/1.0" } }),
+      ),
+    ).toBe(true);
+    expect(
+      wantsAgentMarkdown(
+        new Request("http://localhost/", { headers: { Accept: "*/*", "User-Agent": "Cursor" } }),
       ),
     ).toBe(true);
     expect(

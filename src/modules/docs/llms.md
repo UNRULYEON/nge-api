@@ -67,4 +67,4 @@ curl https://nge-api.dev/v1/shows
 curl https://nge-api.dev/v1/shows/019db81f-170d-7000-8a57-fc028caf6046/episodes
 ```
 
-This file is always at `/llms.txt`. `GET /` also returns it when `Accept` prefers `text/markdown` or the client looks like an agent.
+This file is always at `/llms.txt`. `GET /` returns it when `Accept` prefers `text/markdown`. If `Accept` prefers `text/html`, you get the Scalar UI even as an agent. Known agent User-Agents only get this file at `/` when Accept is unspecified (`*/*` or missing).

@@ -2,7 +2,7 @@
 
 A REST API for [Neon Genesis Evangelion](https://en.wikipedia.org/wiki/Neon_Genesis_Evangelion) data.
 
-Interactive docs (Scalar) are at [`/`](http://localhost:3000/). Agents that send `Accept: text/markdown` or a known AI User-Agent get a short markdown guide at the same URL (always available at [`/llms.txt`](http://localhost:3000/llms.txt)). The OpenAPI spec is at [`/openapi.json`](http://localhost:3000/openapi.json). Production lives at [nge-api.dev](https://nge-api.dev).
+Interactive docs (Scalar) are at [`/`](http://localhost:3000/). `GET /` respects `Accept`: markdown when `text/markdown` wins, Scalar HTML when `text/html` wins. Known AI User-Agents only get markdown when Accept does not prefer HTML. The same guide is always at [`/llms.txt`](http://localhost:3000/llms.txt). The OpenAPI spec is at [`/openapi.json`](http://localhost:3000/openapi.json). Production lives at [nge-api.dev](https://nge-api.dev).
 
 The app uses an **in-memory SQLite** database. On every startup it runs migrations and seeds canon data, so **all data resets on each restart**.
 

@@ -50,11 +50,26 @@ describe("docs routes", () => {
       expect(await response.text()).toBe(agentMarkdown);
     });
 
-    it("serves markdown for a known agent User-Agent", async () => {
+    it("serves Scalar HTML when an agent Accept prefers HTML", async () => {
       const response = await app.handle(
         new Request("http://localhost/", {
           headers: {
             Accept: "text/html",
+            "User-Agent": "Claude-Code/1.0",
+          },
+        }),
+      );
+
+      expect(response.status).toBe(200);
+      expect(response.headers.get("content-type")).toContain("text/html");
+      expect(await response.text()).toContain("<!doctype html>");
+    });
+
+    it("serves markdown for a known agent when Accept is unspecified", async () => {
+      const response = await app.handle(
+        new Request("http://localhost/", {
+          headers: {
+            Accept: "*/*",
             "User-Agent": "Claude-Code/1.0",
           },
         }),
