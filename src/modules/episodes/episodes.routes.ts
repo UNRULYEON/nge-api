@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 
 import { repositories } from "@/repository";
 import { schemas } from "@/schemas";
+import { notFoundIfNull } from "@/shared/not-found";
 import { BaseModel } from "@/shared/responses";
 
 export const episodes = new Elysia({
@@ -16,22 +17,12 @@ export const episodes = new Elysia({
       200: schemas.episodes.list,
     },
   })
-  .get(
-    "/:id",
-    ({ params, status }) => {
-      const episode = repositories.episodes.byId({ id: params.id });
-
-      if (!episode) return status(404, "NOT_FOUND");
-
-      return episode;
+  .get("/:id", ({ params }) => notFoundIfNull(repositories.episodes.byId({ id: params.id })), {
+    detail: {
+      description: "Get an episode by ID.",
     },
-    {
-      detail: {
-        description: "Get an episode by ID.",
-      },
-      response: {
-        200: schemas.episodes.episode,
-        404: BaseModel.notFound,
-      },
+    response: {
+      200: schemas.episodes.episode,
+      404: BaseModel.notFound,
     },
-  );
+  });
