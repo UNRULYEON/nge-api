@@ -1,6 +1,10 @@
 # NGE API
 
-An API for Neon Genesis Evangelion.
+A REST API for [Neon Genesis Evangelion](https://en.wikipedia.org/wiki/Neon_Genesis_Evangelion) data.
+
+Interactive docs (Scalar) are at [`/`](http://localhost:3000/). The OpenAPI spec is at [`/openapi.json`](http://localhost:3000/openapi.json). Production lives at [nge-api.dev](https://nge-api.dev).
+
+The app uses an **in-memory SQLite** database. On every startup it runs migrations and seeds canon data, so **all data resets on each restart**.
 
 ## Running locally
 
@@ -23,6 +27,33 @@ bun run dev
 ```
 
 The API will be available at http://localhost:3000
+
+```bash
+curl http://localhost:3000/health
+curl http://localhost:3000/v1/shows
+curl http://localhost:3000/v1/shows/019db81f-170d-7000-8a57-fc028caf6046/episodes
+```
+
+## API
+
+| Method | Path                     | Description           |
+| ------ | ------------------------ | --------------------- |
+| `GET`  | `/`                      | Scalar OpenAPI docs   |
+| `GET`  | `/openapi.json`          | Raw OpenAPI spec      |
+| `GET`  | `/health`                | Liveness check (`OK`) |
+| `GET`  | `/v1/studios`            | List studios          |
+| `GET`  | `/v1/studios/:id`        | Get a studio          |
+| `GET`  | `/v1/studios/:id/shows`  | Shows for a studio    |
+| `GET`  | `/v1/studios/:id/movies` | Movies for a studio   |
+| `GET`  | `/v1/shows`              | List shows            |
+| `GET`  | `/v1/shows/:id`          | Get a show            |
+| `GET`  | `/v1/shows/:id/episodes` | Episodes for a show   |
+| `GET`  | `/v1/episodes`           | List episodes         |
+| `GET`  | `/v1/episodes/:id`       | Get an episode        |
+| `GET`  | `/v1/movies`             | List movies           |
+| `GET`  | `/v1/movies/:id`         | Get a movie           |
+
+Missing resources return `404` with body `NOT_FOUND`.
 
 ### Available Scripts
 
