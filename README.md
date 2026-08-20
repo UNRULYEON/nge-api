@@ -56,7 +56,22 @@ Point an MCP client at [`http://localhost:3000/v1/mcp`](http://localhost:3000/v1
 | `GET`  | `/v1/movies/:id`         | Get a movie           |
 | `POST` | `/v1/mcp`                | MCP Streamable HTTP   |
 
-Missing REST resources return `404` with body `NOT_FOUND`.
+Collection paths without a trailing slash are canonical (`/v1/shows`). Trailing slashes are accepted.
+
+List endpoints return a page:
+
+```json
+{
+  "data": [],
+  "meta": { "total": 26, "limit": 50, "offset": 0 }
+}
+```
+
+Query parameters: `limit` (1–100, default 50), `offset` (default 0), `sort` (resource-specific field), `order` (`asc` or `desc`, default `asc`).
+
+`:id` values are UUIDs. Invalid IDs or query parameters return `400` with `{ "error": "BAD_REQUEST" }`. Missing REST resources return `404` with `{ "error": "NOT_FOUND" }`.
+
+Cross-origin browser requests are allowed from any origin. Successful data responses send `Cache-Control: public, max-age=300`. Health is `no-store`.
 
 ### MCP
 

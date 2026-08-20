@@ -46,4 +46,27 @@ describe("episodes repository", () => {
       expect(repositories.episodes.byShowId({ show_id: "non-existing-show-id" })).toStrictEqual([]);
     });
   });
+
+  describe("list", () => {
+    it("paginates episodes", () => {
+      expect(
+        repositories.episodes.list({ limit: 2, offset: 0, sort: "episode_number", order: "asc" }),
+      ).toEqual({
+        data: data.episodes.slice(0, 2),
+        total: data.episodes.length,
+      });
+    });
+
+    it("sorts episodes by title descending", () => {
+      const { data: rows } = repositories.episodes.list({
+        limit: 50,
+        offset: 0,
+        sort: "title",
+        order: "desc",
+      });
+
+      const titles = rows.map((episode) => episode.title);
+      expect(titles).toEqual([...titles].sort((a, b) => b.localeCompare(a)));
+    });
+  });
 });

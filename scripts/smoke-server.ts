@@ -51,8 +51,8 @@ try {
     throw new Error(`Studios check failed: ${studios.status}`);
   }
 
-  const studioList = (await studios.json()) as unknown[];
-  if (!Array.isArray(studioList) || studioList.length === 0) {
+  const studioList = (await studios.json()) as { data?: unknown[] };
+  if (!Array.isArray(studioList.data) || studioList.data.length === 0) {
     throw new Error("Studios check returned no rows; migrate/seed likely failed");
   }
 
@@ -87,7 +87,7 @@ try {
   }
 
   console.log(
-    `smoke: ok (health, ${studioList.length} studios, favicon, openapi, mcp) on ${baseUrl}`,
+    `smoke: ok (health, ${studioList.data.length} studios, favicon, openapi, mcp) on ${baseUrl}`,
   );
 } finally {
   await shutdown();
