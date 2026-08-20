@@ -68,7 +68,27 @@ try {
     throw new Error(`OpenAPI check failed: ${spec.status}`);
   }
 
-  console.log(`smoke: ok (health, ${studioList.length} studios, favicon, openapi) on ${baseUrl}`);
+  const mcp = await fetch(`${baseUrl}/v1/mcp`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/event-stream",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
+    signal: AbortSignal.timeout(5000),
+  });
+  if (!mcp.ok) {
+    throw new Error(`MCP check failed: ${mcp.status}`);
+  }
+
+  const mcpBody = await mcp.text();
+  if (!mcpBody.includes("list-studios") || !mcpBody.includes("list-shows")) {
+    throw new Error(`MCP tools/list did not advertise catalog tools: ${mcpBody.slice(0, 500)}`);
+  }
+
+  console.log(
+    `smoke: ok (health, ${studioList.length} studios, favicon, openapi, mcp) on ${baseUrl}`,
+  );
 } finally {
   await shutdown();
 }

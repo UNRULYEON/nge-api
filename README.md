@@ -34,6 +34,8 @@ curl http://localhost:3000/v1/shows
 curl http://localhost:3000/v1/shows/019db81f-170d-7000-8a57-fc028caf6046/episodes
 ```
 
+Point an MCP client at [`http://localhost:3000/v1/mcp`](http://localhost:3000/v1/mcp) (Streamable HTTP). Production is `https://nge-api.dev/v1/mcp`.
+
 ## API
 
 | Method | Path                     | Description           |
@@ -52,23 +54,35 @@ curl http://localhost:3000/v1/shows/019db81f-170d-7000-8a57-fc028caf6046/episode
 | `GET`  | `/v1/episodes/:id`       | Get an episode        |
 | `GET`  | `/v1/movies`             | List movies           |
 | `GET`  | `/v1/movies/:id`         | Get a movie           |
+| `POST` | `/v1/mcp`                | MCP Streamable HTTP   |
 
-Missing resources return `404` with body `NOT_FOUND`.
+Missing REST resources return `404` with body `NOT_FOUND`.
+
+### MCP
+
+`POST /v1/mcp` speaks the [Model Context Protocol](https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro) over [Streamable HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http) (revision `2026-07-28`, with a stateless fallback for 2025-era clients). Agents can list and call read-only tools (`list-shows`, `get-episode`, …), read `nge://` resources, and use the `explore-show` / `explore-studio` prompts.
+
+```bash
+curl -s -X POST http://localhost:3000/v1/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
 
 ### Available Scripts
 
-| Command               | Description                              |
-| --------------------- | ---------------------------------------- |
-| `bun run dev`         | Start development server with hot reload |
-| `bun run start`       | Start from source (`src/index.ts`)       |
-| `bun run start:prod`  | Start the compiled `./server` binary     |
-| `bun run build`       | Compile a standalone `./server` binary   |
-| `bun run smoke`       | Hit health, studios, favicon, OpenAPI    |
-| `bun run db:generate` | Generate SQL migrations                  |
-| `bun test`            | Run tests                                |
-| `bun test:coverage`   | Run tests with coverage report           |
-| `bun run typecheck`   | Type-check the codebase                  |
-| `bun run lint`        | Lint with oxlint                         |
-| `bun run lint:fix`    | Lint and auto-fix with oxlint            |
-| `bun run format`      | Check formatting with oxfmt              |
-| `bun run format:fix`  | Format with oxfmt                        |
+| Command               | Description                                |
+| --------------------- | ------------------------------------------ |
+| `bun run dev`         | Start development server with hot reload   |
+| `bun run start`       | Start from source (`src/index.ts`)         |
+| `bun run start:prod`  | Start the compiled `./server` binary       |
+| `bun run build`       | Compile a standalone `./server` binary     |
+| `bun run smoke`       | Hit health, studios, favicon, OpenAPI, MCP |
+| `bun run db:generate` | Generate SQL migrations                    |
+| `bun test`            | Run tests                                  |
+| `bun test:coverage`   | Run tests with coverage report             |
+| `bun run typecheck`   | Type-check the codebase                    |
+| `bun run lint`        | Lint with oxlint                           |
+| `bun run lint:fix`    | Lint and auto-fix with oxlint              |
+| `bun run format`      | Check formatting with oxfmt                |
+| `bun run format:fix`  | Format with oxfmt                          |
