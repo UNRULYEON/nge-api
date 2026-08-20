@@ -14,4 +14,11 @@ describe("v1", () => {
       "x-powered-by": "your-mom",
     });
   });
+
+  it("serves the favicon", async () => {
+    const response = await app.handle(new Request("http://localhost/public/favicon.svg"));
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toContain("svg");
+  });
 });

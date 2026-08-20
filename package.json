@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir=dist --target=bun",
+    "start:prod": "./server",
+    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server --asset src/db/migrations src/index.ts",
+    "smoke": "bun scripts/smoke-server.ts",
     "db:generate": "bunx drizzle-kit generate",
     "generate:uuid": "bun scripts/generate-uuid.ts",
     "test": "bun test",
@@ -19,7 +21,6 @@
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.4.15",
-    "@elysiajs/static": "^1.4.10",
     "drizzle-orm": "^0.45.2",
     "elysia": "^1.4.29"
   },
