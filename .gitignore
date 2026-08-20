@@ -2,18 +2,11 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
 
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# build
 /dist
 
 # misc
@@ -21,25 +14,19 @@
 *.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.log
+*.trace
 
-# local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# env
+.env
+.env.*
+!.env.example
 
-# vercel
-.vercel
+# archives / bun artifacts
+*.zip
+*.tar.gz
+*.tgz
+*.bun
 
-**/*.trace
-**/*.zip
-**/*.tar.gz
-**/*.tgz
-**/*.log
-package-lock.json
-**/*.bun
-
+# local sqlite
 db.sqlite
