@@ -12,5 +12,5 @@ export namespace Episodes {
   });
 
   export const list = t.Array(episodeType);
-  export const episode = t.Nullable(episodeType);
+  export const episode = episodeType;
 }

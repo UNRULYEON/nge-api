@@ -11,5 +11,5 @@ export namespace Shows {
   });
 
   export const list = t.Array(showType);
-  export const show = t.Nullable(showType);
+  export const show = showType;
 }

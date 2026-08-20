@@ -1,4 +1,4 @@
-const SHOWS = {
+const SHOW_IDS = {
   nge: "019db81f-170d-7000-8a57-fc028caf6046",
 };
 
@@ -8,7 +8,7 @@ const STUDIO_IDS = {
   tatsunoko: "019b48ba-eac5-7002-8e4f-b99f9f2765be",
 };
 
-const EP_IDS = {
+const EPISODE_IDS = {
   ep1: "019dc186-beca-7000-ad27-ce270c397022",
   ep2: "019dc186-becd-7000-aaa9-8f7e5531f4cb",
   ep3: "019dc186-becd-7001-b194-98c0e5a928c7",
@@ -47,8 +47,8 @@ const MOVIE_IDS = {
 };
 
 export const uuids = {
-  SHOWS,
+  SHOW_IDS,
   STUDIO_IDS,
-  EP_IDS,
+  EPISODE_IDS,
   MOVIE_IDS,
 };

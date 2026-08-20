@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 
 import { repositories } from "@/repository";
 import { schemas } from "@/schemas";
+import { notFoundIfNull } from "@/shared/not-found";
 import { BaseModel } from "@/shared/responses";
 
 export const movies = new Elysia({
@@ -16,22 +17,12 @@ export const movies = new Elysia({
       200: schemas.movies.list,
     },
   })
-  .get(
-    "/:id",
-    ({ params, status }) => {
-      const movie = repositories.movies.byId({ id: params.id });
-
-      if (!movie) return status(404, "NOT_FOUND");
-
-      return movie;
+  .get("/:id", ({ params }) => notFoundIfNull(repositories.movies.byId({ id: params.id })), {
+    detail: {
+      description: "Get a movie by ID.",
     },
-    {
-      detail: {
-        description: "Get a movie by ID.",
-      },
-      response: {
-        200: schemas.movies.movie,
-        404: BaseModel.notFound,
-      },
+    response: {
+      200: schemas.movies.movie,
+      404: BaseModel.notFound,
     },
-  );
+  });

@@ -22,7 +22,7 @@ describe("movies repository", () => {
   });
 
   describe("byId", () => {
-    it("returns a show by id", () => {
+    it("returns a movie by id", () => {
       expect(repositories.movies.byId({ id: data.movies[0].id })).toStrictEqual(data.movies[0]);
     });
 
@@ -35,7 +35,7 @@ describe("movies repository", () => {
     it("returns movies by studio id", () => {
       expect(
         repositories.movies.byStudioId({ studio_id: data.movies[0].studio_id! }),
-      ).toStrictEqual(data.movies.filter((show) => show.studio_id === data.movies[0].studio_id));
+      ).toStrictEqual(data.movies.filter((movie) => movie.studio_id === data.movies[0].studio_id));
     });
 
     it("returns an empty array when no movies are found for the studio id", () => {

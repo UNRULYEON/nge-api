@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 
 import { repositories } from "@/repository";
 import { schemas } from "@/schemas";
+import { notFoundIfNull } from "@/shared/not-found";
 import { BaseModel } from "@/shared/responses";
 
 export const studios = new Elysia({
@@ -16,35 +17,21 @@ export const studios = new Elysia({
       200: schemas.studios.list,
     },
   })
-  .get(
-    "/:id",
-    ({ params, status }) => {
-      const studio = repositories.studios.byId({ id: params.id });
-
-      if (!studio) return status(404, "NOT_FOUND");
-
-      return studio;
+  .get("/:id", ({ params }) => notFoundIfNull(repositories.studios.byId({ id: params.id })), {
+    detail: {
+      description: "Get a studio by ID.",
     },
-    {
-      detail: {
-        description: "Get a studio by ID.",
-      },
-      response: {
-        200: schemas.studios.studio,
-        404: BaseModel.notFound,
-      },
+    response: {
+      200: schemas.studios.studio,
+      404: BaseModel.notFound,
     },
-  )
+  })
   .get(
     "/:id/shows",
-    ({ params, status }) => {
-      const studio = repositories.studios.byId({ id: params.id });
+    ({ params }) => {
+      const studio = notFoundIfNull(repositories.studios.byId({ id: params.id }));
 
-      if (!studio) return status(404, "NOT_FOUND");
-
-      const shows = repositories.shows.byStudioId({ studio_id: studio.id });
-
-      return shows;
+      return repositories.shows.byStudioId({ studio_id: studio.id });
     },
     {
       detail: {
@@ -58,14 +45,10 @@ export const studios = new Elysia({
   )
   .get(
     "/:id/movies",
-    ({ params, status }) => {
-      const studio = repositories.studios.byId({ id: params.id });
+    ({ params }) => {
+      const studio = notFoundIfNull(repositories.studios.byId({ id: params.id }));
 
-      if (!studio) return status(404, "NOT_FOUND");
-
-      const movies = repositories.movies.byStudioId({ studio_id: studio.id });
-
-      return movies;
+      return repositories.movies.byStudioId({ studio_id: studio.id });
     },
     {
       detail: {
